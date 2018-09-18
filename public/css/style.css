@@ -161,7 +161,7 @@ section {
 	width: 100%;
 	font-family: sans-serif;
 	font-size: larger;
-	border-bottom: 1px solid black;
+	/*border-bottom: 1px solid black;*/
 }
 
 .scoreboard_list {
@@ -190,6 +190,10 @@ section {
 
 .scoreboard_node:first-child {
 	border-top: none;
+}
+
+.scoreboard_node:last-child {
+	border-bottom: 1px solid black;
 }
 
 .scoreboard_node__position {
