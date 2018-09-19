@@ -335,9 +335,106 @@ const showScoreboard = (users) => {
     content.appendChild(scoreboardSection);
 };
 
+const showAbout = () => {
+    const aboutSection = document.createElement("section");
+    aboutSection.dataset.sectionName = 'about';
+    aboutSection.className = "about_page";
+
+    const aboutBlock = document.createElement("div");
+    aboutBlock.className = "about__main";
+
+    const rulesBlock = document.createElement("div");
+    rulesBlock.className = "rules";
+
+    const header = document.createElement("h2");
+    header.textContent = "Как играть?";
+    
+    const rules = [
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo accusamus magni ut numquam illum dolorem eum asperiores repellat eligendi iste magnam dolore dicta optio necessitatibus veniam, laborum minus, quasi impedit! ",
+        "Nisi tempora explicabo iusto nihil libero corporis ad error quam maxime doloribus ducimus possimus inventore necessitatibus temporibus tempore quidem, ea officiis quia architecto vero laboriosam, sint rem pariatur quaerat fuga? Tempora a quia nobis voluptatibus error ex, magni accusantium voluptate perferendis. Iste alias architecto harum nulla non labore rerum qui, tempore possimus id aperiam cumque ullam unde voluptate fugit odio molestiae at repudiandae minus aliquam deserunt earum maiores reiciendis. Voluptates!",
+    ];
+
+    const menuButton = createMenuLink();
+    
+    aboutSection.appendChild(aboutBlock);
+    aboutBlock.appendChild(rulesBlock);
+    rulesBlock.appendChild(header);
+    rules.forEach((rule) => {
+        let ruleP = document.createElement("p");
+        ruleP.textContent = rule;
+        rulesBlock.appendChild(ruleP);
+    });
+    rulesBlock.appendChild(menuButton);
+
+    const content = document.querySelector(".content");
+    content.appendChild(aboutSection);
+};
+
+const showProfile = (profile) => {
+    const profileSection = document.createElement("section");
+    profileSection.dataset.sectionName = 'about';
+    profileSection.className = "profile_page";
+
+    const profileBlock = document.createElement("div");
+    profileBlock.className = "profile__main";
+
+    const header = document.createElement("h2");
+    header.textContent = "Профиль";
+
+    profileSection.appendChild(profileBlock);
+    profileBlock.appendChild(header);
+
+    if (profile) {
+        const { nickname, record, win, draws, loss } = profile;
+        const profileInfo = {
+            "Никнейм: ": nickname,
+            "Рекорд: ": record,
+            "Побед: ": win,
+            "Ничьих: ": draws,
+            "Поражений: ": loss,
+            "Винрейт: ": ((win / (loss + win)) * 100).toFixed(2).toString() + "%",
+        };
+        
+        for (let key in profileInfo) {
+            const itemBlock = document.createElement("div");
+            const itemName = document.createElement("b");
+            itemName.textContent = key;
+            const itemValue = document.createElement("span");
+            itemValue.textContent = profileInfo[key];
+
+            itemBlock.appendChild(itemName);
+            itemBlock.appendChild(itemValue);
+            profileBlock.appendChild(itemBlock);
+        }
+    } else {
+        const em = document.createElement('em');
+        em.textContent = 'Loading';
+        profileBlock.appendChild(em);
+        
+        AJAX.doGet({
+            path: "/profile",
+            callback: (xhr) => {
+                const profile = JSON.parse(xhr.responseText);
+                replaceSection();
+                showProfile(profile);
+            },
+
+        });
+
+    }
+
+    const menuButton = createMenuLink();
+    profileBlock.appendChild(menuButton);
+    
+    const content = document.querySelector(".content");
+    content.appendChild(profileSection);
+}
+
 showBase();
 // hideAnySection();
 // showMenu();
 // showLogin();
 // showSignUp();
 showScoreboard();
+// showAbout();
+// showProfile();
