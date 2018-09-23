@@ -1,41 +1,42 @@
-const http = require('http');
-const fs = require('fs');
-const debug = require('debug');
+'use strict';
 
-const log = debug('*');
+const express = require('express');
+const body = require('body-parser');
+const cookie = require('cookie-parser');
+const morgan = require('morgan');
+const path = require('path');
+const app = express();
 
-const users = [
-    {
-        login: "Артем",
-        scores: 150,
-        position: 1
-    },
-    {
-        login: "Ксюша",
-        scores: 140,
-        position: 2
-    },
-    {
-        login: "Кирилл",
-        scores: 100,
-        position: 3
-    },
-    {
-        login: "Анатолий",
-        scores: 99,
-        position: 4
-    },
-    {
-        login: "Дмитрий",
-        scores: 98,
-        position: 5
-    },
-    {
-        login: "Сергей",
-        scores: 97,
-        position: 6
-    },
-];
+
+app.use(morgan('dev'));
+app.use(express.static(path.resolve(__dirname, '.', 'public')));
+
+const users = {
+	'a.ostapenko@corp.mail.ru': {
+		email: 'a.ostapenko@corp.mail.ru',
+		password: 'password',
+		age: 21,
+		score: 72,
+	},
+	'd.dorofeev@corp.mail.ru': {
+		email: 'd.dorofeev@corp.mail.ru',
+		password: 'password',
+		age: 21,
+		score: 100500,
+	},
+	's.volodin@corp.mail.ru': {
+		email: 'marina.titova@corp.mail.ru',
+		password: 'password',
+		age: 21,
+		score: 72,
+	},
+	'a.tyuldyukov@corp.mail.ru': {
+		email: 'a.tyuldyukov@corp.mail.ru',
+		password: 'password',
+		age: 21,
+		score: 72,
+	},
+};
 
 const profile = {
     nickname: "TOPgamer228",
@@ -45,40 +46,26 @@ const profile = {
     loss: 15,
 };
 
-const server = http.createServer((req, res) => {
+app.get('/users', function (req, res) {
+	const scorelist = Object.values(users)
+		.sort((l, r) => r.score - l.score)
+		.map(user => {
+			return {
+				email: user.email,
+				age: user.age,
+				score: user.score,
+			}
+		});
 
-	if (req.url === '/users') {
-        log('request: %s', req.url);
-        const usersJSON = JSON.stringify(users);
-        res.write(usersJSON);
-        res.end();
-        return;
-    }
-
-    if (req.url === '/profile') {
-        log('request: %s', req.url);
-        const profileJSON = JSON.stringify(profile);
-        res.write(profileJSON);
-        res.end();
-        return;
-    }
-
-	const filename = req.url === '/' ? './public/index.html' : `./public${req.url}`;
-
-	log('request: %s', req.url);
-	const file = fs.readFile(filename, (err, file) => {
-		if (err) {
-			log('file %s not found', filename);
-
-			res.statusCode = 404;
-			res.end('404');
-			return;
-		}
-
-		log('file found %s', filename);
-		res.write(file);
-		res.end();
-	});
+	res.json(scorelist);
 });
 
-server.listen('3000');
+app.get('/profile', (req, res) => {
+    res.json(profile);
+});
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, function () {
+	console.log(`Server listening port ${port}\n Address: http://127.0.0.1:3000/`);
+});
