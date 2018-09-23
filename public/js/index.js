@@ -1,19 +1,28 @@
 'use strict';
 
-// import {ScoreboardComponent} from "./components/Scoreboard/Scoreboard";
+import {ButtonComponent} from "./components/Button/Button.js";
 
 const root = document.querySelector("#root");
 
 const AJAX = window.AjaxModule; //AJAX.ajax(...);
 
-const createMenuLink = () => {
-    const link = document.createElement("a");
-    link.className = "cute-btn";
-    link.href = "index";
-    const inner = document.createElement("div");
-    inner.textContent = "Назад";
-    link.appendChild(inner);
-    return link;
+const createBackButton = (el) => {
+    const button = new ButtonComponent({
+        el: el,
+        href: 'index',
+        text: "Назад"
+    });
+    button.on({
+        event: "click",
+        callback: (event) => {
+            event.preventDefault();
+            const link = event.target;
+
+            replaceSection();
+            pages[ link.dataset.href ]();
+        }
+    });
+    return button;
 };
 
 const showBase = () => {
@@ -27,8 +36,8 @@ const showBase = () => {
     gameTitleBlock.className = "game_title";
     const gameTitle = document.createElement("h1");
     const gameTitleLink = document.createElement("a");
-    gameTitleLink.className = "game_title__link";
-    gameTitleLink.href = "index";
+    gameTitleLink.className = "game_title__link nav_link";
+    gameTitleLink.href = gameTitleLink.dataset.href = "index";
     gameTitleLink.textContent = "Abstract Ketnipz";
 
     gameTitle.appendChild(gameTitleLink);
@@ -38,7 +47,6 @@ const showBase = () => {
     mainContainer.appendChild(content);
 
     root.appendChild(mainContainer);
-
 };
 
 const replaceSection = (newSection = null) => {
@@ -72,16 +80,28 @@ const showMenu = () => {
         const href = entry[0];
         const title = entry[1];
 
-        const link = document.createElement("a");
-        link.className = "cute-btn";
-        link.href = href;
+        const button = new ButtonComponent({
+            el: menu,
+            href: href,
+            text: title
+        });
 
-        const btnText = document.createElement("div");
-        btnText.className = "inner";
-        btnText.textContent = title;
+        button.on({
+            event: "click",
+            callback: (event) => {
+                event.preventDefault();
+                const link = event.target;
 
-        link.appendChild(btnText);
-        menu.appendChild(link);
+                console.log({
+                    href: link.href,
+                    dataHref: link.dataset.href
+                });
+
+                replaceSection();
+                pages[ link.dataset.href ]();
+            }
+        });
+        button.render();
     });
 
     menuBlock.appendChild(menu);
@@ -90,11 +110,6 @@ const showMenu = () => {
     const content = document.querySelector(".content");
     content.appendChild(menuSection);
 };
-
-// const createMenuLink = () => {
-//
-//     return
-// };
 
 const showLogin = () => {
     const loginSection = document.createElement("section");
@@ -147,8 +162,8 @@ const showLogin = () => {
 
     const signUpLink = document.createElement("a");
     signUpLink.className = "sub_link";
-    signUpLink.href = "sign_up";
-    signUpLink.textContent = "Зарегистрироваться";
+    signUpLink.href = signUpLink.dataset.href = "sign_up";
+    signUpLink.innerHTML = "<span class='inner nav_link'>Зарегистрироваться</span>";
 
     loginBlock.appendChild(header);
     loginBlock.appendChild(form);
@@ -217,8 +232,8 @@ const showSignUp = () => {
 
     const loginLink = document.createElement("a");
     loginLink.className = "sub_link";
-    loginLink.href = "sign_up";
-    loginLink.textContent = "У меня уже есть аккаунт";
+    loginLink.href = loginLink.dataset.href = "sign_up";
+    loginLink.innerHTML = "<span class='inner nav_link'>У меня уже есть аккаунт</span>";
 
     signupBlock.appendChild(header);
     signupBlock.appendChild(form);
@@ -229,15 +244,6 @@ const showSignUp = () => {
     const content = document.querySelector(".content");
     content.appendChild(signupSection);
 };
-
-// const pages = {
-//     menu: showMenu,
-//     about: showAbout,
-//     login: showLogin,
-//     sign_up: showSignUp,
-//     scoreboard: showScoreboard,
-//     profile: showProfile,
-// };
 
 const showScoreboard = (users) => {
     const scoreboardSection = document.createElement("section");
@@ -326,10 +332,8 @@ const showScoreboard = (users) => {
         });
     }
 
-    const menuButton = createMenuLink();
-    scoreboardBlock.appendChild(menuButton);
-
-    scoreboardSection.appendChild(scoreboardBlock);
+    const menuButton = createBackButton(scoreboardBlock);
+    menuButton.render();
 
     const content = document.querySelector(".content");
     content.appendChild(scoreboardSection);
@@ -428,13 +432,16 @@ const showProfile = (profile) => {
     
     const content = document.querySelector(".content");
     content.appendChild(profileSection);
-}
+};
 
 showBase();
-// hideAnySection();
-// showMenu();
-// showLogin();
-// showSignUp();
-showScoreboard();
-// showAbout();
-// showProfile();
+showMenu();
+
+const pages = {
+    index: showMenu,
+    about: showAbout,
+    login: showLogin,
+    sign_up: showSignUp,
+    scoreboard: showScoreboard,
+    profile: showProfile,
+};

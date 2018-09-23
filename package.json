@@ -12,6 +12,11 @@
   "author": "Kirill Gadzhiev",
   "license": "ISC",
   "dependencies": {
-    "debug": "^3.1.0"
+    "cookie-parser": "^1.4.3",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "install": "^0.12.1",
+    "mime-types": "^2.1.20",
+    "morgan": "^1.9.1"
   }
 }

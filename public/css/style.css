@@ -1,3 +1,5 @@
+@import "../js/components/Button/Button.css";
+
 * {
 	padding: 0;
 	margin: 0;
@@ -109,22 +111,6 @@ section {
 .menu {
 	display: flex;
 	flex-direction: column;
-}
-
-.cute-btn {
-	border: 1px solid black;
-
-	width: 8rem;
-
-	margin: 0.3rem;
-	padding: 0.5rem;
-
-	display: inline-block;
-
-	text-decoration: none;
-
-	text-align: center;
-
 }
 
 .bordered_input {
