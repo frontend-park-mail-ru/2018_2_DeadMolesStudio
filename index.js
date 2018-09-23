@@ -37,12 +37,28 @@ const users = [
     },
 ];
 
+const profile = {
+    nickname: "TOPgamer228",
+    record: 100500,
+    win: 21,
+    draws: 2,
+    loss: 15,
+};
+
 const server = http.createServer((req, res) => {
 
 	if (req.url === '/users') {
         log('request: %s', req.url);
         const usersJSON = JSON.stringify(users);
         res.write(usersJSON);
+        res.end();
+        return;
+    }
+
+    if (req.url === '/profile') {
+        log('request: %s', req.url);
+        const profileJSON = JSON.stringify(profile);
+        res.write(profileJSON);
         res.end();
         return;
     }
