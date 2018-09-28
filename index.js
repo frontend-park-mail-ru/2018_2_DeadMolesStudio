@@ -67,5 +67,5 @@ app.get('/profile', (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
-	console.log(`Server listening port ${port}\n Address: http://127.0.0.1:3000/`);
+	console.log(`Server listening port ${port}\nAddress: <a>http://127.0.0.1:3000/</a>`);
 });

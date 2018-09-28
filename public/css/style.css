@@ -1,4 +1,7 @@
 @import "../js/components/Button/Button.css";
+@import "../js/components/Menu/Menu.css";
+@import "../js/components/Section/Section.css";
+@import "../js/components/Link/Link.css";
 
 * {
 	padding: 0;
@@ -41,60 +44,7 @@ section {
 	text-decoration: none;
 }
 
-.index__main {
-	width: 100%;
 
-	box-sizing: border-box;
-
-	display: flex;
-	justify-content: space-around;
-	flex-direction: row;
-
-}
-
-.about__main {
-	width: 100%;
-
-	box-sizing: border-box;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-}
-
-.scoreboard__main {
-	width: 50vw;
-	box-sizing: border-box;
-
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-
-	align-items: center;
-}
-
-.login__main {
-	width: 100%;
-
-	box-sizing: border-box;
-
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;	
-}
-
-.profile__main {
-	width: 100%;
-	box-sizing: border-box;
-
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-
-/*	align-items: center*/;
-}
 
 .sub_buttons {
 	display: flex;
@@ -108,10 +58,6 @@ section {
 	flex-direction: column;
 }
 
-.menu {
-	display: flex;
-	flex-direction: column;
-}
 
 .bordered_input {
 	border: 1px solid black;

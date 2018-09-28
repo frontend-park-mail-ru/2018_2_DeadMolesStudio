@@ -1,10 +1,13 @@
 'use strict';
 
-import {ButtonComponent} from "./components/Button/Button.js";
+import {ButtonComponent} from "./components/Button/Button.mjs";
+import {MenuComponent} from "./components/Menu/Menu.mjs";
+import {SectionComponent} from "./components/Section/Section.mjs";
+import {LinkComponent} from "./components/Link/Link.mjs";
+import {noop} from "./modules/Utils.mjs";
+const AJAX = window.AjaxModule; //AJAX.ajax(...);
 
 const root = document.querySelector("#root");
-
-const AJAX = window.AjaxModule; //AJAX.ajax(...);
 
 const createBackButton = (el) => {
     const button = new ButtonComponent({
@@ -17,36 +20,11 @@ const createBackButton = (el) => {
         callback: (event) => {
             event.preventDefault();
             const link = event.target;
-
             replaceSection();
             pages[ link.dataset.href ]();
-        }
+        },
     });
     return button;
-};
-
-const showBase = () => {
-    const mainContainer = document.createElement("div");
-    mainContainer.className = "container";
-
-    const content = document.createElement("div");
-    content.className = "content";
-
-    const gameTitleBlock = document.createElement("div");
-    gameTitleBlock.className = "game_title";
-    const gameTitle = document.createElement("h1");
-    const gameTitleLink = document.createElement("a");
-    gameTitleLink.className = "game_title__link nav_link";
-    gameTitleLink.href = gameTitleLink.dataset.href = "index";
-    gameTitleLink.textContent = "Abstract Ketnipz";
-
-    gameTitle.appendChild(gameTitleLink);
-    gameTitleBlock.appendChild(gameTitle);
-
-    content.appendChild(gameTitleBlock);
-    mainContainer.appendChild(content);
-
-    root.appendChild(mainContainer);
 };
 
 const replaceSection = (newSection = null) => {
@@ -59,14 +37,50 @@ const replaceSection = (newSection = null) => {
     }
 };
 
+const createGameTitle = () => {
+    const gameTitle = document.querySelector('.game_title');
+    const h1 = document.createElement('h1');
+
+    const gameTitleLink = new LinkComponent({
+        el: h1,
+        text: "Abstract Ketnipz ((",
+        href: 'index',
+        className: "game_title__link",
+    });
+    gameTitleLink.on({
+        event: "click",
+        callback: event => {
+            debugger;
+            console.log(`linkTarget: ${event.target}`);
+            event.preventDefault();
+            const link = event.target;
+            replaceSection();
+            pages[ link.dataset.href ]();
+        },
+    });
+
+    gameTitle.appendChild(h1);
+
+    gameTitleLink.render();
+};
+
+const showBase = () => {
+    root.innerHTML = `
+        <div class="container">
+            <div class="content">
+                <div class="game_title">
+                </div>
+            </div>
+        </div>
+    `.trim();
+};
+
 const showMenu = () => {
-    const menuSection = document.createElement("section");
-    menuSection.dataset.sectionName = 'menu';
-    menuSection.className = "index_page";
-    const menuBlock = document.createElement("index__main");
-    menuBlock.className = "index__main";
-    const menu = document.createElement("div");
-    menu.className = "menu";
+    const content = document.querySelector(".content");
+
+    const menuSection = new SectionComponent({el: content, name: 'index'});
+    menuSection.render();
+
 
     const titles = {
         index: "Играть!",
@@ -76,39 +90,18 @@ const showMenu = () => {
         login: "Выход"
     };
 
-    Object.entries(titles).forEach( (entry) => {
-        const href = entry[0];
-        const title = entry[1];
-
-        const button = new ButtonComponent({
-            el: menu,
-            href: href,
-            text: title
-        });
-
-        button.on({
-            event: "click",
-            callback: (event) => {
-                event.preventDefault();
-                const link = event.target;
-
-                console.log({
-                    href: link.href,
-                    dataHref: link.dataset.href
-                });
-
-                replaceSection();
-                pages[ link.dataset.href ]();
-            }
-        });
-        button.render();
+    const menu = new MenuComponent({
+        el: menuSection.sectionContent,
+        titles: titles,
+        actionOnButton: (event) => {
+            event.preventDefault();
+            const link = event.target;
+            replaceSection();
+            pages[ link.dataset.href ]();
+        }
     });
 
-    menuBlock.appendChild(menu);
-    menuSection.appendChild(menuBlock);
-
-    const content = document.querySelector(".content");
-    content.appendChild(menuSection);
+    menu.render();
 };
 
 const showLogin = () => {
@@ -358,8 +351,7 @@ const showAbout = () => {
         "Nisi tempora explicabo iusto nihil libero corporis ad error quam maxime doloribus ducimus possimus inventore necessitatibus temporibus tempore quidem, ea officiis quia architecto vero laboriosam, sint rem pariatur quaerat fuga? Tempora a quia nobis voluptatibus error ex, magni accusantium voluptate perferendis. Iste alias architecto harum nulla non labore rerum qui, tempore possimus id aperiam cumque ullam unde voluptate fugit odio molestiae at repudiandae minus aliquam deserunt earum maiores reiciendis. Voluptates!",
     ];
 
-    const menuButton = createMenuLink();
-    
+
     aboutSection.appendChild(aboutBlock);
     aboutBlock.appendChild(rulesBlock);
     rulesBlock.appendChild(header);
@@ -368,7 +360,8 @@ const showAbout = () => {
         ruleP.textContent = rule;
         rulesBlock.appendChild(ruleP);
     });
-    rulesBlock.appendChild(menuButton);
+    const menuButton = createBackButton(rulesBlock);
+    menuButton.render();
 
     const content = document.querySelector(".content");
     content.appendChild(aboutSection);
@@ -427,15 +420,11 @@ const showProfile = (profile) => {
 
     }
 
-    const menuButton = createMenuLink();
-    profileBlock.appendChild(menuButton);
-    
+    const menuButton = createBackButton(profileBlock);
+    menuButton.render();
     const content = document.querySelector(".content");
     content.appendChild(profileSection);
 };
-
-showBase();
-showMenu();
 
 const pages = {
     index: showMenu,
@@ -444,4 +433,16 @@ const pages = {
     sign_up: showSignUp,
     scoreboard: showScoreboard,
     profile: showProfile,
+    play: noop,
 };
+
+const startApp = () => {
+    showBase();
+    showMenu();
+    createGameTitle();
+};
+
+startApp();
+
+
+
