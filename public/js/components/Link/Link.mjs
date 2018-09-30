@@ -13,11 +13,26 @@ export class LinkComponent {
         this._listenersToAdd = [];
     }
 
+    get href() {
+        return this._href;
+    }
+
+    set href(href) {
+        this._href = href;
+    }
+
     render() {
-        this._innerElem = createElementFromHTML(`<a href="${this._href}" class="${this._className}" data-href="${this._href}">${this._text}</a>`);
+        this._innerElem = createElementFromHTML(`
+        <a href="${this._href}" class="${this._className}" data-href="${this._href}">
+            ${this._text}
+        </a>
+        `);
         this._el.appendChild(this._innerElem);
 
-        this._listenersToAdd.forEach( entry => this.on(entry) );
+
+        this._listenersToAdd.forEach( entry => {
+            this.on(entry);
+        } );
         this._listenersToAdd = [];
     }
 

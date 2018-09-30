@@ -1,57 +1,58 @@
-console.log("import module Scoreboard.mjs");
-
-export const RENDER_TYPES = {
-    DOM: "dom",
-    STRING: "string",
-    TMPL: "template"
-};
+import {noop} from "../../modules/Utils.mjs";
 
 export class ScoreboardComponent {
-    constructor ({el = document.body, type = RENDER_TYPES.DOM} = {}) {
+    constructor ({el = document.body, data = []} = {}) {
         this._el = el;
-        this._type = type;
+        this._data = data;
+
     }
 
     get data() {
         this._data;
     }
 
-    set data(data = []) {
+    set data(data) {
         this._data = data
     }
 
-    render () {
-        if(!this._data) {
-            return;
+    render() {
+        this._el.innerHTML += `
+                    <h2>Scoreboard</h2>
+                    <div class="scoreboard">
+                        <ol>
+                            <span class="scoreboard_head">
+                                <span class="scoreboard_node__position">#</span>
+                                <span class="scoreboard_node__name">Игрок</span>
+                                <span class="scoreboard_node__scores">Очки</span>
+                            </span>
+                            <div class="scoreboard_list scrolable"></div>
+                        </ol>
+                    </div>
+        `.trim();
+        const scoreboardList = this._el.querySelector('.scoreboard_list');
+        const scoreboardNodeTemplate = ({position, email, score}) => `
+            <li class="scoreboard_node">
+                <span class="scoreboard_node__position">${position}</span>
+                <span class="scoreboard_node__name">${email}</span>
+                <span class="scoreboard_node__scores">${score}</span>
+            </li>
+        `.trim();
+        this._data.forEach( (item, i) => {
+            item['position'] = i + 1;
+            scoreboardList.innerHTML += scoreboardNodeTemplate(item);
+        });
+    }
+
+    on({event = 'click', callback = noop, capture = false}) {
+        if (this._innerElem !== null) {
+            this._innerElem.addEventListener(event, callback, capture);
+        } else {
+            this._listenersToAdd.push({event: event, callback: callback, capture: capture});
         }
-
-        switch (this._type) {
-            case RENDER_TYPES.DOM:
-                this._renderDOM();
-                return;
-            case RENDER_TYPES.STRING:
-                this._renderString();
-                return;
-            case RENDER_TYPES.TMPL:
-                this._renderTMPL();
-                return;
-        }
-
-        //сюда отображение юзеров
-        this._el.appendChild();
     }
 
-    _renderTMPL () {
-
+    off({event = 'click', callback = noop, capture = false}) {
+        this._innerElem.removeEventListener(event, callback, capture);
     }
 
-    _renderDOM () {
-        //тут наш ужасный код с appendChild'ами
-    }
-
-    _renderString () {
-        this._el.innerHTML = `
-            
-            `.trim();
-    }
 }

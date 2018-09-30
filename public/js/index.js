@@ -5,8 +5,9 @@ import {MenuComponent} from "./components/Menu/Menu.mjs";
 import {SectionComponent} from "./components/Section/Section.mjs";
 import {LinkComponent} from "./components/Link/Link.mjs";
 import {FormComponent} from "./components/Form/Form.mjs";
-
+import {ScoreboardComponent} from "./components/Scoreboard/Scoreboard.mjs";
 import {noop} from "./modules/Utils.mjs";
+
 const AJAX = window.AjaxModule; //AJAX.ajax(...);
 
 
@@ -23,26 +24,26 @@ const createBackButton = (el) => {
         callback: (event) => {
             event.preventDefault();
             const link = event.target;
-            replaceSection();
+            hideAnySection();
             pages[ link.dataset.href ]();
         },
     });
     return button;
 };
 
-const replaceSection = (newSection = null) => {
-    const content = document.querySelector(".content");
+const hideAnySection = () => {
     const oldSection = document.querySelector("section");
-    if (newSection) {
-        content.replaceChild(newSection, oldSection);
-    } else {
-        content.removeChild(oldSection);
+    if (oldSection) {
+        oldSection.outerHTML = '';
     }
 };
 
 const createGameTitle = () => {
     const gameTitle = document.querySelector('.game_title');
+
     const h1 = document.createElement('h1');
+    gameTitle.appendChild(h1);
+
 
     const gameTitleLink = new LinkComponent({
         el: h1,
@@ -50,19 +51,18 @@ const createGameTitle = () => {
         href: 'index',
         className: "game_title__link",
     });
+
     gameTitleLink.on({
         event: "click",
         callback: event => {
-            debugger;
             console.log(`linkTarget: ${event.target}`);
             event.preventDefault();
             const link = event.target;
-            replaceSection();
+            hideAnySection();
             pages[ link.dataset.href ]();
         },
     });
 
-    gameTitle.appendChild(h1);
 
     gameTitleLink.render();
 };
@@ -84,7 +84,6 @@ const showMenu = () => {
     const menuSection = new SectionComponent({el: content, name: 'index'});
     menuSection.render();
 
-
     const titles = {
         index: "Играть!",
         profile: "Профиль",
@@ -99,7 +98,7 @@ const showMenu = () => {
         actionOnButton: (event) => {
             event.preventDefault();
             const link = event.target;
-            replaceSection();
+            hideAnySection();
             pages[ link.dataset.href ]();
         }
     });
@@ -157,11 +156,11 @@ const showLogin = () => {
                 domain: '',//наш бек на го
                 callback: (xhr) => {
                     if ( xhr.status === 200 ) {
-                        replaceSection();
+                        hideAnySection();
                         showProfile();
                     } else if ( xhr.status === 400 ) {
                         console.log('JSON is wrong');
-                        replaceSection();
+                        hideAnySection();
                         showSignUp();
                     } else if ( xhr.status === 422 ) {
                         const errors = [{
@@ -190,7 +189,7 @@ const showLogin = () => {
             console.log(`linkTarget: ${event.target}`);
             event.preventDefault();
             const link = event.target;
-            replaceSection();
+            hideAnySection();
             pages[ link.dataset.href ]();
         },
     });
@@ -268,11 +267,11 @@ const showSignUp = () => {
                 domain: '',//наш бек на го
                 callback: (xhr) => {
                     if ( xhr.status === 200 ) {
-                        replaceSection();
+                        hideAnySection();
                         showProfile();
                     } else if ( xhr.status === 400 ) {
                         console.log('JSON is wrong');
-                        replaceSection();
+                        hideAnySection();
                         showSignUp();
                     } else if ( xhr.status === 403 ) {
                         const errors = JSON.parse(xhr.responseText);
@@ -302,7 +301,7 @@ const showSignUp = () => {
             console.log(`linkTarget: ${event.target}`);
             event.preventDefault();
             const link = event.target;
-            replaceSection();
+            hideAnySection();
             pages[ link.dataset.href ]();
         },
     });
@@ -310,98 +309,32 @@ const showSignUp = () => {
     loginLink.render();
 };
 
-const showScoreboard = (users) => {
-    const scoreboardSection = document.createElement("section");
-    scoreboardSection.className = "scoreboard_page";
-    scoreboardSection.dataset.sectionName = 'scoreboard';
-
-    const scoreboardBlock = document.createElement("div");
-    scoreboardBlock.className = "scoreboard__main";
-
-    const header = document.createElement("h2");
-    header.textContent = "Scoreboard";
-
-    scoreboardBlock.appendChild(header);
-
-    if (users) {
-        const scoreboard = document.createElement("div");
-        scoreboard.className = "scoreboard";
-
-        const scoreboardList = document.createElement("ol");
-        const scoreboardHead = document.createElement("span");
-        scoreboardHead.className = "scoreboard_head";
-
-        const scoreboardPos = document.createElement("span");
-        scoreboardPos.className = "scoreboard_node__position";
-        scoreboardPos.textContent = "#";
-
-        const scoreboardName = document.createElement("span");
-        scoreboardName.className = "scoreboard_node__name";
-        scoreboardName.textContent = "Игрок";
-
-        const scoreboardScores = document.createElement("span");
-        scoreboardScores.className = "scoreboard_node__scores";
-        scoreboardScores.textContent = "Очки";
-
-        scoreboardHead.appendChild(scoreboardPos);
-        scoreboardHead.appendChild(scoreboardName);
-        scoreboardHead.appendChild(scoreboardScores);
-
-        const scoreboardNodes = document.createElement("div");
-        scoreboardNodes.className = "scoreboard_list scrolable";
-
-
-        users.forEach( (user) => {
-            const {position, login, scores} = user;
-
-            const node = document.createElement("li");
-            node.className = "scoreboard_node";
-
-            const nodePos = document.createElement("span");
-            nodePos.className = "scoreboard_node__position";
-            nodePos.textContent = position;
-
-            const nodeName = document.createElement("span");
-            nodeName.className = "scoreboard_node__name";
-            nodeName.textContent = login;
-
-            const nodeScores = document.createElement("span");
-            nodeScores.className = "scoreboard_node__scores";
-            nodeScores.textContent = scores;
-
-            node.appendChild(nodePos);
-            node.appendChild(nodeName);
-            node.appendChild(nodeScores);
-
-            scoreboardNodes.appendChild(node);
-        });
-
-        scoreboardList.appendChild(scoreboardHead);
-        scoreboardList.appendChild(scoreboardNodes);
-        scoreboard.appendChild(scoreboardList);
-        scoreboardBlock.appendChild(scoreboard);
-
-    } else {
-        const em = document.createElement('em');
-        em.textContent = 'Loading';
-        scoreboardBlock.appendChild(em);
-
-        AJAX.doGet({
-            path: "/users",
-            callback: (xhr) => {
-                const users = JSON.parse(xhr.responseText);
-                replaceSection();
-                showScoreboard(users);
-            },
-
-        });
-    }
-
-    const menuButton = createBackButton(scoreboardBlock);
-    menuButton.render();
-
+const showScoreboard = () => {
     const content = document.querySelector(".content");
-    content.appendChild(scoreboardSection);
+
+    const scoreboardSection = new SectionComponent({el: content, name: 'scoreboard'});
+
+    const em = document.createElement('em');
+    em.textContent = 'Loading';
+
+    scoreboardSection.render();
+    scoreboardSection.append(em);
+
+
+    AJAX.doGet({
+        path: "/users",
+        callback: (xhr) => {
+            const users = JSON.parse(xhr.responseText);
+            scoreboardSection.sectionContent.removeChild(em);
+
+            const scoreboard = new ScoreboardComponent({el: scoreboardSection.sectionContent, data: users});
+            scoreboard.render();
+
+            const menuButton = createBackButton(scoreboardSection.sectionContent);
+            menuButton.render();
+        },
+    });
+
 };
 
 const showAbout = () => {
@@ -484,7 +417,7 @@ const showProfile = (profile) => {
             path: "/profile",
             callback: (xhr) => {
                 const profile = JSON.parse(xhr.responseText);
-                replaceSection();
+                hideAnySection();
                 showProfile(profile);
             },
 
