@@ -4,8 +4,11 @@ import {ButtonComponent} from "./components/Button/Button.mjs";
 import {MenuComponent} from "./components/Menu/Menu.mjs";
 import {SectionComponent} from "./components/Section/Section.mjs";
 import {LinkComponent} from "./components/Link/Link.mjs";
+import {FormComponent} from "./components/Form/Form.mjs";
+
 import {noop} from "./modules/Utils.mjs";
 const AJAX = window.AjaxModule; //AJAX.ajax(...);
+
 
 const root = document.querySelector("#root");
 
@@ -105,24 +108,16 @@ const showMenu = () => {
 };
 
 const showLogin = () => {
-    const loginSection = document.createElement("section");
-    loginSection.dataset.sectionName = 'login';
-    loginSection.className = "login_page";
+    const content = document.querySelector(".content");
 
-    const loginBlock = document.createElement("div");
-    loginBlock.className = "login__main";
-
-    const header =  document.createElement("h2");
-    header.textContent =  "Войти";
-
-    const form = document.createElement('form');
-    form.className = "login_form";
+    const loginSection = new SectionComponent({el: content, name: 'login'});
+    loginSection.render();
 
     const inputs = [
         {
-            name: "login",
-            type: "text",
-            placeholder: "Логин",
+            name: "email",
+            type: "email",
+            placeholder: "Почта",
             className: "bordered_input"
         },
         {
@@ -134,59 +129,93 @@ const showLogin = () => {
         {
             name: "submit",
             type: "submit",
-            className: "cute-btn"
+            className: "cute-btn",
+            value: 'Войти'
         }
     ];
 
-    inputs.forEach( (item) => {
-        const input = document.createElement("input");
-
-        input.className = item.className;
-
-        input.name = item.name;
-        input.type = item.type;
-        input.placeholder = item.placeholder;
-
-        form.appendChild(input);
+    const form = new FormComponent({
+        el: loginSection.sectionContent,
+        inputs: inputs,
+        header: 'Войти!',
+        name: 'login',
     });
 
-    // const loginButton = form.getElementsByName("submit")[0];
-    // loginButton.value = "Войти";
+    form.render();
 
-    const signUpLink = document.createElement("a");
-    signUpLink.className = "sub_link";
-    signUpLink.href = signUpLink.dataset.href = "sign_up";
-    signUpLink.innerHTML = "<span class='inner nav_link'>Зарегистрироваться</span>";
+    form.on({
+        event: 'submit',
+        callback: event => {
+            event.preventDefault();
 
-    loginBlock.appendChild(header);
-    loginBlock.appendChild(form);
-    loginBlock.appendChild(signUpLink);
+            const formData = form.innerElem.elements;
+            const email = formData['email'];
+            const password = formData['password'];
 
-    loginSection.appendChild(loginBlock);
+            AJAX.doPost({
+                path: '/login',
+                domain: '',//наш бек на го
+                callback: (xhr) => {
+                    if ( xhr.status === 200 ) {
+                        replaceSection();
+                        showProfile();
+                    } else if ( xhr.status === 400 ) {
+                        console.log('JSON is wrong');
+                        replaceSection();
+                        showSignUp();
+                    } else if ( xhr.status === 422 ) {
+                        const errors = [{
+                            text: 'Неверная пара почта/пароль'
+                        }];
+                    }
+                },
+                body: {
+                    email: email,
+                    password: password,
+                },
+            });
 
-    const content = document.querySelector(".content");
-    content.appendChild(loginSection);
+        },
+    });
+
+    const signUpLink = new LinkComponent({
+        el: loginSection.sectionContent,
+        text: "Зарегистрироваться",
+        href: 'sign_up',
+        className: "sub_link",
+    });
+    signUpLink.on({
+        event: "click",
+        callback: event => {
+            console.log(`linkTarget: ${event.target}`);
+            event.preventDefault();
+            const link = event.target;
+            replaceSection();
+            pages[ link.dataset.href ]();
+        },
+    });
+
+    signUpLink.render();
+
 };
 
 const showSignUp = () => {
-    const signupSection = document.createElement("section");
-    signupSection.dataset.sectionName = 'signup';
-    signupSection.className = "signup_page";
+    const content = document.querySelector(".content");
 
-    const signupBlock = document.createElement("div");
-    signupBlock.className = "login__main";
-
-    const header =  document.createElement("h2");
-    header.textContent =  "Зарегистрироваться";
-
-    const form = document.createElement('form');
-    form.className = "login_form";
+    const signupSection = new SectionComponent({el: content, name: 'signup'});
+    signupSection.render();
 
     const inputs = [
         {
-            name: "login",
+            name: "nickname",
             type: "text",
             placeholder: "Логин",
+            className: "bordered_input"
+        },
+        {
+            name: "email",
+            type: "email",
+            placeholder: "Email",
             className: "bordered_input"
         },
         {
@@ -204,38 +233,81 @@ const showSignUp = () => {
         {
             name: "submit",
             type: "submit",
-            className: "cute-btn"
+            className: "cute-btn",
+            value: 'Зарегистрироваться'
         }
     ];
 
-    inputs.forEach( (item) => {
-        const input = document.createElement("input");
-
-        input.className = item.className;
-
-        input.name = item.name;
-        input.type = item.type;
-        input.placeholder = item.placeholder;
-
-        form.appendChild(input);
+    const form = new FormComponent({
+        el: signupSection.sectionContent,
+        inputs: inputs,
+        header: 'Зарегистрироваться!',
+        name: 'signup',
     });
 
-    // const loginButton = form.getElementsByName("submit")[0];
-    // loginButton.value = "Войти";
+    form.render();
 
-    const loginLink = document.createElement("a");
-    loginLink.className = "sub_link";
-    loginLink.href = loginLink.dataset.href = "sign_up";
-    loginLink.innerHTML = "<span class='inner nav_link'>У меня уже есть аккаунт</span>";
+    form.on({
+        event: 'submit',
+        callback: event => {
+            event.preventDefault();
 
-    signupBlock.appendChild(header);
-    signupBlock.appendChild(form);
-    signupBlock.appendChild(loginLink);
+            const formData = form.innerElem.elements;
+            const email = formData['email'];
+            const nickname = formData['nickname'];
+            const password = formData['password'];
+            const passwordRepeat = formData['password_repeat'];
 
-    signupSection.appendChild(signupBlock);
+            if ( password !== passwordRepeat ) {
+                alert('Passwords is not equals');
+                return;
+            }
 
-    const content = document.querySelector(".content");
-    content.appendChild(signupSection);
+            AJAX.doPost({
+                path: '/profile',
+                domain: '',//наш бек на го
+                callback: (xhr) => {
+                    if ( xhr.status === 200 ) {
+                        replaceSection();
+                        showProfile();
+                    } else if ( xhr.status === 400 ) {
+                        console.log('JSON is wrong');
+                        replaceSection();
+                        showSignUp();
+                    } else if ( xhr.status === 403 ) {
+                        const errors = JSON.parse(xhr.responseText);
+                        const errorList = errors['error'];
+                        form.showErrors(errorList);
+                    }
+                },
+                body: {
+                    email: email,
+                    nickname: nickname,
+                    password: password,
+                },
+            });
+
+        },
+    });
+
+    const loginLink = new LinkComponent({
+        el: signupSection.sectionContent,
+        text: "У меня уже есть аккаунт",
+        href: 'login',
+        className: "sub_link",
+    });
+    loginLink.on({
+        event: "click",
+        callback: event => {
+            console.log(`linkTarget: ${event.target}`);
+            event.preventDefault();
+            const link = event.target;
+            replaceSection();
+            pages[ link.dataset.href ]();
+        },
+    });
+
+    loginLink.render();
 };
 
 const showScoreboard = (users) => {

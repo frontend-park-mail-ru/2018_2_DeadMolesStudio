@@ -64,8 +64,14 @@ app.get('/profile', (req, res) => {
     res.json(profile);
 });
 
+
+app.get('/runtime.js', function (req, res) {
+
+    res.sendFile(path.resolve(__dirname, 'node_modules', 'regenerator-runtime', 'runtime.js'));
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {
-	console.log(`Server listening port ${port}\nAddress: <a>http://127.0.0.1:3000/</a>`);
+	console.log(`Server listening port ${port}\nAddress: http://127.0.0.1:3000/`);
 });

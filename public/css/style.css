@@ -149,4 +149,19 @@ section {
 	align-items: center;
 }
 
+.cute-btn {
+	border: 1px solid black;
+
+	width: 8rem;
+
+	margin: 0.3rem;
+	padding: 0.5rem;
+
+	display: inline-block;
+
+	text-decoration: none;
+
+	text-align: center;
+}
+
 

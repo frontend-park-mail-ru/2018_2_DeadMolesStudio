@@ -2,9 +2,9 @@
     const noop = () => null;
 
     class AjaxModule {
-        _ajax ({callback = noop, method = "GET", path = "/", body} = {}) {
+        _ajax ({callback = noop, method = "GET", path = "/", domain = '', body} = {}) {
             const xhr = new XMLHttpRequest();
-            xhr.open(method, path, true);
+            xhr.open(method, domain + path, true);
             xhr.withCredentials = true;
 
             if (body) {
