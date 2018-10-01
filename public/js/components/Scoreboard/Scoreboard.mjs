@@ -4,7 +4,6 @@ export class ScoreboardComponent {
     constructor ({el = document.body, data = []} = {}) {
         this._el = el;
         this._data = data;
-
     }
 
     get data() {
@@ -23,7 +22,7 @@ export class ScoreboardComponent {
                             <span class="scoreboard_head">
                                 <span class="scoreboard_node__position">#</span>
                                 <span class="scoreboard_node__name">Игрок</span>
-                                <span class="scoreboard_node__scores">Очки</span>
+                                <span class="scoreboard_node__scores">Рекорд</span>
                             </span>
                             <div class="scoreboard_list scrolable"></div>
                         </ol>
@@ -31,11 +30,11 @@ export class ScoreboardComponent {
                     `.trim()
         );
         const scoreboardList = this._el.querySelector('.scoreboard_list');
-        const scoreboardNodeTemplate = ({position, email, score}) => `
+        const scoreboardNodeTemplate = ({position, nickname, record}) => `
             <li class="scoreboard_node">
                 <span class="scoreboard_node__position">${position}</span>
-                <span class="scoreboard_node__name">${email}</span>
-                <span class="scoreboard_node__scores">${score}</span>
+                <span class="scoreboard_node__name">${nickname}</span>
+                <span class="scoreboard_node__scores">${record}</span>
             </li>
         `.trim();
         this._data.forEach( (item, i) => {
