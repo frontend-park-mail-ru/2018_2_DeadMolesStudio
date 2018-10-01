@@ -64,12 +64,6 @@ app.get('/profile', (req, res) => {
     res.json(profile);
 });
 
-
-app.get('/runtime.js', function (req, res) {
-
-    res.sendFile(path.resolve(__dirname, 'node_modules', 'regenerator-runtime', 'runtime.js'));
-});
-
 const port = process.env.PORT || 3000;
 
 app.listen(port, function () {

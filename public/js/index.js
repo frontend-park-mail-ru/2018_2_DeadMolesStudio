@@ -6,10 +6,10 @@ import {SectionComponent} from "./components/Section/Section.mjs";
 import {LinkComponent} from "./components/Link/Link.mjs";
 import {FormComponent} from "./components/Form/Form.mjs";
 import {ScoreboardComponent} from "./components/Scoreboard/Scoreboard.mjs";
+import {AjaxModule} from "./modules/Ajax.mjs";
 import {noop} from "./modules/Utils.mjs";
 
-const AJAX = window.AjaxModule; //AJAX.ajax(...);
-
+// const AJAX = new AjaxModule();
 
 const root = document.querySelector("#root");
 
@@ -32,39 +32,11 @@ const createBackButton = (el) => {
 };
 
 const hideAnySection = () => {
-    const oldSection = document.querySelector("section");
+    const oldSection = document.querySelector('section');
+    const content = document.querySelector('.content');
     if (oldSection) {
-        oldSection.outerHTML = '';
+        content.removeChild(oldSection);
     }
-};
-
-const createGameTitle = () => {
-    const gameTitle = document.querySelector('.game_title');
-
-    const h1 = document.createElement('h1');
-    gameTitle.appendChild(h1);
-
-
-    const gameTitleLink = new LinkComponent({
-        el: h1,
-        text: "Abstract Ketnipz ((",
-        href: 'index',
-        className: "game_title__link",
-    });
-
-    gameTitleLink.on({
-        event: "click",
-        callback: event => {
-            console.log(`linkTarget: ${event.target}`);
-            event.preventDefault();
-            const link = event.target;
-            hideAnySection();
-            pages[ link.dataset.href ]();
-        },
-    });
-
-
-    gameTitleLink.render();
 };
 
 const showBase = () => {
@@ -76,25 +48,57 @@ const showBase = () => {
             </div>
         </div>
     `.trim();
+    const gameTitle = document.querySelector('.game_title');
+
+    const h1 = document.createElement('h1');
+    gameTitle.appendChild(h1);
+
+    const gameTitleLink = new LinkComponent({
+        el: h1,
+        text: 'Abstract Ketnipz ((',
+        href: 'index',
+        className: "game_title__link",
+    });
+
+    gameTitleLink.on({
+        event: 'click',
+        callback: event => {
+            console.log(`linkTarget: ${event.target}`);
+            event.preventDefault();
+            const link = event.target;
+            hideAnySection();
+            pages[ link.dataset.href ]();
+        },
+    });
+
+    gameTitleLink.render();
 };
 
 const showMenu = () => {
-    const content = document.querySelector(".content");
+    const content = document.querySelector('.content');
 
     const menuSection = new SectionComponent({el: content, name: 'index'});
     menuSection.render();
 
-    const titles = {
-        index: "Играть!",
-        profile: "Профиль",
-        scoreboard: "Списки лидеров",
-        about: "Об игре",
-        login: "Выход"
-    };
+    const mapTitles = new Map();
+    mapTitles.set('index', 'Играть');
+    mapTitles.set('profile', 'Профиль');
+    mapTitles.set('scoreboard', 'Списки лидеров');
+    mapTitles.set('about', 'Об игре');
+    mapTitles.set('login', 'Выход');
+
+    //
+    // const titles = {
+    //     index: "Играть!",
+    //     profile: "Профиль",
+    //     scoreboard: "Списки лидеров",
+    //     about: "Об игре",
+    //     login: "Выход"
+    // };
 
     const menu = new MenuComponent({
         el: menuSection.sectionContent,
-        titles: titles,
+        titles: mapTitles,
         actionOnButton: (event) => {
             event.preventDefault();
             const link = event.target;
@@ -147,11 +151,22 @@ const showLogin = () => {
         callback: event => {
             event.preventDefault();
 
-            const formData = form.innerElem.elements;
-            const email = formData['email'];
-            const password = formData['password'];
+            form.hideErrors();
 
-            AJAX.doPost({
+            const formData = form.innerElem.elements;
+            const email = formData['email'].value;
+            const password = formData['password'].value;
+
+            if ( !(email && password) ) {
+                const errors = [{
+                    text: 'Заполните оба поля!'
+                }];
+                form.showErrors(errors);
+                return;
+            }
+
+
+            AjaxModule.doPost({
                 path: '/login',
                 domain: '',//наш бек на го
                 callback: (xhr) => {
@@ -166,6 +181,7 @@ const showLogin = () => {
                         const errors = [{
                             text: 'Неверная пара почта/пароль'
                         }];
+                        form.showErrors(errors);
                     }
                 },
                 body: {
@@ -251,18 +267,25 @@ const showSignUp = () => {
         callback: event => {
             event.preventDefault();
 
+            form.hideErrors();
+
             const formData = form.innerElem.elements;
-            const email = formData['email'];
-            const nickname = formData['nickname'];
-            const password = formData['password'];
-            const passwordRepeat = formData['password_repeat'];
+            const email = formData['email'].value;
+            const nickname = formData['nickname'].value;
+            const password = formData['password'].value;
+            const passwordRepeat = formData['password_repeat'].value;
 
             if ( password !== passwordRepeat ) {
-                alert('Passwords is not equals');
+                const errors = [{
+                    text: 'Пароли не совпадают!'
+                }];
+                form.showErrors(errors);
                 return;
             }
 
-            AJAX.doPost({
+
+
+            AjaxModule.doPost({
                 path: '/profile',
                 domain: '',//наш бек на го
                 callback: (xhr) => {
@@ -321,7 +344,7 @@ const showScoreboard = () => {
     scoreboardSection.append(em);
 
 
-    AJAX.doGet({
+    AjaxModule.doGet({
         path: "/users",
         callback: (xhr) => {
             const users = JSON.parse(xhr.responseText);
@@ -413,7 +436,7 @@ const showProfile = (profile) => {
         em.textContent = 'Loading';
         profileBlock.appendChild(em);
         
-        AJAX.doGet({
+        AjaxModule.doGet({
             path: "/profile",
             callback: (xhr) => {
                 const profile = JSON.parse(xhr.responseText);
@@ -444,7 +467,6 @@ const pages = {
 const startApp = () => {
     showBase();
     showMenu();
-    createGameTitle();
 };
 
 startApp();

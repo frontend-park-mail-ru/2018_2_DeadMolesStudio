@@ -6,12 +6,13 @@ export class SectionComponent {
     }
 
     render() {
-        this._el.innerHTML += `
+        this._el.insertAdjacentHTML( 'beforeend', `
             <section class="${this._name}_page">
 				<div class="${this._name}__main">
 				</div>
 			</section>
-        `.trim();
+            `.trim()
+        );
 
         this._sectionContent = this._el.getElementsByClassName(`${this._name}__main`)[0];
     }
@@ -27,6 +28,4 @@ export class SectionComponent {
     get sectionContent() {
         return this._sectionContent;
     }
-
-
 }

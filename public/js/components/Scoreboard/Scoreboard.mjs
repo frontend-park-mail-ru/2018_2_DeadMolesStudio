@@ -16,7 +16,7 @@ export class ScoreboardComponent {
     }
 
     render() {
-        this._el.innerHTML += `
+        this._el.insertAdjacentHTML( 'beforeend',`
                     <h2>Scoreboard</h2>
                     <div class="scoreboard">
                         <ol>
@@ -28,7 +28,8 @@ export class ScoreboardComponent {
                             <div class="scoreboard_list scrolable"></div>
                         </ol>
                     </div>
-        `.trim();
+                    `.trim()
+        );
         const scoreboardList = this._el.querySelector('.scoreboard_list');
         const scoreboardNodeTemplate = ({position, email, score}) => `
             <li class="scoreboard_node">

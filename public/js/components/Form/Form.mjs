@@ -18,7 +18,7 @@ export class FormComponent {
         };
 
         const form = window.formTmplTemplate({header: this._header, inputs: this._inputs});
-        this._el.innerHTML += form;
+        this._el.insertAdjacentHTML('beforeend', form);
         this._innerElem = this._el.querySelector('form');
 
         this._errorsList = document.createElement('ul');

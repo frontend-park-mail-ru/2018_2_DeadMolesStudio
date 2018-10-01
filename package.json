@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pug --client public --name-after-file",
+    "prestart": "npm run build",
     "start": "node index.js",
     "clear": "ls",
     "test": "echo \"Error: no test specified\" && exit 1"

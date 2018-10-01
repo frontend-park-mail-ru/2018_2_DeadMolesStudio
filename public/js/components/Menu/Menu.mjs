@@ -9,12 +9,12 @@ export class MenuComponent {
     }
 
     render() {
-        const menu = document.createElement("div");
-        menu.className = "menu";
+        const menu = document.createElement('div');
+        menu.className = 'menu';
 
-        Object.entries(this._titles).forEach( (entry) => {
-            const href = entry[0];
-            const title = entry[1];
+        this._titles.forEach( (value, key) => {
+            const href = key;
+            const title = value;
 
             const button = new ButtonComponent({
                 el: menu,
@@ -23,7 +23,7 @@ export class MenuComponent {
             });
 
             button.on({
-                event: "click",
+                event: 'click',
                 callback: this._actionOnButton,
             });
 
@@ -31,7 +31,5 @@ export class MenuComponent {
         });
 
         this._el.appendChild(menu);
-
     }
-
 }

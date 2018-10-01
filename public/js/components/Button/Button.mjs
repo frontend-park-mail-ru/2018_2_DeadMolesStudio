@@ -6,12 +6,13 @@ import {
 } from "../../modules/Utils.mjs";
 
 export class ButtonComponent {
-    constructor({el = document.body, href = '', text = ''} = {}) {
+    constructor({el = document.body, href = '', text = '', className = 'cute-btn'} = {}) {
         this._el = el;
         this._href = href;
         this._text = text;
         this._innerElem = null;
         this._listenersToAdd = [];
+        this._className = className;
     }
 
     get href() {
@@ -24,7 +25,7 @@ export class ButtonComponent {
 
     render() {
         this._innerElem = createElementFromHTML(`
-        <a href="${this._href}" class="cute-btn" data-href="${this._href}">
+        <a href="${this._href}" class="${this._className}" data-href="${this._href}">
 			${this._text}
 		</a>
         `);
