@@ -80,25 +80,16 @@ const showMenu = () => {
     const menuSection = new SectionComponent({el: content, name: 'index'});
     menuSection.render();
 
-    const mapTitles = new Map();
-    mapTitles.set('index', 'Играть');
-    mapTitles.set('profile', 'Профиль');
-    mapTitles.set('scoreboard', 'Списки лидеров');
-    mapTitles.set('about', 'Об игре');
-    mapTitles.set('login', 'Выход');
-
-    //
-    // const titles = {
-    //     index: "Играть!",
-    //     profile: "Профиль",
-    //     scoreboard: "Списки лидеров",
-    //     about: "Об игре",
-    //     login: "Выход"
-    // };
+    const titles = new Map();
+    titles.set('index', 'Играть');
+    titles.set('profile', 'Профиль');
+    titles.set('scoreboard', 'Списки лидеров');
+    titles.set('about', 'Об игре');
+    titles.set('login', 'Выход');
 
     const menu = new MenuComponent({
         el: menuSection.sectionContent,
-        titles: mapTitles,
+        titles: titles,
         actionOnButton: (event) => {
             event.preventDefault();
             const link = event.target;
