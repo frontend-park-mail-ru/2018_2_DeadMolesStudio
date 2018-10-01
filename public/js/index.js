@@ -9,7 +9,7 @@ import {ScoreboardComponent} from "./components/Scoreboard/Scoreboard.mjs";
 import {AjaxModule} from "./modules/Ajax.mjs";
 import {noop} from "./modules/Utils.mjs";
 
-// const AJAX = new AjaxModule();
+const backDomain = 'https://dmstudio-server.now.sh';
 
 const root = document.querySelector("#root");
 
@@ -63,7 +63,6 @@ const showBase = () => {
     gameTitleLink.on({
         event: 'click',
         callback: event => {
-            console.log(`linkTarget: ${event.target}`);
             event.preventDefault();
             const link = event.target;
             hideAnySection();
@@ -159,7 +158,7 @@ const showLogin = () => {
 
             AjaxModule.doPost({
                 path: '/login',
-                domain: '',//наш бек на го
+                domain: backDomain,//наш бек на го
                 callback: (xhr) => {
                     if ( xhr.status === 200 ) {
                         hideAnySection();
@@ -193,7 +192,6 @@ const showLogin = () => {
     signUpLink.on({
         event: "click",
         callback: event => {
-            console.log(`linkTarget: ${event.target}`);
             event.preventDefault();
             const link = event.target;
             hideAnySection();
@@ -278,7 +276,7 @@ const showSignUp = () => {
 
             AjaxModule.doPost({
                 path: '/profile',
-                domain: '',//наш бек на го
+                domain: backDomain,//наш бек на го
                 callback: (xhr) => {
                     if ( xhr.status === 200 ) {
                         hideAnySection();
@@ -312,7 +310,6 @@ const showSignUp = () => {
     loginLink.on({
         event: "click",
         callback: event => {
-            console.log(`linkTarget: ${event.target}`);
             event.preventDefault();
             const link = event.target;
             hideAnySection();
@@ -336,9 +333,11 @@ const showScoreboard = () => {
 
 
     AjaxModule.doGet({
-        path: "/users",
+        path: "/scoreboard",
+        domain: backDomain,//наш бек на го
         callback: (xhr) => {
             const users = JSON.parse(xhr.responseText);
+            console.log(users);
             scoreboardSection.sectionContent.removeChild(em);
 
             const scoreboard = new ScoreboardComponent({el: scoreboardSection.sectionContent, data: users});
@@ -401,9 +400,10 @@ const showProfile = (profile) => {
     profileBlock.appendChild(header);
 
     if (profile) {
-        const { nickname, record, win, draws, loss } = profile;
+        const { nickname, email, record, win, draws, loss } = profile;
         const profileInfo = {
             "Никнейм: ": nickname,
+            'Почта': email,
             "Рекорд: ": record,
             "Побед: ": win,
             "Ничьих: ": draws,
@@ -429,6 +429,7 @@ const showProfile = (profile) => {
         
         AjaxModule.doGet({
             path: "/profile",
+            domain: backDomain,//наш бек на го
             callback: (xhr) => {
                 const profile = JSON.parse(xhr.responseText);
                 hideAnySection();
