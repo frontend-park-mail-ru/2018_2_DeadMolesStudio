@@ -1,0 +1,13 @@
+.default_link {
+    color: black;
+    text-decoration: none;
+}
+
+.default_link:hover {
+    color: #555555;
+}
+
+.default_link:focus {
+    color: #555555;
+}
+
