@@ -1,6 +1,5 @@
 'use strict';
 
-import {ButtonComponent} from "./components/Button/Button.mjs";
 import {MenuComponent} from "./components/Menu/Menu.mjs";
 import {SectionComponent} from "./components/Section/Section.mjs";
 import {LinkComponent} from "./components/Link/Link.mjs";
@@ -9,38 +8,8 @@ import {ScoreboardComponent} from "./components/Scoreboard/Scoreboard.mjs";
 import {AjaxModule} from "./modules/Ajax.mjs";
 import {noop} from "./modules/Utils.mjs";
 
-const backDomain = 'https://dmstudio-server.now.sh';
-
-const root = document.querySelector("#root");
-
-const createBackButton = (el) => {
-    const button = new ButtonComponent({
-        el: el,
-        href: 'index',
-        text: "Назад"
-    });
-    button.on({
-        event: "click",
-        callback: (event) => {
-            event.preventDefault();
-            const link = event.target;
-            hideAnySection();
-            pages[ link.dataset.href ]();
-        },
-    });
-    return button;
-};
-
-const hideAnySection = () => {
-    const oldSection = document.querySelector('section');
-    const content = document.querySelector('.content');
-    if (oldSection) {
-        content.removeChild(oldSection);
-    }
-};
-
 const showBase = () => {
-    root.innerHTML = `
+    rootElement.innerHTML = `
         <div class="container">
             <div class="content">
                 <div class="game_title">
@@ -157,11 +126,12 @@ const showLogin = () => {
 
 
             AjaxModule.doPost({
-                path: '/login',
+                path: '/session',
                 domain: backDomain,//наш бек на го
                 callback: (xhr) => {
                     if ( xhr.status === 200 ) {
                         hideAnySection();
+                        console.log('Login success')
                         showProfile();
                     } else if ( xhr.status === 400 ) {
                         console.log('JSON is wrong');
@@ -172,6 +142,8 @@ const showLogin = () => {
                             text: 'Неверная пара почта/пароль'
                         }];
                         form.showErrors(errors);
+                    } else {
+                        console.log('wtf');
                     }
                 },
                 body: {
@@ -272,7 +244,13 @@ const showSignUp = () => {
                 return;
             }
 
-
+            if ( !(email && password && passwordRepeat && nickname) ) {
+                const errors = [{
+                    text: 'Заполните все поля!'
+                }];
+                form.showErrors(errors);
+                return;
+            }
 
             AjaxModule.doPost({
                 path: '/profile',
@@ -446,15 +424,6 @@ const showProfile = (profile) => {
     content.appendChild(profileSection);
 };
 
-const pages = {
-    index: showMenu,
-    about: showAbout,
-    login: showLogin,
-    sign_up: showSignUp,
-    scoreboard: showScoreboard,
-    profile: showProfile,
-    play: noop,
-};
 
 const startApp = () => {
     showBase();
