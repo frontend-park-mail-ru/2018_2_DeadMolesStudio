@@ -37,10 +37,13 @@ export class ScoreboardComponent {
                 <span class="scoreboard_node__scores">${record}</span>
             </li>
         `.trim();
-        this._data.forEach( (item, i) => {
-            item['position'] = i + 1;
-            scoreboardList.innerHTML += scoreboardNodeTemplate(item);
-        });
+        if ( this._data !== null ) {
+            this._data.forEach( (item, i) => {
+                item['position'] = i + 1;
+                scoreboardList.innerHTML += scoreboardNodeTemplate(item);
+            });
+        }
+
     }
 
     on({event = 'click', callback = noop, capture = false}) {

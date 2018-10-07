@@ -12,10 +12,7 @@ export class MenuComponent {
         const menu = document.createElement('div');
         menu.className = 'menu';
 
-        this._titles.forEach( (value, key) => {
-            const href = key;
-            const title = value;
-
+        this._titles.forEach( (title, href) => {
             const button = new ButtonComponent({
                 el: menu,
                 href: href,

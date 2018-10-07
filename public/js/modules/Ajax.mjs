@@ -32,5 +32,9 @@ export class AjaxModule {
     static doPost (params = {}) {
         this._ajax({...params, method: "POST"});
     }
+
+    static doDelete (params = {}) {
+        this._ajax({...params, method: "DELETE"});
+    }
 }
 

@@ -1,6 +1,13 @@
-import {noop} from "../modules/Utils";
+import {noop} from "../modules/Utils.mjs";
 import {showMenu} from "./Menu.js";
-import {ButtonComponent} from "../components/Button/Button";
+import {showAbout} from "./About.js";
+import {showLogin} from "./Login.js";
+import {showSignUp} from "./SignUp.js";
+import {showScoreboard} from "./Scoreboard.js";
+import {showProfile} from "./Profile.js";
+import {doLogout} from "./Logout.js";
+
+import {ButtonComponent} from "../components/Button/Button.mjs";
 
 export const pages = {
     index: showMenu,
@@ -10,20 +17,21 @@ export const pages = {
     scoreboard: showScoreboard,
     profile: showProfile,
     play: noop,
+    logout: doLogout
 };
 
 export const backDomain = 'https://dmstudio-server.now.sh';
 
-export const rootElement = document.querySelector("#root");
+export const rootElement = document.querySelector('#root');
 
 export const createBackButton = (el) => {
     const button = new ButtonComponent({
         el: el,
         href: 'index',
-        text: "Назад"
+        text: 'Назад'
     });
     button.on({
-        event: "click",
+        event: 'click',
         callback: (event) => {
             event.preventDefault();
             const link = event.target;
