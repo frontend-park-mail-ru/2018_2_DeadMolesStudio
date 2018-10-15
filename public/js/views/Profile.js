@@ -2,74 +2,42 @@ import * as ViewsContext from "./ViewsContext.js";
 import {AjaxFetchModule} from "../modules/AjaxFetch.mjs";
 import {showMenu} from "./Menu.js";
 import {showLogin} from "./Login.js";
+import Profile from '../components/Profile/Profile.mjs';
+import {SectionComponent} from '../components/Section/Section.mjs';
 
-export const showProfile = profile => {
-    const profileSection = document.createElement('section');
-    profileSection.dataset.sectionName = 'about';
-    profileSection.className = 'profile_page';
-
-    const profileBlock = document.createElement("div");
-    profileBlock.className = 'profile__main';
-
-    const header = document.createElement('h2');
-    header.textContent = 'Профиль';
-
-    profileSection.appendChild(profileBlock);
-    profileBlock.appendChild(header);
-
-    if (profile) {
-        const { nickname, email, record, win, draws, loss } = profile;
-        const profileInfo = {
-            'Никнейм: ': nickname,
-            'Почта: ': email,
-            'Рекорд: ': record,
-            'Побед: ': win,
-            'Ничьих: ': draws,
-            'Поражений: ': loss,
-            'Винрейт: ': (loss + win === 0 ? 0 : ((win / (loss + win)) * 100).toFixed(2).toString() ) + '%',
-        };
-
-        for (let key in profileInfo) {
-            const itemBlock = document.createElement('div');
-            const itemName = document.createElement('b');
-            itemName.textContent = key;
-            const itemValue = document.createElement('span');
-            itemValue.textContent = profileInfo[key];
-
-            itemBlock.appendChild(itemName);
-            itemBlock.appendChild(itemValue);
-            profileBlock.appendChild(itemBlock);
-        }
-    } else {
-        const em = document.createElement('em');
-        em.textContent = 'Loading';
-        profileBlock.appendChild(em);
-
-        AjaxFetchModule.doGet({
-            path: '/profile',
-            domain: ViewsContext.backDomain,
-        }).then( (response) => {
-            if ( response.status === 200 ) {
-                response.json().then( (data) => {
-                   console.log(data);
-                    const profile = data;
-                    ViewsContext.hideAnySection();
-                    showProfile(profile);
-                });
-            } else if ( response.status === 401 ) {
-                alert('Надо авторизоваться');
-                ViewsContext.hideAnySection();
-                showLogin();
-            } else {
-                alert('Что-то пошло не так.');
-                ViewsContext.hideAnySection();
-                showMenu();
-            }
-        });
-    }
-
-    const menuButton = ViewsContext.createBackButton(profileBlock);
-    menuButton.render();
+export const showProfile = () => {
     const content = document.querySelector('.content');
-    content.appendChild(profileSection);
+    const profileSection = new SectionComponent({el: content, name: 'profile'});
+    profileSection.render();
+    const profileSectionContent = profileSection.sectionContent;
+
+    const em = document.createElement('em');
+    em.textContent = 'Loading';
+    profileSectionContent.appendChild(em);
+    
+    AjaxFetchModule.doGet({
+        path: '/profile',
+        domain: ViewsContext.backDomain,
+    }).then( (response) => {
+        profileSectionContent.removeChild(em);
+        if ( response.status === 200 ) {
+            response.json().then( (data) => {
+                const profileData = data;
+                console.log(data);
+                const profile = new Profile({el: profileSectionContent, data: profileData});
+                profile.render();
+            });
+        } else if ( response.status === 401 ) {
+            alert('Надо авторизоваться');
+            ViewsContext.hideAnySection();
+            showLogin();
+        } else {
+            alert('Что-то пошло не так.');
+            ViewsContext.hideAnySection();
+            showMenu();
+        }
+    });
+
+    const menuButton = ViewsContext.createBackButton(profileSectionContent);
+    menuButton.render();
 };
