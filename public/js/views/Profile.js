@@ -37,7 +37,6 @@ export const showProfile = () => {
             showMenu();
         }
     });
-
     const menuButton = ViewsContext.createBackButton(profileSectionContent);
     menuButton.render();
 };

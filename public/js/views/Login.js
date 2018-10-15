@@ -91,6 +91,8 @@ export const showLogin = () => {
                     }];
                     form.showErrors(errors);
                 }
+            }).catch( err => {
+                console.log(err);
             });
 
         },

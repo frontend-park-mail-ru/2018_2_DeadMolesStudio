@@ -15,9 +15,8 @@ export const showScoreboard = () => {
     scoreboardSection.render();
     scoreboardSection.append(em);
 
-
     AjaxFetchModule.doGet({
-        path: '/scoreboard',
+        path: '/scoreboard?limit=10',
         domain: ViewsContext.backDomain
     }).then( (response) => {
         if ( response.status === 200 ) {
@@ -25,8 +24,9 @@ export const showScoreboard = () => {
             response.json().then( (data) => {
                 console.log(data);
                 if ( data !== null || data !== 'null') {
-                    const users = data;
+                    const users = data['players'];
                     scoreboardSection.sectionContent.removeChild(em);
+                    console.log(data);
 
                     const scoreboard = new ScoreboardComponent({el: scoreboardSection.sectionContent, data: users});
                     scoreboard.render();
@@ -36,10 +36,12 @@ export const showScoreboard = () => {
                 menuButton.render();
             });
         } else {
-            alert('Что-то пошло не так.');
-            ViewsContext.hideAnySection();
-            showMenu();
+            const em = document.createElement('em');
+            em.textContent = 'Что-то пошло не так!';
+            scoreboardSection.append(em);
         }
+    }).catch( err => {
+        console.log(err);
     });
 
 };

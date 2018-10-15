@@ -1,13 +1,18 @@
-import {noop} from "../../modules/Utils.mjs";
+import {ButtonComponent} from "../Button/Button.mjs";
+import {AjaxFetchModule} from "../../modules/AjaxFetch.mjs";
+import {backDomain} from "../../views/ViewsContext.js";
 
 export class ScoreboardComponent {
-    constructor ({el = document.body, data = []} = {}) {
+    constructor ({el = document.body, data = [], limit = 10} = {}) {
         this._el = el;
         this._data = data;
+        this._first = 1;
+        this._page = 0;
+        this._limit = limit;
     }
 
     get data() {
-        this._data;
+        return this._data;
     }
 
     set data(data) {
@@ -25,11 +30,67 @@ export class ScoreboardComponent {
                                 <span class="scoreboard_node__scores">Рекорд</span>
                             </span>
                             <div class="scoreboard_list scrolable"></div>
+                            <div class="scoreboard__paginator"></div>
                         </ol>
                     </div>
                     `.trim()
         );
-        const scoreboardList = this._el.querySelector('.scoreboard_list');
+
+        const paginator = this._el.querySelector('.scoreboard__paginator');
+        const prevButton = new ButtonComponent({el: paginator, text: '<'});
+        const nextButton = new ButtonComponent({el: paginator, text: '>'});
+        prevButton.render();
+        nextButton.render();
+        prevButton.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+                this.hidePlayers();
+                AjaxFetchModule.doGet({
+                    path: `/scoreboard?limit=${this._limit}&offset=${this._first - this._limit}`,
+                    domain: backDomain,
+                })
+                    .then( (data) => {
+                        this._first -= this._limit;
+                        this._page--;
+                        this._data = data['players'];
+                        this.showPlayers();
+                    })
+                    .catch( (err) => {
+                        console.log(err);
+                    });
+            },
+        });
+        nextButton.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+                this.hidePlayers();
+                AjaxFetchModule.doGet({
+                    path: `/scoreboard?limit=${this._limit}&offset=${this._first + this._limit}`,
+                    domain: backDomain,
+                })
+                    .then( data => {
+                        this._first += this._limit;
+                        this._page++;
+                        this._data = data['players'];
+                        this.showPlayers();
+                    })
+                    .catch( err => {
+                        console.log(err);
+                    });
+            },
+        });
+
+        this.showPlayers();
+    }
+
+    hidePlayers() {
+        this._scoreboardList.innerHTML = '';
+    }
+
+    showPlayers() {
+        this._scoreboardList = this._el.querySelector('.scoreboard_list');
         const scoreboardNodeTemplate = ({position, nickname, record}) => `
             <li class="scoreboard_node">
                 <span class="scoreboard_node__position">${position}</span>
@@ -37,25 +98,13 @@ export class ScoreboardComponent {
                 <span class="scoreboard_node__scores">${record}</span>
             </li>
         `.trim();
-        if ( this._data !== null ) {
+
+
+        if (this._data) {
             this._data.forEach( (item, i) => {
                 item['position'] = i + 1;
-                scoreboardList.innerHTML += scoreboardNodeTemplate(item);
+                this._scoreboardList.innerHTML += scoreboardNodeTemplate(item);
             });
         }
-
     }
-
-    on({event = 'click', callback = noop, capture = false}) {
-        if (this._innerElem !== null) {
-            this._innerElem.addEventListener(event, callback, capture);
-        } else {
-            this._listenersToAdd.push({event: event, callback: callback, capture: capture});
-        }
-    }
-
-    off({event = 'click', callback = noop, capture = false}) {
-        this._innerElem.removeEventListener(event, callback, capture);
-    }
-
 }

@@ -83,42 +83,55 @@ export const showSignUp = () => {
             }
 
             const req = {
-                    email: email,
-                    nickname: nickname,
-                    password: password,
+                email: email,
+                nickname: nickname,
+                password: password,
             };
 
-            AjaxFetchModule.doPost({
+             AjaxFetchModule.doPost({
                 path: '/profile',
                 domain: ViewsContext.backDomain,
                 body: req
             }).then( (response) => {
-                return response.status;
-            }).then( (status) => {
-                if ( status === 200 ) {
-                    ViewsContext.hideAnySection();
-                    showProfile();
-                } else if ( status === 400 ) {
-                    console.log('JSON is wrong');
-                    ViewsContext.hideAnySection();
-                    showSignUp();
-                } else if ( status === 403 ) {
-                    const errors = [{
-                        text: 'Что-то пошло не так!'
-                    }];
-                    form.showErrors(errors);
-                    //TODO надо пофиксить обработку ошибки
-                    // const errors = JSON.parse(xhr.responseText);
-                    // const errorList = errors['error'];
-                    // form.showErrors(errorList);
-                } else {
-                    const errors = [{
-                        text: 'Что-то пошло не так!'
-                    }];
-                    form.showErrors(errors);
-                }
-            });
-
+                const status = response.status;
+                if (status === 200) {
+                     ViewsContext.hideAnySection();
+                     showProfile();
+                     return;
+                 }
+                response.json().then( body => {
+                    let errors = body['error'];
+                    console.log(errors);
+                    if (!errors) errors = [];
+                    form.hideErrors();
+                    switch (status) {
+                        case 400:
+                            console.log('JSON is wrong!');
+                            errors.push({
+                                text: 'Что-то пошло не так! Попробуйте позже!'
+                            });
+                            form.showErrors(errors);
+                            break;
+                        case 403:
+                            form.showErrors(errors);
+                            break;
+                        case 422:
+                            errors.push({
+                                text: 'Заполните все поля!'
+                            });
+                            form.showErrors(errors);
+                            break;
+                        default:
+                            errors.push({
+                                text: 'Что-то пошло не так!'
+                            });
+                            form.showErrors(errors);
+                            break;
+                    }
+                });
+            }).catch( err => {
+                console.log(err);
+             });
         },
     });
 

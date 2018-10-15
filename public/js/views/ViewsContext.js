@@ -43,9 +43,7 @@ export const createBackButton = (el) => {
 };
 
 export const hideAnySection = () => {
-    const oldSection = document.querySelector('section');
+    const oldSections = document.querySelectorAll('section');
     const content = document.querySelector('.content');
-    if (oldSection) {
-        content.removeChild(oldSection);
-    }
+    oldSections.forEach( section => content.removeChild(section));
 };
