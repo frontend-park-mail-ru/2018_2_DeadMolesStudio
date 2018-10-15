@@ -10,14 +10,14 @@ import {doLogout} from "./Logout.js";
 import {ButtonComponent} from "../components/Button/Button.mjs";
 
 export const pages = {
-    index: showMenu,
-    about: showAbout,
-    login: showLogin,
-    sign_up: showSignUp,
-    scoreboard: showScoreboard,
-    profile: showProfile,
-    play: noop,
-    logout: doLogout
+        index: showMenu,
+        about: showAbout,
+        login: showLogin,
+        sign_up: showSignUp,
+        scoreboard: showScoreboard,
+        profile: showProfile,
+        play: noop,
+        logout: doLogout
 };
 
 export const backDomain = 'https://dmstudio-server.now.sh';

@@ -5,7 +5,7 @@ function pug_classes_object(r){var a="",n="";for(var o in r)o&&r[o]&&pug_has_own
 function pug_escape(e){var a=""+e,t=pug_match_html.exec(a);if(!t)return e;var r,c,n,s="";for(r=t.index,c=0;r<a.length;r++){switch(a.charCodeAt(r)){case 34:n="&quot;";break;case 38:n="&amp;";break;case 60:n="&lt;";break;case 62:n="&gt;";break;default:continue}c!==r&&(s+=a.substring(c,r)),c=r+1,s+=n}return c!==r?s+a.substring(c,r):s}
 var pug_has_own_property=Object.prototype.hasOwnProperty;
 var pug_match_html=/["&<>]/;
-function pug_rethrow(n,e,r,t){if(!(n instanceof Error))throw n;if(!("undefined"==typeof window&&e||t))throw n.message+=" on line "+r,n;try{t=t||require("fs").readFileSync(e,"utf8")}catch(e){pug_rethrow(n,null,r)}var i=3,a=t.split("\n"),o=Math.max(r-i,0),h=Math.min(a.length,r+i),i=a.slice(o,h).map(function(n,e){var t=e+o+1;return(t==r?"  > ":"    ")+t+"| "+n}).join("\n");throw n.path=e,n.message=(e||"Pug")+":"+r+"\n"+i+"\n\n"+n.message,n}function formTmplTemplate(locals) {var pug_html = "", pug_mixins = {}, pug_interp;var pug_debug_filename, pug_debug_line;try {var pug_debug_sources = {"public\u002Fjs\u002Fcomponents\u002FForm\u002Fform.tmpl.pug":"h2 #{header}\n\nform.login_form\n    each i in inputs\n        input(name = i.name, type = i.type, placeholder = i.placeholder, class = i.className, value = i.value)\n\n\n\n\n"};
+function pug_rethrow(n,e,r,t){if(!(n instanceof Error))throw n;if(!("undefined"==typeof window&&e||t))throw n.message+=" on line "+r,n;try{t=t||require("fs").readFileSync(e,"utf8")}catch(e){pug_rethrow(n,null,r)}var i=3,a=t.split("\n"),o=Math.max(r-i,0),h=Math.min(a.length,r+i),i=a.slice(o,h).map(function(n,e){var t=e+o+1;return(t==r?"  > ":"    ")+t+"| "+n}).join("\n");throw n.path=e,n.message=(e||"Pug")+":"+r+"\n"+i+"\n\n"+n.message,n}function formTmplTemplate(locals) {var pug_html = "", pug_mixins = {}, pug_interp;var pug_debug_filename, pug_debug_line;try {var pug_debug_sources = {"public\u002Fjs\u002Fcomponents\u002FForm\u002Fform.tmpl.pug":"h2 #{header}\n\nform.login_form\n    each i in inputs\n        input(name = i.name, type = i.type, placeholder = i.placeholder, class = i.className, value = i.value, accept = i.accept)\n\n\n\n\n"};
 ;var locals_for_with = (locals || {});(function (header, inputs) {;pug_debug_line = 1;pug_debug_filename = "public\u002Fjs\u002Fcomponents\u002FForm\u002Fform.tmpl.pug";
 pug_html = pug_html + "\u003Ch2\u003E";
 ;pug_debug_line = 1;pug_debug_filename = "public\u002Fjs\u002Fcomponents\u002FForm\u002Fform.tmpl.pug";
@@ -20,7 +20,7 @@ pug_html = pug_html + "\u003Cform class=\"login_form\"\u003E";
       for (var pug_index0 = 0, $$l = $$obj.length; pug_index0 < $$l; pug_index0++) {
         var i = $$obj[pug_index0];
 ;pug_debug_line = 5;pug_debug_filename = "public\u002Fjs\u002Fcomponents\u002FForm\u002Fform.tmpl.pug";
-pug_html = pug_html + "\u003Cinput" + (pug_attr("class", pug_classes([i.className], [true]), false, false)+pug_attr("name", i.name, true, false)+pug_attr("type", i.type, true, false)+pug_attr("placeholder", i.placeholder, true, false)+pug_attr("value", i.value, true, false)) + "\u002F\u003E";
+pug_html = pug_html + "\u003Cinput" + (pug_attr("class", pug_classes([i.className], [true]), false, false)+pug_attr("name", i.name, true, false)+pug_attr("type", i.type, true, false)+pug_attr("placeholder", i.placeholder, true, false)+pug_attr("value", i.value, true, false)+pug_attr("accept", i.accept, true, false)) + "\u002F\u003E";
       }
   } else {
     var $$l = 0;
@@ -28,7 +28,7 @@ pug_html = pug_html + "\u003Cinput" + (pug_attr("class", pug_classes([i.classNam
       $$l++;
       var i = $$obj[pug_index0];
 ;pug_debug_line = 5;pug_debug_filename = "public\u002Fjs\u002Fcomponents\u002FForm\u002Fform.tmpl.pug";
-pug_html = pug_html + "\u003Cinput" + (pug_attr("class", pug_classes([i.className], [true]), false, false)+pug_attr("name", i.name, true, false)+pug_attr("type", i.type, true, false)+pug_attr("placeholder", i.placeholder, true, false)+pug_attr("value", i.value, true, false)) + "\u002F\u003E";
+pug_html = pug_html + "\u003Cinput" + (pug_attr("class", pug_classes([i.className], [true]), false, false)+pug_attr("name", i.name, true, false)+pug_attr("type", i.type, true, false)+pug_attr("placeholder", i.placeholder, true, false)+pug_attr("value", i.value, true, false)+pug_attr("accept", i.accept, true, false)) + "\u002F\u003E";
     }
   }
 }).call(this);

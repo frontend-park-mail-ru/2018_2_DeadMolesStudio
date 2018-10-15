@@ -27,5 +27,9 @@ export class AjaxFetchModule {
     static doDelete (params = {}) {
         return this._ajax({...params, method: "DELETE"});
     }
+
+    static doPut (params = {}) {
+        return this._ajax({...params, method: "PUT"});
+    }
 }
 
