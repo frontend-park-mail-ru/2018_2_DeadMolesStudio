@@ -1,7 +1,7 @@
-import {noop} from "./Utils.mjs";
+import { noop } from './Utils.mjs';
 
-export class AjaxModule {
-    static _ajax ({callback = noop, method = "GET", path = "/", domain = '', body} = {}) {
+export default class AjaxModule {
+    static _ajax({ callback = noop, method = 'GET', path = '/', domain = '', body } = {}) {
         const xhr = new XMLHttpRequest();
         xhr.open(method, domain + path, true);
         xhr.withCredentials = true;
@@ -25,16 +25,15 @@ export class AjaxModule {
         }
     }
 
-    static doGet (params = {}) {
-        this._ajax({...params, method: "GET"});
+    static doGet(params = {}) {
+        this._ajax({ ...params, method: 'GET' });
     }
 
-    static doPost (params = {}) {
-        this._ajax({...params, method: "POST"});
+    static doPost(params = {}) {
+        this._ajax({ ...params, method: 'POST' });
     }
 
-    static doDelete (params = {}) {
-        this._ajax({...params, method: "DELETE"});
+    static doDelete(params = {}) {
+        this._ajax({ ...params, method: 'DELETE' });
     }
 }
-

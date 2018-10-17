@@ -1,35 +1,33 @@
-import * as ViewsContext from "./ViewsContext.js";
-import {AjaxFetchModule} from "../modules/AjaxFetch.mjs";
-import {showMenu} from "./Menu.js";
-import {showLogin} from "./Login.js";
+import * as ViewsContext from './ViewsContext.js';
+import AjaxFetchModule from '../modules/AjaxFetch.mjs';
+import { showMenu } from './Menu.js';
+import { showLogin } from './Login.js';
 import Profile from '../components/Profile/Profile.mjs';
-import {SectionComponent} from '../components/Section/Section.mjs';
-import {hideAnySection, pages} from "./ViewsContext.js";
-import {ButtonComponent} from "../components/Button/Button.mjs";
+import SectionComponent from '../components/Section/Section.mjs';
+import ButtonComponent from '../components/Button/Button.mjs';
 
 export const showProfile = () => {
     const content = document.querySelector('.content');
-    const profileSection = new SectionComponent({el: content, name: 'profile'});
+    const profileSection = new SectionComponent({ el: content, name: 'profile' });
     profileSection.render();
     const profileSectionContent = profileSection.sectionContent;
 
     const em = document.createElement('em');
     em.textContent = 'Loading';
     profileSectionContent.appendChild(em);
-    
     AjaxFetchModule.doGet({
         path: '/profile',
         domain: ViewsContext.backDomain,
     }).then( (response) => {
         profileSectionContent.removeChild(em);
-        if ( response.status === 200 ) {
+        if (response.status === 200) {
             response.json().then( (data) => {
                 const profileData = data;
                 console.log(data);
                 const profile = new Profile({el: profileSectionContent, data: profileData});
                 profile.render();
             });
-        } else if ( response.status === 401 ) {
+        } else if (response.status === 401) {
             alert('Надо авторизоваться');
             ViewsContext.hideAnySection();
             showLogin();
@@ -42,19 +40,18 @@ export const showProfile = () => {
     const buttonToEditProfile = new ButtonComponent({
         el: profileSectionContent,
         href: 'edit_profile',
-        text: 'Настройки'
+        text: 'Настройки',
     });
     buttonToEditProfile.on({
         event: 'click',
         callback: (event) => {
             event.preventDefault();
             const link = event.target;
-            hideAnySection();
-            pages[ link.dataset.href ]();
+            ViewsContext.hideAnySection();
+            ViewsContext.pages[link.dataset.href]();
         },
     });
     buttonToEditProfile.render();
-
 
     const menuButton = ViewsContext.createBackButton(profileSectionContent);
     menuButton.render();

@@ -1,5 +1,5 @@
-import * as ViewsContext from "./ViewsContext.js";
-import {LinkComponent} from "../components/Link/Link.mjs";
+import * as ViewsContext from './ViewsContext.js';
+import LinkComponent from '../components/Link/Link.mjs';
 
 export const showBase = () => {
     ViewsContext.rootElement.innerHTML = `
@@ -17,18 +17,18 @@ export const showBase = () => {
 
     const gameTitleLink = new LinkComponent({
         el: h1,
-        text: 'Abstract Ketnipz ((',
+        text: 'Abstract Ketnipz',
         href: 'index',
-        className: "game_title__link",
+        className: 'game_title__link',
     });
 
     gameTitleLink.on({
         event: 'click',
-        callback: event => {
+        callback: (event) => {
             event.preventDefault();
             const link = event.target;
             ViewsContext.hideAnySection();
-            ViewsContext.pages[ link.dataset.href ]();
+            ViewsContext.pages[link.dataset.href]();
         },
     });
 

@@ -1,36 +1,36 @@
-import * as ViewsContext from "./ViewsContext.js";
-import {SectionComponent} from "../components/Section/Section.mjs";
-import {FormComponent} from "../components/Form/Form.mjs";
-import {LinkComponent} from "../components/Link/Link.mjs";
-import {showProfile} from "./Profile.js";
-import {showSignUp} from "./SignUp.js";
-import {AjaxFetchModule} from "../modules/AjaxFetch.mjs";
+import * as ViewsContext from './ViewsContext.js';
+import SectionComponent from '../components/Section/Section.mjs';
+import FormComponent from '../components/Form/Form.mjs';
+import LinkComponent from '../components/Link/Link.mjs';
+import { showProfile } from './Profile.js';
+import { showSignUp } from './SignUp.js';
+import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 
 export const showLogin = () => {
-    const content = document.querySelector(".content");
+    const content = document.querySelector('.content');
 
-    const loginSection = new SectionComponent({el: content, name: 'login'});
+    const loginSection = new SectionComponent({ el: content, name: 'login' });
     loginSection.render();
 
     const inputs = [
         {
-            name: "email",
-            type: "email",
-            placeholder: "Почта",
-            className: "bordered_input"
+            name: 'email',
+            type: 'email',
+            placeholder: 'Почта',
+            className: 'bordered_input',
         },
         {
-            name: "password",
-            type: "password",
-            placeholder: "Пароль",
-            className: "bordered_input"
+            name: 'password',
+            type: 'password',
+            placeholder: 'Пароль',
+            className: 'bordered_input',
         },
         {
-            name: "submit",
-            type: "submit",
-            className: "cute-btn",
-            value: 'Войти'
-        }
+            name: 'submit',
+            type: 'submit',
+            className: 'cute-btn',
+            value: 'Войти',
+        },
     ];
 
     const form = new FormComponent({
@@ -44,7 +44,7 @@ export const showLogin = () => {
 
     form.on({
         event: 'submit',
-        callback: event => {
+        callback: (event) => {
             event.preventDefault();
 
             form.hideErrors();
@@ -55,7 +55,7 @@ export const showLogin = () => {
 
             if ( !(email && password) ) {
                 const errors = [{
-                    text: 'Заполните оба поля!'
+                    text: 'Заполните оба поля!',
                 }];
                 form.showErrors(errors);
                 return;
@@ -69,51 +69,49 @@ export const showLogin = () => {
             AjaxFetchModule.doPost({
                 path: '/session',
                 domain: ViewsContext.backDomain,
-                body: req
-            }).then( (response) => {
-                return response.status;
-            }).then( (status) => {
-                if ( status === 200 ) {
-                    ViewsContext.hideAnySection();
-                    showProfile();
-                } else if ( status === 400 ) {
-                    console.log('JSON is wrong');
-                    ViewsContext.hideAnySection();
-                    showSignUp();
-                } else if ( status === 422 ) {
-                    const errors = [{
-                        text: 'Неверная пара почта/пароль'
-                    }];
-                    form.showErrors(errors);
-                } else {
-                    const errors = [{
-                        text: 'Что-то пошло не так!'
-                    }];
-                    form.showErrors(errors);
-                }
-            }).catch( err => {
-                console.log(err);
-            });
-
+                body: req,
+            })
+                .then(response => response.status)
+                .then( (status) => {
+                    if (status === 200) {
+                        ViewsContext.hideAnySection();
+                        showProfile();
+                    } else if (status === 400) {
+                        console.log('JSON is wrong');
+                        ViewsContext.hideAnySection();
+                        showSignUp();
+                    } else if (status === 422) {
+                        const errors = [{
+                            text: 'Неверная пара почта/пароль',
+                        }];
+                        form.showErrors(errors);
+                    } else {
+                        const errors = [{
+                            text: 'Что-то пошло не так!',
+                        }];
+                        form.showErrors(errors);
+                    }
+                }).catch( (err) => {
+                    console.log(err);
+                });
         },
     });
 
     const signUpLink = new LinkComponent({
         el: loginSection.sectionContent,
-        text: "Зарегистрироваться",
+        text: 'Зарегистрироваться',
         href: 'sign_up',
-        className: "sub_link",
+        className: 'sub_link',
     });
     signUpLink.on({
-        event: "click",
-        callback: event => {
+        event: 'click',
+        callback: (event) => {
             event.preventDefault();
             const link = event.target;
             ViewsContext.hideAnySection();
-            ViewsContext.pages[ link.dataset.href ]();
+            ViewsContext.pages[link.dataset.href]();
         },
     });
 
     signUpLink.render();
-
 };

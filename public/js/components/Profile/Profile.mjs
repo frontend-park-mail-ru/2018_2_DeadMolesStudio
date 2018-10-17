@@ -1,11 +1,11 @@
 export default class ProfileComponent {
-    constructor({el = document.body, data = {}} = {}) {
+    constructor({ el = document.body, data = {} } = {}) {
         this._el = el;
         this._data = data;
     }
 
     get data() {
-        this._data;
+        return this._data;
     }
 
     set data(data) {
@@ -14,16 +14,22 @@ export default class ProfileComponent {
 
     render() {
         this._el.insertAdjacentHTML(
-            'afterbegin',
-            `
+            'afterbegin', `
             <div class="profile">
                 <h2>Профиль</h2>
             </div>
             `.trim()
         );
-        
+
         const profileBlock = this._el.querySelector('.profile');
-        const { nickname, email, record, win, draws, loss } = this._data;
+        const {
+            nickname,
+            email,
+            record,
+            win,
+            draws,
+            loss,
+        } = this._data;
         const profile = {
             'Никнейм: ': nickname,
             'Почта: ': email,
@@ -31,16 +37,17 @@ export default class ProfileComponent {
             'Побед: ': win,
             'Ничьих: ': draws,
             'Поражений: ': loss,
-            'Винрейт: ': (loss + win === 0 ? 100 : ((win / (loss + win)) * 100).toFixed(2).toString() ) + '%',
+            'Винрейт: ': `${loss + win === 0 ? 100 : ( (win / (loss + win) ) * 100).toFixed(2)}%`,
         };
-        for (let [field, value] of Object.entries(profile)) {
-            profileBlock.insertAdjacentHTML('beforeend', `
-            <div>
-                <b>${field}</b>
-                <span>${value}</span>
-            </div>
-            `.trim()
-            )
+        for (const [field, value] of Object.entries(profile) ) {
+            profileBlock.insertAdjacentHTML(
+                'beforeend', `
+                <div>
+                    <b>${field}</b>
+                    <span>${value}</span>
+                </div>
+                `.trim()
+            );
         }
     }
-};
+}

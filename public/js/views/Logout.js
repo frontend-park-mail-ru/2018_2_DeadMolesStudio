@@ -1,12 +1,14 @@
-import * as ViewsContext from "./ViewsContext.js";
-import {showLogin} from "./Login.js";
-import {AjaxFetchModule} from "../modules/AjaxFetch.mjs";
+import * as ViewsContext from './ViewsContext.js';
+import { showLogin } from './Login.js';
+import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 
-export const doLogout = () => {
+const doLogout = () => {
     AjaxFetchModule.doDelete({
         path: '/session',
-        domain: ViewsContext.backDomain
+        domain: ViewsContext.backDomain,
     }).then( () => {
         showLogin();
     });
 };
+
+export default doLogout;

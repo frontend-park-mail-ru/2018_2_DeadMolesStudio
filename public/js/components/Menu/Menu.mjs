@@ -1,8 +1,8 @@
-import {ButtonComponent} from "../Button/Button.mjs";
-import {noop} from "../../modules/Utils.mjs";
+import ButtonComponent from '../Button/Button.mjs';
+import { noop } from '../../modules/Utils.mjs';
 
-export class MenuComponent {
-    constructor({el = document.body, titles = {}, actionOnButton = noop} = {}) {
+export default class MenuComponent {
+    constructor({ el = document.body, titles = {}, actionOnButton = noop } = {}) {
         this._el = el;
         this._titles = titles;
         this._actionOnButton = actionOnButton;
@@ -16,7 +16,7 @@ export class MenuComponent {
             const button = new ButtonComponent({
                 el: menu,
                 href: href,
-                text: title
+                text: title,
             });
 
             button.on({
