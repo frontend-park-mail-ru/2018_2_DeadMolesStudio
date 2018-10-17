@@ -1,17 +1,19 @@
-import SectionComponent from "../components/Section/Section.mjs";
-import AjaxFetchModule from "../modules/AjaxFetch.mjs";
-import * as ViewsContext from "./ViewsContext.js";
-import {showLogin} from "./Login.js";
-import {showMenu} from "./Menu.js";
-import FormComponent from "../components/Form/Form.mjs";
-import {showProfile} from "./Profile.js";
-import ButtonComponent from "../components/Button/Button.mjs";
-import {hideAnySection, pages} from "./ViewsContext.js";
+import SectionComponent from '../components/Section/Section.mjs';
+import AjaxFetchModule from '../modules/AjaxFetch.mjs';
+import * as ViewsContext from './ViewsContext.js';
+import {showLogin} from './Login.js';
+import {showMenu} from './Menu.js';
+import FormComponent from '../components/Form/Form.mjs';
+import {showProfile} from './Profile.js';
+import ButtonComponent from '../components/Button/Button.mjs';
 
 export const showEditProfile = () => {
-    const content = document.querySelector(".content");
+    const content = document.querySelector('.content');
 
-    const editProfileSection = new SectionComponent({el: content, name: 'signup'});
+    const editProfileSection = new SectionComponent({
+        el: content,
+        name: 'signup',
+    });
     editProfileSection.render();
 
     const em = document.createElement('em');
@@ -23,49 +25,49 @@ export const showEditProfile = () => {
         path: '/profile',
         domain: ViewsContext.backDomain,
     }).then( (response) => {
-        const status = response.status;
+        const { status } = response;
         switch (status) {
         case 200:
             editProfileSection.sectionContent.removeChild(em);
-            response.json().then((data) => {
+            response.json().then( (data) => {
                 const profile = data;
                 const inputs = [
                     {
                         name: 'nickname',
                         type: 'text',
                         placeholder: profile.nickname,
-                        className: 'bordered_input'
+                        className: 'bordered_input',
                     },
                     {
                         name: 'email',
                         type: 'email',
                         placeholder: profile.email,
-                        className: 'bordered_input'
+                        className: 'bordered_input',
                     },
                     {
                         name: 'password',
                         type: 'password',
                         placeholder: 'Пароль',
-                        className: 'bordered_input'
+                        className: 'bordered_input',
                     },
                     {
                         name: 'password_repeat',
                         type: 'password',
                         placeholder: 'Повторите пароль',
-                        className: 'bordered_input'
+                        className: 'bordered_input',
                     },
                     {
                         name: 'avatar',
                         type: 'file',
                         accept: 'image/jpeg,image/png',
-                        className: 'bordered_input'
+                        className: 'bordered_input',
                     },
                     {
                         name: 'submit',
                         type: 'submit',
                         className: 'cute-btn',
-                        value: 'Сохранить'
-                    }
+                        value: 'Сохранить',
+                    },
                 ];
 
                 const form = new FormComponent({
@@ -78,22 +80,25 @@ export const showEditProfile = () => {
 
                 form.on({
                     event: 'submit',
-                    callback: event => {
+                    callback: (event) => {
                         event.preventDefault();
 
                         form.hideErrors();
 
                         const formData = form.innerElem.elements;
-                        const email = formData['email'].value;
-                        const nickname = formData['nickname'].value;
-                        const password = formData['password'].value;
-                        const passwordRepeat = formData['password_repeat'].value;
-                        const avatar = formData['avatar'].value;
+                        const formValues = formData.keys.map( (key, value) => value.value );
+                        const {
+                            email,
+                            nickname,
+                            password,
+                            passwordRepeat,
+                            avatar,
+                        } = formValues;
 
                         const req = {};
 
-                        if ( avatar ) {
-                            console.log("avatar block");
+                        if (avatar) {
+                            console.log('avatar block');
                             req['avatar'] = avatar;
                         }
 
@@ -108,7 +113,7 @@ export const showEditProfile = () => {
                         if (password) {
                             if (password !== passwordRepeat) {
                                 const errors = [{
-                                    text: 'Пароли не совпадают!'
+                                    text: 'Пароли не совпадают!',
                                 }];
                                 form.showErrors(errors);
                                 return;
@@ -120,9 +125,9 @@ export const showEditProfile = () => {
                         AjaxFetchModule.doPut({
                             path: '/profile',
                             domain: ViewsContext.backDomain,
-                            body: req
-                        }).then((response) => {
-                            const status = response.status;
+                            body: req,
+                        }).then( (response) => {
+                            const { status } = response;
 
                             switch (status) {
                             case 200:
@@ -149,9 +154,8 @@ export const showEditProfile = () => {
                                 alert('Что-то пошло не так!');
                                 ViewsContext.hideAnySection();
                                 showProfile();
-
                             }
-                        }).catch((err) => {
+                        }).catch( (err) => {
                             console.log(err);
                             alert('Что-то пошло не так!');
                             ViewsContext.hideAnySection();
@@ -163,15 +167,15 @@ export const showEditProfile = () => {
                 const buttonToProfile = new ButtonComponent({
                     el: editProfileSection.sectionContent,
                     href: 'profile',
-                    text: 'Назад'
+                    text: 'Назад',
                 });
                 buttonToProfile.on({
                     event: 'click',
                     callback: (event) => {
                         event.preventDefault();
                         const link = event.target;
-                        hideAnySection();
-                        pages[ link.dataset.href ]();
+                        ViewsContext.hideAnySection();
+                        ViewsContext.pages[link.dataset.href]();
                     },
                 });
                 buttonToProfile.render();
@@ -195,9 +199,4 @@ export const showEditProfile = () => {
         ViewsContext.hideAnySection();
         showMenu();
     });
-
-
-
-
-
 };
