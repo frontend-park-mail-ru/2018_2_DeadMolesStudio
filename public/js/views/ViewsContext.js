@@ -6,8 +6,10 @@ import {showSignUp} from "./SignUp.js";
 import {showScoreboard} from "./Scoreboard.js";
 import {showProfile} from "./Profile.js";
 import {doLogout} from "./Logout.js";
+import {showEditProfile} from "./EditProfile.js";
 
 import {ButtonComponent} from "../components/Button/Button.mjs";
+
 
 export const pages = {
         index: showMenu,
@@ -17,7 +19,8 @@ export const pages = {
         scoreboard: showScoreboard,
         profile: showProfile,
         play: noop,
-        logout: doLogout
+        logout: doLogout,
+        edit_profile: showEditProfile
 };
 
 export const backDomain = 'https://dmstudio-server.now.sh';

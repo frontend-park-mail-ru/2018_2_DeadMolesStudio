@@ -4,6 +4,8 @@ import {showMenu} from "./Menu.js";
 import {showLogin} from "./Login.js";
 import Profile from '../components/Profile/Profile.mjs';
 import {SectionComponent} from '../components/Section/Section.mjs';
+import {hideAnySection, pages} from "./ViewsContext.js";
+import {ButtonComponent} from "../components/Button/Button.mjs";
 
 export const showProfile = () => {
     const content = document.querySelector('.content');
@@ -37,6 +39,23 @@ export const showProfile = () => {
             showMenu();
         }
     });
+    const buttonToEditProfile = new ButtonComponent({
+        el: profileSectionContent,
+        href: 'edit_profile',
+        text: 'Настройки'
+    });
+    buttonToEditProfile.on({
+        event: 'click',
+        callback: (event) => {
+            event.preventDefault();
+            const link = event.target;
+            hideAnySection();
+            pages[ link.dataset.href ]();
+        },
+    });
+    buttonToEditProfile.render();
+
+
     const menuButton = ViewsContext.createBackButton(profileSectionContent);
     menuButton.render();
 };

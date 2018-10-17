@@ -18,6 +18,7 @@ export const showEditProfile = () => {
     em.textContent = 'Loading';
     editProfileSection.append(em);
 
+
     AjaxFetchModule.doGet({
         path: '/profile',
         domain: ViewsContext.backDomain,
@@ -25,43 +26,44 @@ export const showEditProfile = () => {
         const status = response.status;
         switch (status) {
             case 200:
+                editProfileSection.sectionContent.removeChild(em);
                 response.json().then((data) => {
                     const profile = data;
                     const inputs = [
                         {
-                            name: "nickname",
-                            type: "text",
+                            name: 'nickname',
+                            type: 'text',
                             placeholder: profile.nickname,
-                            className: "bordered_input"
+                            className: 'bordered_input'
                         },
                         {
-                            name: "email",
-                            type: "email",
+                            name: 'email',
+                            type: 'email',
                             placeholder: profile.email,
-                            className: "bordered_input"
+                            className: 'bordered_input'
                         },
                         {
-                            name: "password",
-                            type: "password",
-                            placeholder: "Пароль",
-                            className: "bordered_input"
+                            name: 'password',
+                            type: 'password',
+                            placeholder: 'Пароль',
+                            className: 'bordered_input'
                         },
                         {
-                            name: "password_repeat",
-                            type: "password",
-                            placeholder: "Повторите пароль",
-                            className: "bordered_input"
+                            name: 'password_repeat',
+                            type: 'password',
+                            placeholder: 'Повторите пароль',
+                            className: 'bordered_input'
                         },
                         {
                             name: 'avatar',
                             type: 'file',
                             accept: 'image/jpeg,image/png',
-                            className: "bordered_input"
+                            className: 'bordered_input'
                         },
                         {
-                            name: "submit",
-                            type: "submit",
-                            className: "cute-btn",
+                            name: 'submit',
+                            type: 'submit',
+                            className: 'cute-btn',
                             value: 'Сохранить'
                         }
                     ];
@@ -86,8 +88,14 @@ export const showEditProfile = () => {
                             const nickname = formData['nickname'].value;
                             const password = formData['password'].value;
                             const passwordRepeat = formData['password_repeat'].value;
+                            const avatar = formData['avatar'].value;
 
                             const req = {};
+
+                            if ( avatar ) {
+                                console.log("avatar block");
+                                req['avatar'] = avatar;
+                            }
 
                             if (email !== profile.email) {
                                 req['email'] = email;
@@ -151,23 +159,24 @@ export const showEditProfile = () => {
                             });
                         },
                     });
+
+                    const buttonToProfile = new ButtonComponent({
+                        el: editProfileSection.sectionContent,
+                        href: 'profile',
+                        text: 'Назад'
+                    });
+                    buttonToProfile.on({
+                        event: 'click',
+                        callback: (event) => {
+                            event.preventDefault();
+                            const link = event.target;
+                            hideAnySection();
+                            pages[ link.dataset.href ]();
+                        },
+                    });
+                    buttonToProfile.render();
                 });
 
-                const buttonToProfile = new ButtonComponent({
-                    el: editProfileSection,
-                    href: 'profile',
-                    text: 'Назад'
-                });
-                buttonToProfile.on({
-                    event: 'click',
-                    callback: (event) => {
-                        event.preventDefault();
-                        const link = event.target;
-                        hideAnySection();
-                        pages[ link.dataset.href ]();
-                    },
-                });
-                buttonToProfile.render();
                 break;
             case 401:
                 alert('Надо авторизоваться');
