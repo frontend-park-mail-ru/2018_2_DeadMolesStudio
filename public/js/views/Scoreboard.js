@@ -26,13 +26,14 @@ export const showScoreboard = () => {
                 response.json().then( (data) => {
                     console.log(data);
                     if (data !== null) {
-                        const { players: users, total } = data;
+                        const { players, total } = data;
                         scoreboardSection.sectionContent.removeChild(em);
                         console.log(data);
 
                         const scoreboard = new ScoreboardComponent({
                             el: scoreboardSection.sectionContent,
-                            data: users,
+                            data: players,
+                            total: total,
                         });
                         scoreboard.render();
                     }
