@@ -3,11 +3,13 @@
 @import "../js/components/Section/Section.css";
 @import "../js/components/Link/Link.css";
 @import "../js/components/Scoreboard/Scoreboard.css";
+@import "../js/components/Loader/Loader.css";
 
 * {
 	padding: 0;
 	margin: 0;
 	font-family: sans-serif;
+	color: #444;
 }
 
 .container {
@@ -31,7 +33,7 @@ section {
 
 .game_title {
 	font-family: sans-serif;
-	color: #000;
+	color: #444;
 
 	display: flex;
 	justify-content: center;
@@ -40,9 +42,14 @@ section {
 
 .game_title__link {
 	font-family: sans-serif;
-	color: #000;
+	/*color: #444;*/
 
 	text-decoration: none;
+
+	text-shadow: 0 1px gray;
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #b8bec5;
 }
 
 
