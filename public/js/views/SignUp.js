@@ -61,11 +61,10 @@ export const showSignUp = () => {
             form.hideErrors();
 
             const formData = form.innerElem.elements;
-            const email = formData['email'].value;
-            const nickname = formData['nickname'].value;
-            const password = formData['password'].value;
-            const passwordRepeat = formData['password_repeat'].value;
-
+            const email = formData.email.value;
+            const nickname = formData.nickname.value;
+            const password = formData.password.value;
+            const passwordRepeat = formData.password_repeat.value;
 
             if (password !== passwordRepeat) {
                 const errors = [{

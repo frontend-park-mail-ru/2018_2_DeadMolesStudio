@@ -1,10 +1,11 @@
 import * as ViewsContext from './ViewsContext.js';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
-import { showMenu } from './Menu.js';
-import { showLogin } from './Login.js';
 import Profile from '../components/Profile/Profile.mjs';
 import SectionComponent from '../components/Section/Section.mjs';
 import ButtonComponent from '../components/Button/Button.mjs';
+
+const showMenu = () => console.log('ФАЙЛ Profile.js заглушка для showMenu');
+const showLogin = () => console.log('ФАЙЛ Profile.js заглушка для showLogin');
 
 export const showProfile = () => {
     const content = document.querySelector('.content');

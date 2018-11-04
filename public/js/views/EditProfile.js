@@ -1,11 +1,13 @@
 import SectionComponent from '../components/Section/Section.mjs';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 import * as ViewsContext from './ViewsContext.js';
-import {showLogin} from './Login.js';
-import {showMenu} from './Menu.js';
 import FormComponent from '../components/Form/Form.mjs';
-import {showProfile} from './Profile.js';
+import { showProfile } from './Profile.js';
 import ButtonComponent from '../components/Button/Button.mjs';
+
+const showMenu = () => console.log('ФАЙЛ EditProfile.js заглушка для showMenu');
+const showLogin = () => console.log('ФАЙЛ EditProfile.js заглушка для showLogin');
+
 
 export const showEditProfile = () => {
     const content = document.querySelector('.content');

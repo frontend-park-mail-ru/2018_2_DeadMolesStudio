@@ -6,14 +6,12 @@ export default class SectionComponent {
     }
 
     render() {
-        this._el.insertAdjacentHTML(
-            'beforeend', `
+        this._el.insertAdjacentHTML('beforeend', `
             <section class="${this._name}_page">
                 <div class="${this._name}__main">
                 </div>
             </section>
-            `.trim()
-        );
+            `.trim() );
 
         this._sectionContent = this._el.querySelector(`.${this._name}__main`);
     }

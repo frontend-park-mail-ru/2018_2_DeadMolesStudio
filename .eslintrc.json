@@ -7,7 +7,8 @@
         "navigator": true,
         "caches": true,
         "alert": true,
-        "XMLHttpRequest": true
+        "XMLHttpRequest": true,
+        "HTMLAnchorElement": true
     },
     "rules": {
         "eslint-env": "browser",
@@ -16,6 +17,8 @@
         "arrow-body-style": ["error", "as-needed"],
         "object-shorthand": ["error", "consistent"],
         "function-paren-newline": ["error", "consistent"],
+        "class-methods-use-this": ["error", { "exceptMethods": ["render", "back", "forward"] }],
+        "import/extensions": ["always"],
         "no-plusplus": ["error", {
             "allowForLoopAfterthoughts": true
         }],
