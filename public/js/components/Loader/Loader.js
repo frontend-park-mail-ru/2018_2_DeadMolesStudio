@@ -12,6 +12,7 @@ export default class LoaderComponent {
 
     hide() {
         this._el.hidden = true;
+        this._parent.removeChild(this._el);
     }
 
     show() {

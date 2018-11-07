@@ -1,17 +1,8 @@
+import BaseView from './Base.js';
 import MenuComponent from '../components/Menu/Menu.mjs';
 import SectionComponent from '../components/Section/Section.mjs';
-import BaseView from './Base.js';
 
 export default class MenuView extends BaseView {
-    constructor(el) {
-        console.log('MenuView()');
-        super(el);
-    }
-
-    // show() {
-    //     this._el.hidden = false;
-    // }
-
     render() {
         super.render();
         const content = this._el.querySelector('.content');

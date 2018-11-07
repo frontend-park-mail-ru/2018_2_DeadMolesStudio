@@ -8,7 +8,11 @@
         "caches": true,
         "alert": true,
         "XMLHttpRequest": true,
-        "HTMLAnchorElement": true
+
+        "HTMLAnchorElement": true,
+
+        "FormData": true
+
     },
     "rules": {
         "eslint-env": "browser",

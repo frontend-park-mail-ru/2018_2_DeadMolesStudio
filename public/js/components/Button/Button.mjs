@@ -4,7 +4,9 @@ import {
 } from '../../modules/Utils.mjs';
 
 export default class ButtonComponent {
-    constructor({ el = document.body, href = '', text = '', className = 'cute-btn' } = {}) {
+    constructor({
+        el = document.body, href = '/', text = 'Назад', className = 'cute-btn',
+    } = {}) {
         this._el = el;
         this._href = href;
         this._text = text;

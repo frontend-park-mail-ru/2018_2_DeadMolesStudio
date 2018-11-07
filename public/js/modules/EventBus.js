@@ -19,7 +19,7 @@ class EventBus {
     }
 
     emit(event, data) {
-        this.listeners[event].forEach( listener => listener(data) );
+        this.listeners[event].forEach(listener => listener(data) );
         return this;
     }
 }

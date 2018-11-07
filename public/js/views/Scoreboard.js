@@ -1,53 +1,59 @@
-import {
-    createBackButton,
-    backDomain,
-} from './ViewsContext.js';
+import backDomain from '../projectSettings.js';
+import BaseView from './Base.js';
+
+import ButtonComponent from '../components/Button/Button.mjs';
+import LoaderComponent from '../components/Loader/Loader.js';
 import SectionComponent from '../components/Section/Section.mjs';
 import ScoreboardComponent from '../components/Scoreboard/Scoreboard.mjs';
+
+import bus from '../modules/EventBus.js';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 
-export const showScoreboard = () => {
-    const content = document.querySelector('.content');
+export default class ScoreboardView extends BaseView {
+    render() {
+        super.render();
+        const content = this._el.querySelector('.content');
 
-    const scoreboardSection = new SectionComponent({ el: content, name: 'scoreboard' });
+        const scoreboardSection = new SectionComponent({ el: content, name: 'scoreboard' });
+        scoreboardSection.render();
+        const scoreboardSectionContent = scoreboardSection.sectionContent;
 
-    const em = document.createElement('em');
-    em.textContent = 'Loading';
+        const loader = new LoaderComponent(scoreboardSectionContent);
+        loader.render();
 
-    scoreboardSection.render();
-    scoreboardSection.append(em);
+        AjaxFetchModule
+            .doGet({
+                path: '/scoreboard?limit=10',
+                domain: backDomain,
+            })
+            .then( (response) => {
+                if (response.status === 200) {
+                    response.json()
+                        .then( (data) => {
+                            if (data !== null) {
+                                loader.hide();
 
-    AjaxFetchModule.doGet({
-        path: '/scoreboard?limit=10',
-        domain: backDomain,
-    })
-        .then( (response) => {
-            if (response.status === 200) {
-                response.json().then( (data) => {
-                    console.log(data);
-                    if (data !== null) {
-                        const { players, total } = data;
-                        scoreboardSection.sectionContent.removeChild(em);
-                        console.log(data);
+                                const { players, total } = data;
+                                const scoreboard = new ScoreboardComponent({
+                                    el: scoreboardSection.sectionContent,
+                                    data: players,
+                                    total: total,
+                                });
+                                scoreboard.render();
 
-                        const scoreboard = new ScoreboardComponent({
-                            el: scoreboardSection.sectionContent,
-                            data: players,
-                            total: total,
+                                const menuButton = new ButtonComponent({ el: scoreboardSectionContent });
+                                menuButton.render();
+                            }
                         });
-                        scoreboard.render();
-                    }
-
-                    const menuButton = createBackButton(scoreboardSection.sectionContent);
-                    menuButton.render();
-                });
-            } else {
-                // const em = document.createElement('em');
-                em.textContent = 'Что-то пошло не так!';
-                scoreboardSection.append(em);
-            }
-        })
-        .catch( (err) => {
-            console.log(err);
-        });
-};
+                } else {
+                    alert('Что-то пошло не так.');
+                    bus.emit('showmenu');
+                }
+            })
+            .catch( (err) => {
+                console.log(err);
+                alert('Что-то пошло не так.');
+                bus.emit('showmenu');
+            });
+    }
+}

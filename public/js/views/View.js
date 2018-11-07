@@ -4,10 +4,9 @@
 */
 export default class View {
     constructor(el) {
-        console.log('View()');
         this._el = el;
 
-        this._el.dataset['view'] = this.constructor.name;
+        this._el.dataset.view = this.constructor.name;
         this._el.hidden = true;
     }
 

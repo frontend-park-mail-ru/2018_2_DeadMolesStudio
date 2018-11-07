@@ -1,5 +1,5 @@
 export default class AjaxFetchModule {
-    static _ajax({ method = 'GET', path = '/', domain = '', body } = {}) {
+    static _ajax({ method = 'GET', path = '/', domain = '', contentType = null, body } = {}) {
         const url = domain + path;
 
         const options = {
@@ -9,8 +9,13 @@ export default class AjaxFetchModule {
         };
 
         if (body) {
-            options.headers = { 'Content-Type': 'application/json; charset=utf-8' };
-            options.body = JSON.stringify(body);
+            if (contentType === null) {
+                options.headers = { 'Content-Type': 'application/json; charset=utf-8' };
+                options.body = JSON.stringify(body);
+            } else {
+                options.headers = { 'Content-Type': contentType };
+                options.body = body;
+            }
         }
 
         return fetch(url, options);

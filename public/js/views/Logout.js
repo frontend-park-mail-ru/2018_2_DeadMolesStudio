@@ -1,17 +1,12 @@
-import * as ViewsContext from './ViewsContext.js';
-import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 import BaseView from './Base.js';
-import bus from '../modules/EventBus.js';
-import LoaderComponent from "../components/Loader/Loader.js";
+import backDomain from '../projectSettings.js';
 
-const showLogin = () => console.log('ФАЙЛ Logout.js заглушка для showLogin');
+import AjaxFetchModule from '../modules/AjaxFetch.mjs';
+import bus from '../modules/EventBus.js';
+
+import LoaderComponent from '../components/Loader/Loader.js';
 
 export default class LogoutView extends BaseView {
-    constructor(el) {
-        console.log('LogoutView()');
-        super(el);
-    }
-
     render() {
         super.render();
         const content = this._el.querySelector('.content');
@@ -20,7 +15,7 @@ export default class LogoutView extends BaseView {
         AjaxFetchModule
             .doDelete({
                 path: '/session',
-                domain: ViewsContext.backDomain,
+                domain: backDomain,
             })
             .then( () => {
                 bus.emit('loggedout');

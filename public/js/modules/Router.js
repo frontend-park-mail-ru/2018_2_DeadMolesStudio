@@ -26,7 +26,6 @@ export default class Router {
     * @param {string} path - Путь, по которому собираемся перейти
     */
     go(path) {
-        console.log(`router.go(${path})`);
         const route = this.routes[path];
 
         if (!route) {
@@ -50,7 +49,6 @@ export default class Router {
         }
 
         if (!view.isActive) {
-            console.log('not active');
             Object.values(this.routes).forEach( ({ view: otherView }) => {
                 if (otherView && otherView.isActive) {
                     otherView.hide();

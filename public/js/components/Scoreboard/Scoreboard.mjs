@@ -1,6 +1,7 @@
 import ButtonComponent from '../Button/Button.mjs';
 import AjaxFetchModule from '../../modules/AjaxFetch.mjs';
-import { backDomain } from '../../views/ViewsContext.js';
+// import { backDomain } from '../../views/ViewsContext.js';
+import backDomain from '../../projectSettings.js';
 
 export default class ScoreboardComponent {
     constructor({ el = document.body, data = [], limit = 10, total = 10 } = {}) {

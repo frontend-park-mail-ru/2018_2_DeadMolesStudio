@@ -11,14 +11,14 @@ export default class FormComponent {
     }
 
     render() {
-        // TODO чекнуть (внимательно), зачем нужны некст пять строк
+
         const options = {
             name: this._name,
             header: this._header,
             inputs: this._inputs,
         };
 
-        const form = window.formTmplTemplate({header: this._header, inputs: this._inputs});
+        const form = window.formTmplTemplate(options);
         this._el.insertAdjacentHTML('beforeend', form);
         this._innerElem = this._el.querySelector('form');
 

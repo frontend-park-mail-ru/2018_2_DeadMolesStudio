@@ -1,18 +1,14 @@
-import * as ViewsContext from './ViewsContext.js';
+import BaseView from './Base.js';
+import backDomain from '../projectSettings.js';
+
 import SectionComponent from '../components/Section/Section.mjs';
 import FormComponent from '../components/Form/Form.mjs';
 import LinkComponent from '../components/Link/Link.mjs';
-import { showProfile } from './Profile.js';
-import { showSignUp } from './SignUp.js';
+
+import bus from '../modules/EventBus.js';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
-import BaseView from './Base.js';
 
 export default class LoginView extends BaseView {
-    constructor(el) {
-        console.log('LoginView()');
-        super(el);
-    }
-
     render() {
         super.render();
         const content = this._el.querySelector('.content');
@@ -61,7 +57,7 @@ export default class LoginView extends BaseView {
                 const email = formData.email.value;
                 const password = formData.password.value;
 
-                if ( !(email && password) ) {
+                if (!(email && password) ) {
                     const errors = [{
                         text: 'Заполните оба поля!',
                     }];
@@ -76,18 +72,16 @@ export default class LoginView extends BaseView {
 
                 AjaxFetchModule.doPost({
                     path: '/session',
-                    domain: ViewsContext.backDomain,
+                    domain: backDomain,
                     body: req,
                 })
                     .then(response => response.status)
                     .then( (status) => {
                         if (status === 200) {
-                            ViewsContext.hideAnySection();
-                            showProfile();
+                            bus.emit('showprofile');
                         } else if (status === 400) {
                             console.log('JSON is wrong');
-                            ViewsContext.hideAnySection();
-                            showSignUp();
+                            bus.emit('tosignup');
                         } else if (status === 422) {
                             const errors = [{
                                 text: 'Неверная пара почта/пароль',
@@ -108,19 +102,9 @@ export default class LoginView extends BaseView {
         const signUpLink = new LinkComponent({
             el: loginSection.sectionContent,
             text: 'Зарегистрироваться',
-            href: 'sign_up',
+            href: '/signup',
             className: 'sub_link',
         });
-        signUpLink.on({
-            event: 'click',
-            callback: (event) => {
-                event.preventDefault();
-                const link = event.target;
-                ViewsContext.hideAnySection();
-                ViewsContext.pages[link.dataset.href]();
-            },
-        });
-
         signUpLink.render();
-    };
+    }
 }

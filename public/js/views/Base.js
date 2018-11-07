@@ -1,17 +1,11 @@
-import * as ViewsContext from './ViewsContext.js';
-import LinkComponent from '../components/Link/Link.mjs';
 import View from './View.js';
+import LinkComponent from '../components/Link/Link.mjs';
 
 /*
 * @class BaseView - для создания вьюх, предпологающих наличие "рыбы" с позиционированием и тд
 * @module Views
 */
 export default class BaseView extends View {
-    constructor(el) {
-        console.log('BaseView()');
-        super(el);
-    }
-
     render() {
         this._el.innerHTML = `
             <div class="container">
@@ -32,17 +26,6 @@ export default class BaseView extends View {
             href: '/',
             className: 'game_title__link',
         });
-
-        gameTitleLink.on({
-            event: 'click',
-            callback: (event) => {
-                // event.preventDefault();
-                // const link = event.target;
-                // ViewsContext.hideAnySection();
-                // ViewsContext.pages[link.dataset.href]();
-            },
-        });
-
         gameTitleLink.render();
     }
 }
