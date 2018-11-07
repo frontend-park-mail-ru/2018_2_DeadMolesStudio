@@ -1,5 +1,6 @@
 import Router from './modules/Router.js';
 import bus from './modules/EventBus.js';
+import UserService from './Services/UserService.js';
 import ScoreboardView from './views/Scoreboard.js';
 
 import MenuView from './views/Menu.js';
@@ -47,6 +48,22 @@ const startApp = () => {
 
     bus.on('showprofile', () => {
         router.go('/profile');
+    });
+
+    bus.on('fetch-user', () => {
+        UserService.FetchUser()
+            .then( (user) => {
+                bus.emit('user:get-profile', user);
+            })
+            .catch( (err) => {
+                console.log('in fetch-user', err);
+                if (err === 401) {
+                    alert('Надо авторизоваться');
+                    bus.emit('tologin');
+                }
+                alert('Что-то пошло не так.');
+                bus.emit('showmenu');
+            });
     });
 };
 

@@ -70,20 +70,15 @@ export default class Router {
     }
 
     start() {
-        console.log('router started');
         this.root.addEventListener('click', (event) => {
             // TODO: создать CSS-класс для ссылок, отвечающих за переходы между вью,
             // TODO: и проверять на его наличие, а не просто навешивать на все ссылки
-            if (!(event.target instanceof HTMLAnchorElement)) {
+            if (!(event.target instanceof HTMLAnchorElement) ) {
                 return;
             }
 
             event.preventDefault();
             const link = event.target;
-
-            console.log({
-                pathname: link.pathname,
-            });
 
             this.go(link.pathname);
         });

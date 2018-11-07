@@ -5,6 +5,7 @@
 export default class View {
     constructor(el) {
         this._el = el;
+        this._created = false;
 
         this._el.dataset.view = this.constructor.name;
         this._el.hidden = true;
@@ -20,7 +21,12 @@ export default class View {
 
     show() {
         this._el.hidden = false;
-        this.render();
+        if (!this._created) {
+            this._created = true;
+            this.render();
+        }
+        // this._el.hidden = false;
+        // this.render();
     }
 
     render() {}
