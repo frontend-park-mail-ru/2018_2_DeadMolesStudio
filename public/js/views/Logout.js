@@ -20,8 +20,9 @@ export default class LogoutView extends BaseView {
             .then( () => {
                 bus.emit('loggedout');
             })
-            .catch( () => { // TODO: здесь должна быть обработка ошибки (например offline)
-                bus.emit('loggedout');
+            .catch( () => {
+                alert('Сейчас нельзя выйти.');
+                bus.emit('showmenu');
             });
     }
 }

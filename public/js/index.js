@@ -60,9 +60,13 @@ const startApp = () => {
                 if (err === 401) {
                     alert('Надо авторизоваться');
                     bus.emit('tologin');
+                } else {
+                    console.log('failed to fetch user', err);
                 }
-                alert('Что-то пошло не так.');
-                bus.emit('showmenu');
+                // } else {
+                //     alert('Что-то пошло не так.');
+                //     bus.emit('showmenu');
+                // }
             });
     });
 };
