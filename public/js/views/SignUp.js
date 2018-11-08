@@ -45,7 +45,7 @@ export default class SignUpView extends BaseView {
             {
                 name: 'submit',
                 type: 'submit',
-                className: 'cute-btn',
+                className: 'cute-btn cute-btn--w10rem',
                 value: 'Зарегистрироваться',
             },
         ];

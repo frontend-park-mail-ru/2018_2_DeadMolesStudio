@@ -40,8 +40,8 @@ export default class ScoreboardComponent {
         );
 
         const paginator = this._el.querySelector('.scoreboard__paginator');
-        const prevButton = new ButtonComponent({ el: paginator, text: '<' });
-        const nextButton = new ButtonComponent({ el: paginator, text: '>' });
+        const prevButton = new ButtonComponent({ el: paginator, text: '<', className: 'cute-btn js-router-ignore' });
+        const nextButton = new ButtonComponent({ el: paginator, text: '>', className: 'cute-btn js-router-ignore' });
         const pageIndicator = document.createElement('span');
         pageIndicator.className = 'page-indicator';
         pageIndicator.textContent = '1';

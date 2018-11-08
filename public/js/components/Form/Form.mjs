@@ -11,7 +11,6 @@ export default class FormComponent {
     }
 
     render() {
-
         const options = {
             name: this._name,
             header: this._header,

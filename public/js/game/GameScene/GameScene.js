@@ -1,6 +1,7 @@
 import bus from '../../modules/EventBus.js';
 import Scene from '../../modules/graphics/Scene.js';
 import GamePlayerFigure from './Player.js';
+import Rect from "../../modules/graphics/Rect.js";
 
 export default class GameScene {
     constructor(canvas) {

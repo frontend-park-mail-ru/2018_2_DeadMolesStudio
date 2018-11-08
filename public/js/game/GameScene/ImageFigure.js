@@ -6,17 +6,30 @@ export default class ImageFigure extends Figure {
         this.width = 0;
         this.height = 0;
         this.imagePath = imagePath;
-        this.image = new Image(this.imagePath);
+        this.image = new Image(40, 60);
+        this.image.src = this.imagePath;
+        this.imageLoaded = false;
+        this.image.addEventListener('load', (event) => {
+            console.log('LOADED');
+            this.imageLoaded = true;
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        });
     }
 
     /**
      * @private
      */
     draw() {
-        this.image.onload = () => {
-            const { ctx } = this;
-            ctx.drawImage(this.image, -this.width / 2, -this.height / 2, this.width, this.height);
-        };
+        const { ctx, imageLoaded } = this;
+        ctx.fill();
+
+        if (imageLoaded) {
+            ctx.beginPath();
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+            ctx.closePath();
+            ctx.fill();
+        }
     }
 
     setup() {

@@ -6,7 +6,8 @@ export default class GamePlayerFigure extends Figure {
     constructor(ctx) {
         super(ctx);
 
-        this.body = new ImageFigure(ctx, './ketnipz.png');
+        // this.body = new ImageFigure(ctx, './ketnipz.png');
+        this.body = new Rect(ctx);
 
         this.body.width = 30;
         this.body.height = 100;

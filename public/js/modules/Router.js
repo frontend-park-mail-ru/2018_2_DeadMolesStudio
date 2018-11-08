@@ -76,6 +76,9 @@ export default class Router {
             if (!(event.target instanceof HTMLAnchorElement) ) {
                 return;
             }
+            if (event.target.classList.contains('js-router-ignore')) {
+                return;
+            }
 
             event.preventDefault();
             const link = event.target;

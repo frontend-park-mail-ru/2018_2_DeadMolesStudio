@@ -5,7 +5,7 @@ import {
 
 export default class ButtonComponent {
     constructor({
-        el = document.body, href = '/', text = 'Назад', className = 'cute-btn',
+        el = document.body, href = '/', text = 'Назад', className = 'cute-btn cute-btn--w10rem',
     } = {}) {
         this._el = el;
         this._href = href;
