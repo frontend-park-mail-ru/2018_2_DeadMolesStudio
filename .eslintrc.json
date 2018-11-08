@@ -1,0 +1,41 @@
+{
+    "extends": "airbnb-base",
+    "globals": {
+        "fetch": true,
+        "window": true,
+        "document": true,
+        "navigator": true,
+        "caches": true,
+        "alert": true,
+        "XMLHttpRequest": true,
+        "HTMLAnchorElement": true,
+        "FormData": true,
+        "requestAnimationFrame": true,
+        "cancelAnimationFrame": true,
+        "performance": true
+    },
+    "rules": {
+        "eslint-env": "browser",
+        "indent": ["error", 4],
+        "space-in-parens": ["error", "never", { "exceptions": ["()"] }],
+        "arrow-body-style": ["error", "as-needed"],
+        "object-shorthand": ["error", "consistent"],
+        "function-paren-newline": ["error", "consistent"],
+        "class-methods-use-this": ["error", { "exceptMethods": ["render", "back", "forward", "fetchUser"] }],
+        "import/extensions": ["always"],
+        "no-plusplus": ["error", {
+            "allowForLoopAfterthoughts": true
+        }],
+        "no-underscore-dangle": ["error", {
+            "allowAfterThis": true,
+            "allowAfterSuper": true
+        }],
+        "comma-dangle": ["error", {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "ignore"
+        }]
+    }
+}

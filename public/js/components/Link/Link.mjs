@@ -1,10 +1,10 @@
 import {
     createElementFromHTML,
-    noop
-} from "../../modules/Utils.mjs";
+    noop,
+} from '../../modules/Utils.mjs';
 
-export class LinkComponent {
-    constructor({el = document.body, text = '', href = '', className = 'default_link'}) {
+export default class LinkComponent {
+    constructor({ el = document.body, text = '', href = '', className = 'default_link' }) {
         this._el = el;
         this._text = text;
         this._href = href;
@@ -30,21 +30,21 @@ export class LinkComponent {
         this._el.appendChild(this._innerElem);
 
 
-        this._listenersToAdd.forEach( entry => {
+        this._listenersToAdd.forEach( (entry) => {
             this.on(entry);
-        } );
+        });
         this._listenersToAdd = [];
     }
 
-    on({event = 'click', callback = noop, capture = false}) {
+    on({ event = 'click', callback = noop, capture = false }) {
         if (this._innerElem !== null) {
             this._innerElem.addEventListener(event, callback, capture);
         } else {
-            this._listenersToAdd.push({event: event, callback: callback, capture: capture});
+            this._listenersToAdd.push({ event, callback, capture });
         }
     }
 
-    off({event = 'click', callback = noop, capture = false}) {
+    off({ event = 'click', callback = noop, capture = false }) {
         this._innerElem.removeEventListener(event, callback, capture);
     }
 }

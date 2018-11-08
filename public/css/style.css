@@ -2,11 +2,14 @@
 @import "../js/components/Menu/Menu.css";
 @import "../js/components/Section/Section.css";
 @import "../js/components/Link/Link.css";
+@import "../js/components/Scoreboard/Scoreboard.css";
+@import "../js/components/Loader/Loader.css";
 
 * {
 	padding: 0;
 	margin: 0;
 	font-family: sans-serif;
+	color: #444;
 }
 
 .container {
@@ -30,7 +33,7 @@ section {
 
 .game_title {
 	font-family: sans-serif;
-	color: #000;
+	color: #444;
 
 	display: flex;
 	justify-content: center;
@@ -39,9 +42,14 @@ section {
 
 .game_title__link {
 	font-family: sans-serif;
-	color: #000;
+	/*color: #444;*/
 
 	text-decoration: none;
+
+	text-shadow: 0 1px gray;
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #b8bec5;
 }
 
 
@@ -87,81 +95,18 @@ section {
 	font-size: smaller;
 }
 
-/***SCOREBOARD***/
-
-.scoreboard {
-	width: 100%;
-	font-family: sans-serif;
-	font-size: larger;
-	/*border-bottom: 1px solid black;*/
-}
-
-.scoreboard_list {
-	height: 20rem;
-	width: 100%;
-	padding: 0;
-}
-
-.scrolable {
-	overflow-y: scroll;
-}
-
-.scoreboard_head {
-	height: 4rem;
-
+.page-indicator {
 	border: 1px solid black;
-}
-
-.scoreboard_node {
-	height: 3rem;
-
-	border: 1px solid black;
-	border-bottom: none;
-}
-
-
-.scoreboard_node:first-child {
-	border-top: none;
-}
-
-.scoreboard_node:last-child {
-	border-bottom: 1px solid black;
-}
-
-.scoreboard_node__position {
-	flex: 1;
-}
-
-.scoreboard_node__name {
-	flex: 6;
-}
-
-.scoreboard_node__scores  {
-	flex: 1;
-}
-
-.scoreboard_head, .scoreboard_node{
-	box-sizing: border-box;
-	width: 100%;
-	display: flex;
-	padding: 1rem;
-
-	align-items: center;
-}
-
-.cute-btn {
-	border: 1px solid black;
-
-	width: 8rem;
-
+	width: 2rem;
 	margin: 0.3rem;
 	padding: 0.5rem;
-
 	display: inline-block;
-
-	text-decoration: none;
-
 	text-align: center;
+
+}
+
+.game-view__canvas {
+	border: 1px solid #999;
 }
 
 
