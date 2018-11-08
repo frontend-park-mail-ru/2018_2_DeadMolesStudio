@@ -9,7 +9,7 @@ const dir = ['**/public/index.html',
 
 globby(dir)
     .then( (paths) => {
-        paths = paths.map(path => path.replace('public/', ''));
+        paths = paths.map(path => path.replace('public/', '') );
         // paths.map(path => console.log(path) );
         console.log(paths);
         fs.writeFileSync('./public/sw-files.js', 'const cacheFiles = ');
