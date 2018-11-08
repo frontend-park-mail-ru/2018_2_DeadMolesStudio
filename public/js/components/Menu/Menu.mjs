@@ -17,6 +17,7 @@ export default class MenuComponent {
                 el: menu,
                 href: href,
                 text: title,
+                className: 'cute-btn cute-btn--w10rem',
             });
 
             button.on({

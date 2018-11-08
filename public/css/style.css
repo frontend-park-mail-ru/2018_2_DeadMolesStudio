@@ -95,21 +95,6 @@ section {
 	font-size: smaller;
 }
 
-.cute-btn {
-	border: 1px solid black;
-
-	width: 8rem;
-
-	margin: 0.3rem;
-	padding: 0.5rem;
-
-	display: inline-block;
-
-	text-decoration: none;
-
-	text-align: center;
-}
-
 .page-indicator {
 	border: 1px solid black;
 	width: 2rem;
@@ -118,6 +103,10 @@ section {
 	display: inline-block;
 	text-align: center;
 
+}
+
+.game-view__canvas {
+	border: 1px solid #999;
 }
 
 

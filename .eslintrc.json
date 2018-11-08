@@ -8,11 +8,11 @@
         "caches": true,
         "alert": true,
         "XMLHttpRequest": true,
-
         "HTMLAnchorElement": true,
-
-        "FormData": true
-
+        "FormData": true,
+        "requestAnimationFrame": true,
+        "cancelAnimationFrame": true,
+        "performance": true
     },
     "rules": {
         "eslint-env": "browser",
