@@ -9,7 +9,6 @@ import FormComponent from '../components/Form/Form.mjs';
 import ButtonComponent from '../components/Button/Button.mjs';
 import LoaderComponent from '../components/Loader/Loader.js';
 
-// TODO fetch добавить в bus
 
 export default class EditProfileView extends BaseView {
     render() {

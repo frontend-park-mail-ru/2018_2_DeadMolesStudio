@@ -60,13 +60,12 @@ const startApp = () => {
                 if (err === 401) {
                     alert('Надо авторизоваться');
                     bus.emit('tologin');
-                } else {
+                } else if (err.Name === 'TypeError: Failed to fetch') {
                     console.log('failed to fetch user', err);
+                } else {
+                    alert('Что-то пошло не так!');
+                    bus.emit('showmenu');
                 }
-                // } else {
-                //     alert('Что-то пошло не так.');
-                //     bus.emit('showmenu');
-                // }
             });
     });
 };

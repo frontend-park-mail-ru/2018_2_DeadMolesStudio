@@ -25,9 +25,11 @@ this.addEventListener('fetch', (event) => {
         caches.match(event.request)
             .then( (cacheResponse) => {
                 if (navigator.onLine) {
+                    console.log('online idu na serv');
                     return fetch(event.request);
                 }
                 if (cacheResponse) {
+                    console.log('offline idu v cache');
                     return cacheResponse;
                 }
                 return fetch(event.request);
