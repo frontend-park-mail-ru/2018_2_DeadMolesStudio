@@ -66,6 +66,9 @@ export default class Scene {
 
     clear() {
         const { ctx } = this;
+        // for (let figure in this.figures) {
+        //     this.removeFigure(figure.id);
+        // }
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
 }

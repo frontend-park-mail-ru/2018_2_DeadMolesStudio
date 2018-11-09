@@ -5,6 +5,7 @@ import GameController from "./GameController.js";
 
 export default class Game {
     constructor(mode, canvas) {
+        console.log('Game()');
         let GameConstructor = null;
         switch (mode) {
         case GAME_MODES.ONLINE_MULTI:

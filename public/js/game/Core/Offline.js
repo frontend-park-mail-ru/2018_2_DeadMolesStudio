@@ -7,6 +7,7 @@ import { randInt } from '../../modules/Utils.mjs';
 // percentsY считаю в процентах снизу вверх
 export default class OfflineGame extends GameCore {
     constructor(controller, scene) {
+        console.log('OfflineGame()');
         super(controller, scene);
         this.state = {};
         this.lastFrame = 0;
@@ -47,6 +48,13 @@ export default class OfflineGame extends GameCore {
             alert('Время вышло!');
             bus.emit(EVENTS.FINISH_GAME, this.state.score);
         }, 40 * 1000);
+    }
+
+    destroy() {
+        console.log('DESTROOOOY!');
+        clearTimeout(this.endTimerID);
+        cancelAnimationFrame(this.gameloopRequestId);
+        super.destroy();
     }
 
     gameloop(now) {
@@ -94,10 +102,10 @@ export default class OfflineGame extends GameCore {
     }
 
     macroCollision(product, me) {
-        const productWidth = 5;
-        const productHeight = 7.5;
-        const meWidth = 18.5;
-        const meHeight = 23.5;
+        const productWidth = 6;
+        const productHeight = 8;
+        const meWidth = 20;
+        const meHeight = 25;
 
         const productX = product.percentsX - productWidth / 2;
         const productY = product.percentsY - productHeight / 2;
@@ -138,6 +146,7 @@ export default class OfflineGame extends GameCore {
     }
 
     onGameFinished(scores) {
+        console.log('gameFinished()');
         cancelAnimationFrame(this.gameloopRequestId);
         bus.emit('CLOSE GAME', scores);
     }

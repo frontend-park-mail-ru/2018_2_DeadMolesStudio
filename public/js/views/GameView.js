@@ -34,7 +34,16 @@ export default class GameView extends BaseView {
         `);
         this.canvas = this._el.querySelector('.js-canvas');
         this.createGame();
-        const backButton = new ButtonComponent({ el: gameSection.sectionContent });
+        const backButton = new ButtonComponent({ el: gameSection.sectionContent, className: 'cute-btn cute-btn--w10rem js-router-ignore' });
+        backButton.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+                console.log('destroyCALLBACK');
+                this.destroy();
+                bus.emit('showmenu');
+            },
+        });
         backButton.render();
     }
 
