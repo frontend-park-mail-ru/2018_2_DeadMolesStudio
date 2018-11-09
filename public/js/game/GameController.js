@@ -30,17 +30,8 @@ export default class GameController {
     * @param {MouseEvent} event
     * */
     keyHandler(type, event) {
-        console.log('keyHandler', type, event.key.toLowerCase());
         this.keys[event.key.toLowerCase()] = type === 'press';
     }
-
-    // onPress(event) {
-    //     this.keyHandler('press', event);
-    // }
-    //
-    // onUp(event) {
-    //     this.keyHandler('up', event);
-    // }
 
     diff() {
         let allKeys = [];

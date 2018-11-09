@@ -21,58 +21,108 @@ export default class OfflineGame extends GameCore {
             me: {
                 percentsY: 0,
                 percentsX: 50,
+                direction: 'RIGHT',
             },
             score: 0,
         };
 
-        this.state.products = Array.from(new Array(3 * 5), (_, id) => {
-            return {
-                id: id,
-                type: randInt(0, 5),
-                percentsX: randInt(0, 100),
-                percentsY: 100,
+
+        this.state.products = [];
+        for (let i = 0; i < 10; i++) {
+            this.state.products[i] = {
+                type: randInt(1, 6),
+                percentsX: randInt(5, 95),
+                percentsY: 100 + randInt(0, 500),
                 collected: false,
+                speed: randInt(25, 40), // доли тысячные
+                dead: false,
             };
-        });
+        }
+        console.log(this.state.products);
 
         bus.emit(EVENTS.START_GAME, this.state);
+
+        this.endTimerID = setTimeout( () => {
+            console.log('FINISH!!!!');
+            alert('Время вышло!');
+            bus.emit(EVENTS.FINISH_GAME, this.state.score);
+        }, 40 * 1000);
     }
 
     gameloop(now) {
         const delay = now - this.lastFrame;
         this.lastFrame = now;
 
-        this.state.products = this.state.products
-            .map( (product) => {
-                product.percents += 0.02 * (delay ** 2);
-                return product.percents;
-            })
-            .filter( (product) => {
-                if (product.percents >= 1 || product.collected === true) {
-                    return false;
+
+        for (let i = 0; i < this.state.products.length; i++) {
+            const product = this.state.products[i];
+            product.percentsY -= product.speed / 1000 * delay;
+            if ( this.macroCollision(product, this.state.me) ) {
+                product.collected = true;
+                product.speed = 0;
+                product.percentsX = -100;
+                product.percentsY = 50;
+                if (product.type === 5) {
+                    // alert(`Собирайте только продукты из списка покупок! Да и вообще, котиков есть нельзя!\uD83D\uDE38`);
+                    this.state.score -= 1;
+                } else {
+                    this.state.score += 3;
                 }
-                return product.percents < 1;
-            });
+                console.log('СОБРАЛ!!');
+            }
+            if (product.percentsY < -20) {
+                console.log('продукт пропал');
+                product.percentsY = 500;
+                product.percentsX = randInt(5, 95);
+                product.type = randInt(1, 6);
+            }
+        }
 
         bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
 
-        if ( !this.state.products.find(product => !product.collected) ) {
-            bus.emit(EVENTS.FINISH_GAME);
+        let allCollected = true;
+        this.state.products.forEach( product => {
+            if (product.collected === false) allCollected = false;
+        });
+        if (allCollected) {
+            alert('Вы собрали все продукты! Победа!');
+            clearTimeout(this.endTimerID);
+            bus.emit(EVENTS.FINISH_GAME, this.state.score);
+            return;
         }
-
         this.gameloopRequestId = requestAnimationFrame(this.gameloop);
+    }
+
+    macroCollision(product, me) {
+        const productWidth = 5;
+        const productHeight = 7.5;
+        const meWidth = 18.5;
+        const meHeight = 23.5;
+
+        const productX = product.percentsX - productWidth / 2;
+        const productY = product.percentsY - productHeight / 2;
+
+        const meX = me.percentsX - meWidth / 2;
+        const meY = me.percentsY - meHeight / 2;
+
+        let XColl = false;
+        let YColl = false;
+
+        if ( (productX + productWidth >= meX) && (productX <= meX + meWidth) ) XColl = true;
+        if ( (productY + productHeight >= meY) && (productY <= meY + meHeight) ) YColl = true;
+
+        return XColl && YColl;
     }
 
     onControlsPressed(event) {
         if ( this.pressed('LEFT', event) ) {
-            console.log('LEFT');
-            this.state.me.percentsX = Math.max(0, this.state.me.percentsX - 2);
+            this.state.me.percentsX = Math.max(0, this.state.me.percentsX - 1.65);
+            this.state.me.direction = 'LEFT';
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
         } else if ( this.pressed('RIGHT', event) ) {
-            console.log('RIGHT');
-            this.state.me.percentsX = Math.min(100, this.state.me.percentsX + 2);
+            this.state.me.percentsX = Math.min(100, this.state.me.percentsX + 1.65);
+            this.state.me.direction = 'RIGHT';
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-
         } else if ( this.pressed('JUMP', event) ) {
             console.log('player want to jump');
         }
@@ -87,9 +137,9 @@ export default class OfflineGame extends GameCore {
         this.gameloopRequestId = requestAnimationFrame(this.gameloop);
     }
 
-    onGameFinished() {
+    onGameFinished(scores) {
         cancelAnimationFrame(this.gameloopRequestId);
-        bus.emit('CLOSE GAME');
+        bus.emit('CLOSE GAME', scores);
     }
 
     onGameStateChanged(event) {

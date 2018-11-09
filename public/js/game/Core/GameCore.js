@@ -33,7 +33,7 @@ export default class GameCore {
             if (Object.keys(actions).some(key => actions[key]) ) {
                 bus.emit(EVENTS.CONTROLS_PRESSED, actions);
             }
-        }, 50);
+        }, 20);
     }
 
     destroy() {

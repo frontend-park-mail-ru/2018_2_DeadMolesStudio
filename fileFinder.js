@@ -4,7 +4,8 @@ const globby = require('globby');
 const dir = ['**/public/index.html',
     '**/public/css/*.*',
     '**/public/js/**/*.*',
-    '**/public/game/**/**/**/*.*',
+    '**/public/img/**/*.*',
+    '**/public/js/game/**/*.*',
     '!**/public/js/Service/*.*'];
 
 globby(dir)

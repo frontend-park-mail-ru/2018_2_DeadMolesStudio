@@ -12,7 +12,8 @@
         "FormData": true,
         "requestAnimationFrame": true,
         "cancelAnimationFrame": true,
-        "performance": true
+        "performance": true,
+        "Image": true
     },
     "rules": {
         "eslint-env": "browser",

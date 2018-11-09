@@ -12,6 +12,10 @@
 	color: #444;
 }
 
+canvas {
+	background: #d2f6ee;
+}
+
 .container {
 	display: block;
 	height: 100vh;

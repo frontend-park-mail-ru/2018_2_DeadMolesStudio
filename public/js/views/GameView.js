@@ -3,11 +3,24 @@ import ButtonComponent from '../components/Button/Button.mjs';
 import SectionComponent from '../components/Section/Section.mjs';
 import GAME_MODES from '../game/GameModes.js';
 import Game from '../game/Game.js';
+import EVENTS from "../game/Core/Events.js";
+import bus from "../modules/EventBus.js";
 
 export default class GameView extends BaseView {
     constructor(el) {
         super(el);
         this.canvas = null;
+
+        bus.on('CLOSE GAME', (scores) => {
+            this.destroy();
+            alert(`Игра окончена. Вы набрали ${scores} очков!`);
+            bus.emit('showmenu');
+        });
+    }
+
+    show() {
+        this._el.hidden = false;
+        this.render();
     }
 
     render() {
