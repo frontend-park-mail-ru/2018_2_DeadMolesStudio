@@ -27,7 +27,19 @@ export default class MenuView extends BaseView {
                 // ViewsContext.pages[link.dataset.href]();
             },
         });
-
         menu.render();
+        const playBtn = menuSection.sectionContent.querySelector('.cute-btn');
+        playBtn.classList.add('menu__play-button');
+        playBtn.animate([
+            { transform: 'scale(1)', filter: 'none' },
+            { transform: 'scale(1.02)', filter: 'saturate(1.2)' },
+        ], {
+            duration: 700, //миллисекунды
+            easing: 'ease-in-out', //'linear', кривая Безье, и т.д.
+            delay: 30,  //миллисекунды
+            iterations: Infinity, //или число
+            direction: 'alternate', //'normal', 'reverse', и т.д.
+            fill: 'forwards' //'backwards', 'both', 'none', 'auto'
+        });
     }
 }

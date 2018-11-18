@@ -20,34 +20,48 @@ export default class OfflineGame extends GameCore {
         super.start();
         this.state = {
             me: {
-                percentsY: 0,
+                percentsY: 8.7,
                 percentsX: 50,
                 direction: 'RIGHT',
+                width: 10,
+                height: 18,
+                speed: 1.7,
             },
             score: 0,
         };
 
 
         this.state.products = [];
+        this.state.productWidth = 5;
+        this.state.productHeight = 5;
+        this.state.startSpeed = 20;
+        this.state.gravityAcceleration = 0.13;
         for (let i = 0; i < 10; i++) {
             this.state.products[i] = {
                 type: randInt(1, 6),
-                percentsX: randInt(5, 95),
-                percentsY: 100 + randInt(0, 500),
+                percentsX: randInt(5, 95), // считаем что тут задаем центр
+                percentsY: 100 + i * 45 + randInt(-3, 3), // и тут
                 collected: false,
-                speed: randInt(25, 40), // доли тысячные
+                speed: this.state.startSpeed, // randInt(25, 40), // доли тысячные
                 dead: false,
             };
         }
         console.log(this.state.products);
 
+        this.gameTime = 30; // seconds
+        this.state.leftTime = this.gameTime;
         bus.emit(EVENTS.START_GAME, this.state);
 
         this.endTimerID = setTimeout( () => {
             console.log('FINISH!!!!');
             alert('Время вышло!');
+            clearInterval(this.secsInervalID);
             bus.emit(EVENTS.FINISH_GAME, this.state.score);
-        }, 40 * 1000);
+        }, this.gameTime * 1000);
+        this.secsInervalID = setInterval( () => {
+            this.gameTime -= 1;
+            this.state.leftTime = this.gameTime;
+        }, 1000);
     }
 
     destroy() {
@@ -64,14 +78,16 @@ export default class OfflineGame extends GameCore {
 
         for (let i = 0; i < this.state.products.length; i++) {
             const product = this.state.products[i];
+            if (product.percentsY <= 110) {
+                product.speed += this.state.gravityAcceleration * delay;
+            }
             product.percentsY -= product.speed / 1000 * delay;
-            if ( this.macroCollision(product, this.state.me) ) {
+            if (this.macroCollision(product, this.state.me) ) {
                 product.collected = true;
                 product.speed = 0;
                 product.percentsX = -100;
                 product.percentsY = 50;
                 if (product.type === 5) {
-                    // alert(`Собирайте только продукты из списка покупок! Да и вообще, котиков есть нельзя!\uD83D\uDE38`);
                     this.state.score -= 1;
                 } else {
                     this.state.score += 3;
@@ -80,8 +96,9 @@ export default class OfflineGame extends GameCore {
             }
             if (product.percentsY < -20) {
                 console.log('продукт пропал');
-                product.percentsY = 500;
+                product.percentsY = 400;
                 product.percentsX = randInt(5, 95);
+                product.speed = this.state.startSpeed;
                 product.type = randInt(1, 6);
             }
         }
@@ -102,16 +119,17 @@ export default class OfflineGame extends GameCore {
     }
 
     macroCollision(product, me) {
-        const productWidth = 6;
-        const productHeight = 8;
-        const meWidth = 20;
-        const meHeight = 25;
+        const { productWidth, productHeight } = this.state;
+        const { width: meWidth, height: meHeight } = this.state.me;
 
+        // координаты левого верхнего угла продукта
         const productX = product.percentsX - productWidth / 2;
         const productY = product.percentsY - productHeight / 2;
 
+        // координаты левого верхнего угла игрока
         const meX = me.percentsX - meWidth / 2;
         const meY = me.percentsY - meHeight / 2;
+
 
         let XColl = false;
         let YColl = false;
@@ -119,16 +137,20 @@ export default class OfflineGame extends GameCore {
         if ( (productX + productWidth >= meX) && (productX <= meX + meWidth) ) XColl = true;
         if ( (productY + productHeight >= meY) && (productY <= meY + meHeight) ) YColl = true;
 
+        if (XColl && YColl) {
+            console.log(`Me: (${me.percentsX}, ${me.percentsY}); Product: (${product.percentsX}, ${product.percentsY})`);
+        }
+
         return XColl && YColl;
     }
 
     onControlsPressed(event) {
         if ( this.pressed('LEFT', event) ) {
-            this.state.me.percentsX = Math.max(0, this.state.me.percentsX - 1.65);
+            this.state.me.percentsX = Math.max(0, this.state.me.percentsX - this.state.me.speed);
             this.state.me.direction = 'LEFT';
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
         } else if ( this.pressed('RIGHT', event) ) {
-            this.state.me.percentsX = Math.min(100, this.state.me.percentsX + 1.65);
+            this.state.me.percentsX = Math.min(100, this.state.me.percentsX + this.state.me.speed);
             this.state.me.direction = 'RIGHT';
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
         } else if ( this.pressed('JUMP', event) ) {

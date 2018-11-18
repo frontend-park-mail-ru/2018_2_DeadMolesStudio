@@ -12,8 +12,39 @@
 	color: #444;
 }
 
-canvas {
-	background: #d2f6ee;
+.game-scene, .game-canvas, .game-canvas__background {
+	height: 100vh;
+	width: 100vw;
+}
+
+.game-scene__back-button {
+	position: absolute;
+	top: 1%;
+	left: 1%;
+}
+
+.game-canvas__background {
+	background-image: url('../img/magaz.png');
+	background-size: cover;
+	filter: blur(3px) grayscale(0.1);
+
+	position: fixed; /* поставь fixed и будет на весь экран) */
+	width: 120%;
+	height: 120%;
+	top: -10%;
+	left: -10%;
+	z-index: -1;
+
+}
+
+.game-canvas {
+	/*filter: saturate(150%);*/
+}
+
+.game-scene {
+	position: relative;
+	/*border: 20px solid white;*/
+	/*box-sizing: border-box;*/
 }
 
 .container {
@@ -45,7 +76,7 @@ section {
 }
 
 .game_title__link {
-	font-family: sans-serif;
+	font-family: Futura, sans-serif;
 	/*color: #444;*/
 
 	text-decoration: none;
@@ -55,6 +86,11 @@ section {
 	font-weight: bold;
 	color: #b8bec5;
 }
+
+/*.menu__play-button {*/
+	/*background: #317B22;*/
+	/*border-bottom: 4px solid #2A4D14;*/
+/*}*/
 
 
 
@@ -109,8 +145,5 @@ section {
 
 }
 
-.game-view__canvas {
-	border: 1px solid #999;
-}
 
 

@@ -23,23 +23,50 @@ export default class GameScene {
 
     init(state) {
         const { ctx, scene } = this;
+
         this.state = state;
-        this.score = new TextFigure(ctx);
-        this.score.id = this.scene.push(this.score);
+        const textSize = 4 / 100 * ctx.canvas.height;
+
+        this.score = new TextFigure(ctx, textSize);
+        this.score.fillStyle = 'black';
         this.score.text = `Очки: ${this.state.score}`;
+        this.score.y = 0.15 * ctx.canvas.height;
+        this.score.x = 15 / 1000 * ctx.canvas.width;
+        this.score.id = this.scene.push(this.score);
 
-        this.list = new TextFigure(ctx);
+        this.listText = new TextFigure(ctx, textSize);
+        this.listText.fillStyle = 'black';
+        this.listText.y = 0.20 * ctx.canvas.height;
+        this.listText.x = 15 / 1000 * ctx.canvas.width;
+        this.listText.text = `Список покупок:`;
+        this.listText.id = this.scene.push(this.listText);
+
+        this.list = new TextFigure(ctx, textSize);
+        this.list.fillStyle = 'black';
+        this.list.y = 0.26 * ctx.canvas.height;
+        this.list.x = 15 / 1000 * ctx.canvas.width;
+        this.list.text = `${PRODUCTS[1]}${PRODUCTS[2]}${PRODUCTS[3]}${PRODUCTS[4]}${PRODUCTS[6]}`;
         this.list.id = this.scene.push(this.list);
-        this.list.x = 320;
-        this.list.text = `Список покупок: ${PRODUCTS[1]}${PRODUCTS[2]}${PRODUCTS[3]}${PRODUCTS[4]}${PRODUCTS[6]}`;
 
-        this.me = new GamePlayerFigure(ctx);
+        this.timer = new TextFigure(ctx, textSize);
+        this.timer.fillStyle = 'black';
+        this.timer.y = 0.31 * ctx.canvas.height;
+        this.timer.x = 15 / 1000 * ctx.canvas.width;
+        this.timer.text = `Время: ${this.state.leftTime}`;
+        this.timer.id = this.scene.push(this.timer);
+
+        const { productWigth, productHeight } = state;
+        const { width: meWidth, height: meHeight } = state.me;
+        const pixWidth = meWidth / 100 * ctx.canvas.width;
+        const pixHeight = meHeight / 100 * ctx.canvas.height;
+        this.me = new GamePlayerFigure(ctx, pixWidth, pixHeight);
         this.me.id = this.scene.push(this.me);
         this.products = this.state.products.map( product => {
             const p = new GameProductFigure(ctx);
+            p.textSize = this.state.productHeight / 100 * ctx.canvas.height;
             p.id = this.scene.push(p);
-            p.x = product.percentsX / 100 * ctx.canvas.width;
-            p.y = (100 - product.percentsY) / 100 * ctx.canvas.height;
+            p.x = (product.percentsX - productWigth / 2) / 100 * ctx.canvas.width;
+            p.y = (100 - (product.percentsY - productHeight / 2)) / 100 * ctx.canvas.height;
             p.type = product.type;
             return p;
         });
@@ -55,34 +82,42 @@ export default class GameScene {
         const { ctx, scene } = this;
 
         this.state = state;
-        this.me.y = (100 - state.me.percentsY) / 100 * ctx.canvas.height;
+        this.me.y = (100 - (state.me.percentsY)) / 100 * ctx.canvas.height;
         this.me.x = state.me.percentsX / 100 * ctx.canvas.width;
         this.me.direction = this.state.me.direction;
         this.score.text = `Очки: ${this.state.score}`;
 
+        // TODO: тут подпихиваем обновленный список продуктов
+        // this.list.text = `${PRODUCTS[1]}${PRODUCTS[2]}${PRODUCTS[3]}${PRODUCTS[4]}${PRODUCTS[6]}`;
+
+        this.timer.text = `Время: ${this.state.leftTime}`;
+
         this.products.forEach( (product, pos) => {
             const updProduct = this.state.products[pos];
             if ( (updProduct.collected || updProduct.dead) && product.id) {
+
                 scene.removeFigure(product.id);
                 return;
             }
             product.type = updProduct.type;
-            product.x = updProduct.percentsX / 100 * ctx.canvas.width;
-            product.y = (100 - updProduct.percentsY) / 100 * ctx.canvas.height;
+            const { productWidth, productHeight } = state;
+            product.x = (updProduct.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
+            product.y = (100 - (updProduct.percentsY + productHeight / 2)) / 100 * ctx.canvas.height;
         });
     }
 
     renderScene(now) {
         const { ctx, scene } = this;
-        const delay = now - this.lastFrameTime;
+        // const delay = now - this.lastFrameTime;
         this.lastFrameTime = now;
 
-        this.products.forEach( (product, pos) => {
-            const updProduct = this.state.products[pos];
-            if (updProduct.collected && product.id) {
-                scene.removeFigure(product.id);
-            }
-        });
+        // this.products.forEach( (product, pos) => {
+        //     const updProduct = this.state.products[pos];
+        //     if (updProduct.collected && product.id) {
+        //         console.log('inrender');
+        //         scene.removeFigure(product.id);
+        //     }
+        // });
 
         scene.render();
         this.requestFrameId = requestAnimationFrame(this.renderScene);

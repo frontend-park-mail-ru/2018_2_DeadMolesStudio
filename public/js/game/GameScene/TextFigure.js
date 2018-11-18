@@ -1,13 +1,13 @@
 import Figure from '../../modules/graphics/Figure.js';
 
 export default class TextFigure extends Figure {
-    constructor(ctx) {
+    constructor(ctx, textSize = 40) {
         super(ctx);
-        this.font = '14pt arial';
-        this.fillStyle = 'black';
+        this.fillStyle = 'white';
         this.text = '';
         this.x = 10;
         this.y = 20;
+        this.font = `${textSize}pt arial`;
     }
 
     /**
