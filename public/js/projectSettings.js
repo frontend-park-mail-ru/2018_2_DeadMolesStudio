@@ -1,2 +1,2 @@
-const backDomain = 'https://95.163.208.72';
+const backDomain = 'https://playketnipz.ru';
 export default backDomain;

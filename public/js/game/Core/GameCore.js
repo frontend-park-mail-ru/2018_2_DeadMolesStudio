@@ -3,8 +3,8 @@ import bus from '../../modules/EventBus.js';
 
 const KEYS = {
     JUMP: [' '],
-    LEFT: ['a', 'A', 'ф', 'Ф', 'ArrowLeft'],
-    RIGHT: ['d', 'D', 'в', 'В', 'ArrowRight'],
+    LEFT: ['a', 'A', 'ф', 'Ф', 'ArrowLeft', '__left_incline'],
+    RIGHT: ['d', 'D', 'в', 'В', 'ArrowRight', '__right_incline'],
 };
 
 export default class GameCore {

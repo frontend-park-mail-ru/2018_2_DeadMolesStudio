@@ -6,21 +6,42 @@ export default class GameController {
 
         this.onPress = this.keyHandler.bind(this, 'press');
         this.onUp = this.keyHandler.bind(this, 'up');
+        this.sensivity = 1;
     }
 
     start() {
         document.addEventListener('keydown', this.onPress);
         document.addEventListener('keyup', this.onUp);
-        let gyroscope = new Gyroscope({frequency: 60});
-        gyroscope.addEventListener('reading', e => {
-            alert(`$Y:${gyroscope.y}`);
-        });
-        gyroscope.start();
+        // let gyroscope = new Gyroscope({frequency: 60});
+        // gyroscope.addEventListener('reading', e => {
+        //     alert(`$Y:${gyroscope.y}`);
+        // });
+        // gyroscope.start();
+        window.addEventListener('devicemotion', this.onDeviceMotion.bind(this), true);
     }
 
     destroy() {
         document.removeEventListener('keydown', this.onPress);
         document.removeEventListener('keyup', this.onUp);
+        window.removeEventListener('devicemotion', this.onDeviceMotion, true);
+    }
+
+    onDeviceMotion(e) {
+        // e.acceleration
+        this.angleY = e.accelerationIncludingGravity.y;
+        this.keys['__right_incline'] = this.angleY > this.sensivity;
+        this.keys['__left_incline'] = this.angleY < -this.sensivity;
+        // if (this.angleY < 0) {
+        //     // Наклон влево
+        //     // alert(`Влево ${angleY}`);
+        //     this.keys['__right_incline'] = false;
+        //     this.keys['__left_incline'] = true;
+        // } else {
+        //     // Наклон вправо
+        //     // alert(`Вправо ${angleY}`);
+        //     this.keys['__right_incline'] = true;
+        //     this.keys['__left_incline'] = false;
+        // }
     }
 
     // нажата ли клавиша
