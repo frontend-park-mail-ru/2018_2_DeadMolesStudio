@@ -27,30 +27,39 @@ export default class GameScene {
         this.state = state;
         const textSize = 4 / 100 * ctx.canvas.height;
 
+        let startInfoPercents = 0.15;
+        if (ctx.canvas.height < 500) {
+            startInfoPercents = 0.20;
+        }
+
         this.score = new TextFigure(ctx, textSize);
         this.score.fillStyle = 'black';
         this.score.text = `Очки: ${this.state.score}`;
-        this.score.y = 0.15 * ctx.canvas.height;
+        this.score.y = startInfoPercents * ctx.canvas.height;
         this.score.x = 15 / 1000 * ctx.canvas.width;
+
         this.score.id = this.scene.push(this.score);
 
         this.listText = new TextFigure(ctx, textSize);
         this.listText.fillStyle = 'black';
-        this.listText.y = 0.20 * ctx.canvas.height;
+        startInfoPercents += 0.05;
+        this.listText.y = startInfoPercents * ctx.canvas.height;
         this.listText.x = 15 / 1000 * ctx.canvas.width;
         this.listText.text = `Список покупок:`;
-        this.listText.id = this.scene.push(this.listText);
 
+        this.listText.id = this.scene.push(this.listText);
         this.list = new TextFigure(ctx, textSize);
         this.list.fillStyle = 'black';
-        this.list.y = 0.26 * ctx.canvas.height;
+        startInfoPercents += 0.06;
+        this.list.y = startInfoPercents * ctx.canvas.height;
         this.list.x = 15 / 1000 * ctx.canvas.width;
         this.list.text = `${PRODUCTS[1]}${PRODUCTS[2]}${PRODUCTS[3]}${PRODUCTS[4]}${PRODUCTS[6]}`;
         this.list.id = this.scene.push(this.list);
-
         this.timer = new TextFigure(ctx, textSize);
+
         this.timer.fillStyle = 'black';
-        this.timer.y = 0.31 * ctx.canvas.height;
+        startInfoPercents += 0.05;
+        this.timer.y = startInfoPercents * ctx.canvas.height;
         this.timer.x = 15 / 1000 * ctx.canvas.width;
         this.timer.text = `Время: ${this.state.leftTime}`;
         this.timer.id = this.scene.push(this.timer);

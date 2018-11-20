@@ -40,23 +40,27 @@ export default class GameView extends BaseView {
         const scene = this._el.querySelector('.game-scene');
         this.canvas = this._el.querySelector('.js-canvas');
         console.log(`Scene: (${window.innerWidth}, ${window.innerHeight}) Canvas: (${this.canvas.width}, ${this.canvas.height}) `);
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-        const documentEl = document.documentElement;
-        launchFullscreen(documentEl);
-        if (scene.requestFullscreen) {
-            console.log('1')
-            scene.requestFullscreen().finally(() => console.log('1'));
-        } else if (scene.webkitrequestFullscreen) {
-            console.log('1')
-            scene.webkitRequestFullscreen().finally(() => console.log('2'));
-        } else if (scene.mozRequestFullscreen) {
-            console.log('1')
-            scene.mozRequestFullScreen().finally(() => console.log('3'));
 
+        const mql = window.matchMedia('only screen and (orientation: portrait)');
+        if (mql.matches) {
+            // Портретная ориентация
+            console.log('port');
+            this.canvas.width = window.innerHeight;
+            this.canvas.height = window.innerWidth;
+        } else {
+            // Горизонтальная ориентация
+            console.log('goriz');
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
+
+        const documentEl = document.documentElement;
+        const isMobile = window.matchMedia('only screen');
+        if (isMobile) {
+            launchFullscreen(documentEl);
         }
         this.createGame();
-        const backButton = new ButtonComponent({ el: scene, className: 'cute-btn cute-btn--w10rem js-router-ignore game-scene__back-button' });
+        const backButton = new ButtonComponent({ el: scene, className: 'cute-btn js-router-ignore game-scene__back-button' });
         backButton.on({
             event: 'click',
             callback: (event) => {

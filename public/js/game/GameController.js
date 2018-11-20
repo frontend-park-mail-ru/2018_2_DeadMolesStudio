@@ -11,6 +11,11 @@ export default class GameController {
     start() {
         document.addEventListener('keydown', this.onPress);
         document.addEventListener('keyup', this.onUp);
+        let gyroscope = new Gyroscope({frequency: 60});
+        gyroscope.addEventListener('reading', e => {
+            alert(`$Y:${gyroscope.y}`);
+        });
+        gyroscope.start();
     }
 
     destroy() {

@@ -1,2 +1,2 @@
-const backDomain = 'https://dmstudio-server.now.sh';
+const backDomain = 'https://95.163.208.72';
 export default backDomain;

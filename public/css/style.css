@@ -21,6 +21,7 @@
 	position: absolute;
 	top: 1%;
 	left: 1%;
+	opacity: 0.85;
 }
 
 .game-canvas__background {
@@ -94,56 +95,112 @@ section {
 
 
 
+
+
 .sub_buttons {
-	display: flex;
+display: flex;
 }
 
 .rules {
-	width: 50%;
-	align-items: center;
-	
-	display: flex;
-	flex-direction: column;
+width: 50%;
+align-items: center;
+
+display: flex;
+flex-direction: column;
 }
 
 
 .bordered_input {
-	border: 1px solid black;
+border: 1px solid black;
 
-	width: 8rem;
+width: 8rem;
 
-	margin: 0.3rem;
-	padding: 0.5rem;
+margin: 0.3rem;
+padding: 0.5rem;
 
-	box-shadow: none;
-	outline: none;
+box-shadow: none;
+outline: none;
 }
 
 .bordered_input:focus {
-	box-shadow: none;
-	outline: none;
+box-shadow: none;
+outline: none;
 }
 
 .login_form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+display: flex;
+flex-direction: column;
+align-items: center;
 
 }
 
 .sub_link {
-	font-size: smaller;
+font-size: smaller;
 }
 
 .page-indicator {
-	border: 1px solid black;
-	width: 2rem;
-	margin: 0.3rem;
-	padding: 0.5rem;
-	display: inline-block;
-	text-align: center;
+border: 1px solid black;
+width: 2rem;
+margin: 0.3rem;
+padding: 0.5rem;
+display: inline-block;
+text-align: center;
 
 }
 
 
+@media only screen and (orientation:portrait){
+
+	.game-scene {
+
+		-webkit-transform: rotate(90deg);
+
+		-moz-transform: rotate(90deg);
+
+		-o-transform: rotate(90deg);
+
+		-ms-transform: rotate(90deg);
+
+		transform: rotate(90deg);
+
+	}
+
+	.game-scene, .game-canvas, .game-canvas__background {
+		height: 100vw;
+		width: 100vh;
+	}
+
+	.game-canvas__background {
+		background-image: url('../img/magaz.png');
+		background-size: cover;
+		filter: blur(3px) grayscale(0.1);
+
+		position: fixed; /* поставь fixed и будет на весь экран) */
+		width: 120%;
+		height: 120%;
+		top: -5%;
+		left: -7%;
+		z-index: -1;
+	}
+}
+
+@media only screen and (orientation:landscape){
+
+	#html__body {
+
+		/*height: 100vw;*/
+
+		-webkit-transform: rotate(0deg);
+
+		-moz-transform: rotate(0deg);
+
+		-o-transform: rotate(0deg);
+
+		-ms-transform: rotate(0deg);
+
+		transform: rotate(0deg);
+
+	}
+
+}
 
