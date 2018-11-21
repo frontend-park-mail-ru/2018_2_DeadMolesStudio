@@ -18,6 +18,7 @@
     "rules": {
         "eslint-env": "browser",
         "indent": ["error", 4],
+        "no-param-reassign": 0,
         "space-in-parens": ["error", "never", { "exceptions": ["()"] }],
         "arrow-body-style": ["error", "as-needed"],
         "object-shorthand": ["error", "consistent"],

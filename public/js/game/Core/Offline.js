@@ -32,15 +32,26 @@ export default class OfflineGame extends GameCore {
 
 
         this.state.products = [];
+        this.state.targetList = [];
+        for (let i = 0; i < 4; i++) {
+            let newProduct = randInt(1, 6);
+            while (this.state.targetList.indexOf(newProduct) !== -1) {
+                newProduct = randInt(1, 6);
+            }
+            this.state.targetList.push(newProduct);
+        }
         this.state.productWidth = 5;
         this.state.productHeight = 5;
-        this.state.startSpeed = 20;
-        this.state.gravityAcceleration = 0.13;
+        this.state.startSpeed = 30;
+        this.state.gravityAcceleration = 0;
+        this.state.productsIntervalPercents = 35;
+        this.state.productsRand = 3;
         for (let i = 0; i < 10; i++) {
+            const rand = randInt(-this.state.productsRand, this.state.productsRand);
             this.state.products[i] = {
                 type: randInt(1, 6),
                 percentsX: randInt(5, 95), // считаем что тут задаем центр
-                percentsY: 100 + i * 45 + randInt(-3, 3), // и тут
+                percentsY: 100 + i * this.state.productsIntervalPercents + rand, // и тут
                 collected: false,
                 speed: this.state.startSpeed, // randInt(25, 40), // доли тысячные
                 dead: false,
@@ -75,7 +86,6 @@ export default class OfflineGame extends GameCore {
         const delay = now - this.lastFrame;
         this.lastFrame = now;
 
-
         for (let i = 0; i < this.state.products.length; i++) {
             const product = this.state.products[i];
             if (product.percentsY <= 110) {
@@ -83,20 +93,25 @@ export default class OfflineGame extends GameCore {
             }
             product.percentsY -= product.speed / 1000 * delay;
             if (this.macroCollision(product, this.state.me) ) {
+                // Если собрали продукт
                 product.collected = true;
                 product.speed = 0;
                 product.percentsX = -100;
                 product.percentsY = 50;
-                if (product.type === 5) {
-                    this.state.score -= 1;
-                } else {
+                const productPosInTargetList = this.state.targetList.indexOf(product.type);
+                const isTarget = productPosInTargetList !== -1;
+                if (isTarget) {
                     this.state.score += 3;
+                    bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
+                    this.state.targetList.splice(productPosInTargetList, 1);
+                } else {
+                    this.state.score -= 1;
                 }
-                console.log('СОБРАЛ!!');
             }
             if (product.percentsY < -20) {
-                console.log('продукт пропал');
-                product.percentsY = 400;
+                const maxProductsY = Math.max(...this.state.products.map(p => p.percentsY) );
+                const rand = randInt(-this.state.productsRand, this.state.productsRand);
+                product.percentsY = maxProductsY + this.state.productsIntervalPercents + rand;
                 product.percentsX = randInt(5, 95);
                 product.speed = this.state.startSpeed;
                 product.type = randInt(1, 6);
@@ -105,14 +120,14 @@ export default class OfflineGame extends GameCore {
 
         bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
 
-        let allCollected = true;
-        this.state.products.forEach( product => {
-            if (product.collected === false) allCollected = false;
-        });
+        const allCollected = this.state.targetList.length === 0;
+        // this.state.products.forEach( product => {
+        //     if (product.collected === false) allCollected = false;
+        // });
         if (allCollected) {
             alert('Вы собрали все продукты! Победа!');
-            clearTimeout(this.endTimerID);
             bus.emit(EVENTS.FINISH_GAME, this.state.score);
+            clearTimeout(this.endTimerID);
             return;
         }
         this.gameloopRequestId = requestAnimationFrame(this.gameloop);
@@ -123,19 +138,19 @@ export default class OfflineGame extends GameCore {
         const { width: meWidth, height: meHeight } = this.state.me;
 
         // координаты левого верхнего угла продукта
-        const productX = product.percentsX - productWidth / 2;
-        const productY = product.percentsY - productHeight / 2;
+        const productX = product.percentsX - (productWidth - 1) / 2;
+        const productY = product.percentsY - (productHeight - 8) / 2;
 
         // координаты левого верхнего угла игрока
-        const meX = me.percentsX - meWidth / 2;
-        const meY = me.percentsY - meHeight / 2;
+        const meX = me.percentsX - (meWidth - 2) / 2;
+        const meY = me.percentsY - (meHeight - 15) / 2;
 
 
         let XColl = false;
         let YColl = false;
 
-        if ( (productX + productWidth >= meX) && (productX <= meX + meWidth) ) XColl = true;
-        if ( (productY + productHeight >= meY) && (productY <= meY + meHeight) ) YColl = true;
+        if ( (productX + productWidth - 0.5 >= meX) && (productX <= meX + meWidth - 1) ) XColl = true;
+        if ( (productY + productHeight - 4 >= meY) && (productY <= meY + meHeight - 7.5) ) YColl = true;
 
         if (XColl && YColl) {
             console.log(`Me: (${me.percentsX}, ${me.percentsY}); Product: (${product.percentsX}, ${product.percentsY})`);

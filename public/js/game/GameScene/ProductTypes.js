@@ -6,6 +6,8 @@ const PRODUCTS = {
     4: '\uD83C\uDF6D', // 🍭
     5: '\uD83D\uDE38', // 😸
     6: '\uD83C\uDF3D', // 🌽
+    EATEN_CORRECT: '+3',
+    EATEN_WRONG: '-1',
 };
 
 export default PRODUCTS;
