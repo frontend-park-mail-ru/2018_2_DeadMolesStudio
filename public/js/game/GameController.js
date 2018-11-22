@@ -18,12 +18,23 @@ export default class GameController {
         // });
         // gyroscope.start();
         window.addEventListener('devicemotion', this.onDeviceMotion.bind(this), true);
+        window.addEventListener('touchstart', this.onTouchStart.bind(this) );
+        window.addEventListener('touchend', this.onTouchEnd.bind(this) );
     }
-
     destroy() {
         document.removeEventListener('keydown', this.onPress);
         document.removeEventListener('keyup', this.onUp);
-        window.removeEventListener('devicemotion', this.onDeviceMotion, true);
+        window.removeEventListener('devicemotion', this.onDeviceMotion.bind(this), true);
+        window.removeEventListener('touchstart', this.onTouchStart.bind(this) );
+        window.removeEventListener('touchend', this.onTouchEnd.bind(this) );
+    }
+
+    onTouchStart() {
+        this.keys['__touch'] = true;
+    }
+
+    onTouchEnd() {
+        this.keys['__touch'] = false;
     }
 
     onDeviceMotion(e) {

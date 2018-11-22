@@ -13,7 +13,8 @@
         "requestAnimationFrame": true,
         "cancelAnimationFrame": true,
         "performance": true,
-        "Image": true
+        "Image": true,
+        "WebSocket": true
     },
     "rules": {
         "eslint-env": "browser",

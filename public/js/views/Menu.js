@@ -11,7 +11,7 @@ export default class MenuView extends BaseView {
         menuSection.render();
 
         const titles = new Map();
-        titles.set('play', 'Играть');
+        titles.set('pregame', 'Играть');
         titles.set('profile', 'Профиль');
         titles.set('scoreboard', 'Списки лидеров');
         titles.set('about', 'Об игре');

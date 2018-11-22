@@ -23,6 +23,11 @@ export default class GameView extends BaseView {
         this.render();
     }
 
+    showFinalWindow() {
+        const scene = this._el.querySelector('.game-scene');
+        // scene.
+    }
+
     render() {
         super.render();
         const content = this._el.querySelector('.content');

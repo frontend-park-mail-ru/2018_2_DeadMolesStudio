@@ -5,6 +5,7 @@ import Rect from "../../modules/graphics/Rect.js";
 import GameProductFigure from "./Product.js";
 import TextFigure from "./TextFigure.js";
 import PRODUCTS from "./ProductTypes.js";
+import GameInfoComponent from "./GameInfoComponent/GameInfoComponent.js";
 
 export default class GameScene {
     constructor(canvas) {
@@ -25,47 +26,6 @@ export default class GameScene {
         const { ctx, scene } = this;
 
         this.state = state;
-        const textSize = 4 / 100 * ctx.canvas.height;
-
-        let startInfoPercents = 0.15;
-        if (ctx.canvas.height < 500) {
-            startInfoPercents = 0.20;
-        }
-
-        this.score = new TextFigure(ctx, textSize);
-        this.score.fillStyle = 'black';
-        this.score.text = `Очки: ${this.state.score}`;
-        this.score.y = startInfoPercents * ctx.canvas.height;
-        this.score.x = 15 / 1000 * ctx.canvas.width;
-
-        this.score.id = this.scene.push(this.score);
-
-        this.listText = new TextFigure(ctx, textSize);
-        this.listText.fillStyle = 'black';
-        startInfoPercents += 0.05;
-        this.listText.y = startInfoPercents * ctx.canvas.height;
-        this.listText.x = 15 / 1000 * ctx.canvas.width;
-        this.listText.text = `Список покупок:`;
-        this.listText.id = this.scene.push(this.listText);
-
-        this.list = new TextFigure(ctx, textSize);
-        this.list.fillStyle = 'black';
-        startInfoPercents += 0.06;
-        this.list.y = startInfoPercents * ctx.canvas.height;
-        this.list.x = 15 / 1000 * ctx.canvas.width;
-        this.list.text = '';
-        this.state.targetList.forEach( (targetProduct) => {
-            this.list.text += `${PRODUCTS[targetProduct]}`;
-        });
-        this.list.id = this.scene.push(this.list);
-
-        this.timer = new TextFigure(ctx, textSize);
-        this.timer.fillStyle = 'black';
-        startInfoPercents += 0.05;
-        this.timer.y = startInfoPercents * ctx.canvas.height;
-        this.timer.x = 15 / 1000 * ctx.canvas.width;
-        this.timer.text = `Время: ${this.state.leftTime}`;
-        this.timer.id = this.scene.push(this.timer);
 
         const { productWigth, productHeight } = state;
         const { width: meWidth, height: meHeight } = state.me;
@@ -95,18 +55,25 @@ export default class GameScene {
         const { ctx, scene } = this;
 
         this.state = state;
-        this.me.y = (100 - (state.me.percentsY)) / 100 * ctx.canvas.height;
+
+        this.me.jumping = this.state.me.percentsY > 8.7;
+
+        this.me.y = (100 - (state.me.percentsY) ) / 100 * ctx.canvas.height;
         this.me.x = state.me.percentsX / 100 * ctx.canvas.width;
         this.me.direction = this.state.me.direction;
-        this.score.text = `Очки: ${this.state.score}`;
 
         // TODO: тут подпихиваем обновленный список продуктов
-        this.list.text = '';
+        let productList = '';
         this.state.targetList.forEach( (targetProduct) => {
-            this.list.text += `${PRODUCTS[targetProduct]}`;
+            productList += `${PRODUCTS[targetProduct]}`;
         });
 
-        this.timer.text = `Время: ${this.state.leftTime}`;
+        this.gameInfo.setInfo({
+            score: this.state.score,
+            time: this.state.leftTime,
+            productList: productList,
+        });
+        this.gameInfo.render();
 
         this.products.forEach( (product, pos) => {
             const updProduct = this.state.products[pos];
@@ -115,8 +82,6 @@ export default class GameScene {
                 console.log('gamescene:collected');
                 const isTarget = this.state.targetList.indexOf(product.type) !== -1;
                 product.type = isTarget ? 'EATEN_CORRECT' : 'EATEN_WRONG';
-                console.log(`id:${product.id}, type: ${product.type}`);
-                // product.reRender = false;
                 setTimeout( () => scene.removeFigure(product.id), 1 * 1000);
                 return;
             }
@@ -136,6 +101,20 @@ export default class GameScene {
     }
 
     start() {
+        const gameSceneElement = document.querySelector('.game-scene');
+        const textSize = `${4 / 100 * this.ctx.canvas.height}px`;
+
+        this.gameInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: textSize });
+        let productList = '';
+        this.state.targetList.forEach( (targetProduct) => {
+            productList += `${PRODUCTS[targetProduct]}`;
+        });
+        this.gameInfo.setInfo({
+            score: this.state.score,
+            time: this.state.leftTime,
+            productList: productList,
+        });
+        this.gameInfo.render();
         this.lastFrameTime = performance.now();
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
@@ -145,7 +124,7 @@ export default class GameScene {
             window.cancelAnimationFrame(this.requestFrameId);
             this.requestFrameId = null;
         }
-
+        this.gameInfo.destroy();
         this.scene.clear();
     }
 }

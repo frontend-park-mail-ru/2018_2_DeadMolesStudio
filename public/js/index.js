@@ -11,6 +11,7 @@ import ProfileView from './views/Profile.js';
 import EditProfileView from './views/EditProfile.js';
 import SignUpView from './views/SignUp.js';
 import GameView from './views/GameView.js';
+import PreGameView from './views/PreGame.js';
 
 const startApp = () => {
     const rootElement = document.querySelector('#root');
@@ -24,7 +25,8 @@ const startApp = () => {
         .register('/profile/settings', EditProfileView)
         .register('/signup', SignUpView)
         .register('/scoreboard', ScoreboardView)
-        .register('/play', GameView);
+        .register('/play', GameView)
+        .register('/pregame', PreGameView);
 
     router.start();
 

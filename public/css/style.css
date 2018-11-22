@@ -4,6 +4,7 @@
 @import "../js/components/Link/Link.css";
 @import "../js/components/Scoreboard/Scoreboard.css";
 @import "../js/components/Loader/Loader.css";
+@import "../js/game/GameScene/GameInfoComponent/GameInfoComponent.css";
 
 * {
 	padding: 0;
@@ -156,7 +157,7 @@ text-align: center;
 
 @media only screen and (orientation:portrait){
 
-	.game-scene {
+	.game-scene, .pre-game {
 
 		-webkit-transform: rotate(90deg);
 
@@ -170,7 +171,7 @@ text-align: center;
 
 	}
 
-	.game-scene, .game-canvas, .game-canvas__background {
+	.game-scene, .game-canvas, .game-canvas__background, .pre-game {
 		height: 100vw;
 		width: 100vh;
 	}

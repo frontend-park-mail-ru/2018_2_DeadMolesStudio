@@ -26,11 +26,12 @@ export default class OfflineGame extends GameCore {
                 width: 10,
                 height: 18,
                 speed: 1.7,
+                speedY: 0,
             },
             score: 0,
         };
 
-
+        this.state.playerGravity = 0.4;
         this.state.products = [];
         this.state.targetList = [];
         for (let i = 0; i < 4; i++) {
@@ -51,7 +52,7 @@ export default class OfflineGame extends GameCore {
             this.state.products[i] = {
                 type: randInt(1, 6),
                 percentsX: randInt(5, 95), // считаем что тут задаем центр
-                percentsY: 100 + i * this.state.productsIntervalPercents + rand, // и тут
+                percentsY: 130 + i * this.state.productsIntervalPercents + rand, // и тут
                 collected: false,
                 speed: this.state.startSpeed, // randInt(25, 40), // доли тысячные
                 dead: false,
@@ -126,6 +127,7 @@ export default class OfflineGame extends GameCore {
         // });
         if (allCollected) {
             alert('Вы собрали все продукты! Победа!');
+            bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
             bus.emit(EVENTS.FINISH_GAME, this.state.score);
             clearTimeout(this.endTimerID);
             return;
@@ -164,12 +166,27 @@ export default class OfflineGame extends GameCore {
             this.state.me.percentsX = Math.max(0, this.state.me.percentsX - this.state.me.speed);
             this.state.me.direction = 'LEFT';
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-        } else if ( this.pressed('RIGHT', event) ) {
+        }
+        if ( this.pressed('RIGHT', event) ) {
             this.state.me.percentsX = Math.min(100, this.state.me.percentsX + this.state.me.speed);
             this.state.me.direction = 'RIGHT';
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-        } else if ( this.pressed('JUMP', event) ) {
-            console.log('player want to jump');
+        }
+        if ( this.pressed('JUMP', event) ) {
+            if (this.state.me.speedY === 0) {
+                this.state.me.speedY = 5;
+                this.jumpInterval = setInterval( () => {
+                    this.state.me.percentsY += this.state.me.speedY;
+                    this.state.me.speedY -= this.state.playerGravity;
+                    if (this.state.me.percentsY <= 8.7) {
+                        this.state.me.speedY = 0;
+                        this.state.me.percentsY = 8.7;
+                        clearInterval(this.jumpInterval);
+                    }
+                }, 20);
+            }
+
+            bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
         }
     }
 

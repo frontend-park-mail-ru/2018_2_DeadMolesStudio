@@ -2,7 +2,7 @@ import EVENTS from './Events.js';
 import bus from '../../modules/EventBus.js';
 
 const KEYS = {
-    JUMP: [' '],
+    JUMP: [' ', '__touch'],
     LEFT: ['a', 'A', 'ф', 'Ф', 'ArrowLeft', '__left_incline'],
     RIGHT: ['d', 'D', 'в', 'В', 'ArrowRight', '__right_incline'],
 };
@@ -17,7 +17,6 @@ export default class GameCore {
         this.onGameStateChanged = this.onGameStateChanged.bind(this);
         this.onGameFinished = this.onGameFinished.bind(this);
         this.onControlsPressed = this.onControlsPressed.bind(this);
-
     }
 
     start() {

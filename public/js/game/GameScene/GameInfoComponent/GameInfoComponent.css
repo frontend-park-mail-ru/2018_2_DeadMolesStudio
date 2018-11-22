@@ -1,0 +1,9 @@
+.game-scene__game-info-elem {
+    position: absolute;
+    font-family: Futura, sans-serif;
+    color: black;
+}
+
+.game-info-elem__products {
+    font-size: 2em;
+}
