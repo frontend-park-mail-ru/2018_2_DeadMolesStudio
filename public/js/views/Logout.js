@@ -10,19 +10,22 @@ export default class LogoutView extends BaseView {
     render() {
         super.render();
         const content = this._el.querySelector('.content');
-        const loader = new LoaderComponent(content);
-        loader.render();
-        AjaxFetchModule
-            .doDelete({
-                path: '/session',
-                domain: backDomain,
-            })
-            .then( () => {
-                bus.emit('loggedout');
-            })
-            .catch( () => {
-                alert('Сейчас нельзя выйти.');
-                bus.emit('showmenu');
-            });
+
+        this.renderLoading(content);
+
+        this.fetchLogout();
     }
+
+    fetchLogout() {
+        bus.emit('fetch-logout');
+    }
+
+    renderLoading(parent) {
+        const loader = new LoaderComponent(parent);
+        loader.render();
+    }
+
+    // show() {
+    //     this.render();
+    // }
 }

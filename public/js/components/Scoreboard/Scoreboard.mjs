@@ -1,16 +1,19 @@
 import ButtonComponent from '../Button/Button.mjs';
-import AjaxFetchModule from '../../modules/AjaxFetch.mjs';
-// import { backDomain } from '../../views/ViewsContext.js';
-import backDomain from '../../projectSettings.js';
+import bus from '../../modules/EventBus.js';
 
 export default class ScoreboardComponent {
-    constructor({ el = document.body, data = [], limit = 10, total = 10 } = {}) {
+    constructor({
+        el = document.body, data = [], limit = 10, total = 10,
+    } = {}) {
         this._el = el;
         this._data = data;
         this._page = 0;
         this._limit = limit;
         this._total = total;
         this._first = 1;
+
+        this._fetchData = null;
+        bus.on('scoreboard:get-page', this.setFetchData.bind(this) );
     }
 
     get data() {
@@ -19,6 +22,18 @@ export default class ScoreboardComponent {
 
     set data(data) {
         this._data = data;
+    }
+
+    setFetchData(data) {
+        this._fetchData = data;
+        const { players, total } = this._fetchData;
+        this._data = players;
+        this._total = total;
+        this.showPlayers();
+    }
+
+    fetchPage(limit, page) {
+        bus.emit('fetch-page-scoreboard', { limit, page });
     }
 
     render() {
@@ -58,28 +73,13 @@ export default class ScoreboardComponent {
                     return;
                 }
                 this.hidePlayers();
-                AjaxFetchModule.doGet({
-                    path: `/scoreboard?limit=${this._limit}&page=${this._page - 1}`,
-                    domain: backDomain,
-                })
-                    .then( (response) => {
-                        response.json().then( (data) => {
-                            if (data !== null) {
-                                const { players, total } = data;
-                                this._data = players;
-                                this._total = total;
-                                this._page -= 1;
-                                this._first = this._page * this._limit + 1
-                                pageIndicator.textContent = this._page + 1;
-                                this.showPlayers();
-                            }
-                        });
-                    })
-                    .catch( (err) => {
-                        console.log(err);
-                    });
+                this._page -= 1;
+                this._first = this._page * this._limit + 1;
+                pageIndicator.textContent = this._page + 1;
+                this.fetchPage1(this._limit, this._page);
             },
         });
+
         nextButton.on({
             event: 'click',
             callback: (event) => {
@@ -88,26 +88,10 @@ export default class ScoreboardComponent {
                     return;
                 }
                 this.hidePlayers();
-                AjaxFetchModule.doGet({
-                    path: `/scoreboard?limit=${this._limit}&page=${this._page + 1}`,
-                    domain: backDomain,
-                })
-                    .then( (response) => {
-                        response.json().then( (data) => {
-                            if (data !== null) {
-                                const { players, total } = data;
-                                this._data = players;
-                                this._total = total;
-                                this._page += 1;
-                                this._first = this._page * this._limit + 1
-                                pageIndicator.textContent = this._page + 1;
-                                this.showPlayers();
-                            }
-                        });
-                    })
-                    .catch( (err) => {
-                        console.log(err);
-                    });
+                this._page += 1;
+                this._first = this._page * this._limit + 1;
+                pageIndicator.textContent = this._page + 1;
+                this.fetchPage1(this._limit, this._page);
             },
         });
 

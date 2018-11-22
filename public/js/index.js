@@ -1,5 +1,7 @@
 import Router from './modules/Router.js';
 import bus from './modules/EventBus.js';
+import ScoreboardService from './Services/ScoreboardService.js';
+import SessionService from './Services/SessionService.js';
 import UserService from './Services/UserService.js';
 import ScoreboardView from './views/Scoreboard.js';
 
@@ -27,8 +29,6 @@ const startApp = () => {
         .register('/scoreboard', ScoreboardView)
         .register('/play', GameView)
         .register('/pregame', PreGameView);
-
-    router.start();
 
     bus.on('loggedout', () => {
         router.go('/login');
@@ -60,7 +60,6 @@ const startApp = () => {
                 bus.emit('user:get-profile', user);
             })
             .catch( (err) => {
-                console.log('in fetch-user', err);
                 if (err === 401) {
                     alert('Надо авторизоваться');
                     bus.emit('tologin');
@@ -72,6 +71,135 @@ const startApp = () => {
                 }
             });
     });
+
+    bus.on('fetch-scoreboard', () => {
+        ScoreboardService.FetchScoreboard()
+            .then( (data) => {
+                bus.emit('scoreboard:get-data', data);
+            })
+            .catch( () => {
+                alert('Что-то пошло не так.');
+                bus.emit('showmenu');
+            });
+    });
+
+    bus.on('fetch-page-scoreboard', ({ limit, page }) => {
+        ScoreboardService.FetchPageScoreboard(limit, page)
+            .then( (data) => {
+                bus.emit('scoreboard:get-page', data);
+            })
+            .catch( () => {
+                alert('Что-то пошло не так.');
+                bus.emit('showmenu');
+            });
+    });
+
+    bus.on('fetch-logout', () => {
+        SessionService.FetchLogout()
+            .then( () => {
+                bus.emit('loggedout');
+            })
+            .catch( () => {
+                alert('Сейчас нельзя выйти.');
+                bus.emit('showmenu');
+            });
+    });
+
+    bus.on('fetch-update-user', ({ req, form }) => {
+        UserService.FetchUpdateUpUser(req)
+            .then( () => {
+                bus.emit('showprofile');
+            })
+            .catch( (response) => {
+                const { status } = response;
+                switch (status) {
+                case 400:
+                    bus.emit('showprofile');
+                    break;
+                case 401:
+                    alert('Надо авторизоваться');
+                    bus.emit('tologin');
+                    break;
+                case 403:
+                    response.json()
+                        .then( (data) => {
+                            const errorList = data.error;
+                            form.showErrors(errorList);
+                        });
+                    break;
+                default:
+                    alert('Что-то пошло не так!');
+                    bus.emit('showmenu');
+                }
+            });
+    });
+
+    bus.on('fetch-login', ({ req, form }) => {
+        SessionService.FetchLogin(req)
+            .then( () => {
+                bus.emit('showprofile');
+            })
+            .catch( (status) => {
+                const errors = [];
+                switch (status) {
+                case 400:
+                    alert('Что-то пошло не так, лучше зарегистрируйтесь!');
+                    bus.emit('tosignup');
+                    break;
+                case 422:
+                    errors.push({
+                        text: 'Неверная пара почта/пароль',
+                    });
+                    form.showErrors(errors);
+                    break;
+                default:
+                    alert('Что-то пошло не так');
+                    bus.emit('showmenu');
+                    break;
+                }
+            });
+    });
+
+    bus.on('fetch-signup-user', ({ req, form }) => {
+        UserService.FetchSignUpUser(req)
+            .then( () => {
+                bus.emit('showprofile');
+            })
+            .catch( (response) => {
+                const { status } = response;
+                response.json()
+                    .then( (body) => {
+                        let { error: errors } = body;
+                        if (!errors) errors = [];
+                        form.hideErrors();
+                        switch (status) {
+                        case 400:
+                            errors.push({
+                                text: 'Что-то пошло не так! Попробуйте позже!',
+                            });
+                            form.showErrors(errors);
+                            break;
+                        case 403:
+                            form.showErrors(errors);
+                            break;
+                        case 422:
+                            errors.push({
+                                text: 'Заполните все поля!',
+                            });
+                            form.showErrors(errors);
+                            break;
+                        default:
+                            errors.push({
+                                text: 'Что-то пошло не так!',
+                            });
+                            form.showErrors(errors);
+                            break;
+                        }
+                    });
+            });
+    });
+
+    router.start();
 };
 
 startApp();

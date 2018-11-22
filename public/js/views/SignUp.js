@@ -1,12 +1,10 @@
 import BaseView from './Base.js';
-import backDomain from '../projectSettings.js';
 
 import SectionComponent from '../components/Section/Section.mjs';
 import FormComponent from '../components/Form/Form.mjs';
 import LinkComponent from '../components/Link/Link.mjs';
 
 import bus from '../modules/EventBus.js';
-import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 
 export default class SignUpView extends BaseView {
     render() {
@@ -17,42 +15,25 @@ export default class SignUpView extends BaseView {
         signupSection.render();
         const signupSectionContent = signupSection.sectionContent;
 
-        const inputs = [
-            {
-                name: 'nickname',
-                type: 'text',
-                placeholder: 'Логин',
-                className: 'bordered_input',
-            },
-            {
-                name: 'email',
-                type: 'email',
-                placeholder: 'Email',
-                className: 'bordered_input',
-            },
-            {
-                name: 'password',
-                type: 'password',
-                placeholder: 'Пароль',
-                className: 'bordered_input',
-            },
-            {
-                name: 'password_repeat',
-                type: 'password',
-                placeholder: 'Повторите пароль',
-                className: 'bordered_input',
-            },
-            {
-                name: 'submit',
-                type: 'submit',
-                className: 'cute-btn cute-btn--w10rem',
-                value: 'Зарегистрироваться',
-            },
-        ];
+        this.renderForm(signupSectionContent);
 
+        const loginLink = new LinkComponent({
+            el: signupSection.sectionContent,
+            text: 'У меня уже есть аккаунт',
+            href: '/login',
+            className: 'sub_link',
+        });
+        loginLink.render();
+    }
+
+    fetchSignUp(req, form) {
+        bus.emit('fetch-signup-user', { req, form });
+    }
+
+    renderForm(parent) {
         const form = new FormComponent({
-            el: signupSectionContent,
-            inputs: inputs,
+            el: parent,
+            inputs: this.inputs,
             header: 'Зарегистрироваться!',
             name: 'signup',
         });
@@ -93,61 +74,43 @@ export default class SignUpView extends BaseView {
                     password: password,
                 };
 
-                // TODO обработка ошибок и переходы в fetch
-                AjaxFetchModule.doPost({
-                    path: '/profile',
-                    domain: backDomain,
-                    body: req,
-                })
-                    .then( (response) => {
-                        const { status } = response;
-                        if (status === 200) {
-                            bus.emit('showprofile');
-                            return;
-                        }
-                        response.json()
-                            .then( (body) => {
-                                let { error: errors } = body;
-                                if (!errors) errors = [];
-                                form.hideErrors();
-                                switch (status) {
-                                case 400:
-                                    console.log('JSON is wrong!');
-                                    errors.push({
-                                        text: 'Что-то пошло не так! Попробуйте позже!',
-                                    });
-                                    form.showErrors(errors);
-                                    break;
-                                case 403:
-                                    form.showErrors(errors);
-                                    break;
-                                case 422:
-                                    errors.push({
-                                        text: 'Заполните все поля!',
-                                    });
-                                    form.showErrors(errors);
-                                    break;
-                                default:
-                                    errors.push({
-                                        text: 'Что-то пошло не так!',
-                                    });
-                                    form.showErrors(errors);
-                                    break;
-                                }
-                            });
-                    })
-                    .catch( (err) => {
-                        console.log(err);
-                    });
+                this.fetchSignUp(req, form);
             },
         });
+    }
 
-        const loginLink = new LinkComponent({
-            el: signupSection.sectionContent,
-            text: 'У меня уже есть аккаунт',
-            href: '/login',
-            className: 'sub_link',
-        });
-        loginLink.render();
+    get inputs() {
+        return [
+            {
+                name: 'nickname',
+                type: 'text',
+                placeholder: 'Логин',
+                className: 'bordered_input',
+            },
+            {
+                name: 'email',
+                type: 'email',
+                placeholder: 'Email',
+                className: 'bordered_input',
+            },
+            {
+                name: 'password',
+                type: 'password',
+                placeholder: 'Пароль',
+                className: 'bordered_input',
+            },
+            {
+                name: 'password_repeat',
+                type: 'password',
+                placeholder: 'Повторите пароль',
+                className: 'bordered_input',
+            },
+            {
+                name: 'submit',
+                type: 'submit',
+                className: 'cute-btn cute-btn--w10rem',
+                value: 'Зарегистрироваться',
+            },
+        ];
     }
 }

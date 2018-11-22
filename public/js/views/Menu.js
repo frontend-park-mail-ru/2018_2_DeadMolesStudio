@@ -1,3 +1,5 @@
+import AjaxFetchModule from '../modules/AjaxFetch.mjs';
+import backDomain from '../projectSettings.js';
 import BaseView from './Base.js';
 import MenuComponent from '../components/Menu/Menu.mjs';
 import SectionComponent from '../components/Section/Section.mjs';
@@ -20,14 +22,9 @@ export default class MenuView extends BaseView {
         const menu = new MenuComponent({
             el: menuSection.sectionContent,
             titles: titles,
-            actionOnButton: (event) => {
-                // event.preventDefault();
-                // const link = event.target;
-                // ViewsContext.hideAnySection();
-                // ViewsContext.pages[link.dataset.href]();
-            },
         });
         menu.render();
+
         const playBtn = menuSection.sectionContent.querySelector('.cute-btn');
         playBtn.classList.add('menu__play-button');
         playBtn.animate([
