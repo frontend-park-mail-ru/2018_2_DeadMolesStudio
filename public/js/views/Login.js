@@ -6,7 +6,6 @@ import FormComponent from '../components/Form/Form.mjs';
 import LinkComponent from '../components/Link/Link.mjs';
 
 import bus from '../modules/EventBus.js';
-import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 
 export default class LoginView extends BaseView {
     render() {

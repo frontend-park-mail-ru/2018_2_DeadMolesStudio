@@ -54,22 +54,13 @@ const startApp = () => {
         router.go('/profile');
     });
 
-    bus.on('fetch-user', () => {
-        UserService.FetchUser()
-            .then( (user) => {
-                bus.emit('user:get-profile', user);
-            })
-            .catch( (err) => {
-                if (err === 401) {
-                    alert('Надо авторизоваться');
-                    bus.emit('tologin');
-                } else if (err.Name === 'TypeError: Failed to fetch') {
-                    console.log('failed to fetch user', err);
-                } else {
-                    alert('Что-то пошло не так!');
-                    bus.emit('showmenu');
-                }
-            });
+    bus.on('fetch-user', async () => {
+        const data = await UserService.getUser();
+        if (data.ok) {
+            bus.emit('user:get-profile', data.user);
+        } else {
+            bus.emit('user:get-profile-err', data.err);
+        }
     });
 
     bus.on('fetch-scoreboard', () => {

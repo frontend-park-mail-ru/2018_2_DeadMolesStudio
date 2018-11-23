@@ -3,6 +3,7 @@ import bus from '../modules/EventBus.js';
 
 import Profile from '../components/Profile/Profile.mjs';
 import SectionComponent from '../components/Section/Section.mjs';
+import ErrorComponent from '../components/Error/Error.mjs';
 import ButtonComponent from '../components/Button/Button.mjs';
 import LoaderComponent from '../components/Loader/Loader.js';
 
@@ -11,8 +12,10 @@ export default class ProfileView extends BaseView {
         super(el);
 
         this.user = null;
+        this.error = null;
 
         bus.on('user:get-profile', this.setUser.bind(this) );
+        bus.on('user:get-profile-err', this.setError.bind(this) );
     }
 
     show() {
@@ -29,6 +32,11 @@ export default class ProfileView extends BaseView {
         this.render();
     }
 
+    setError(err) {
+        this.error = err;
+        this.render();
+    }
+
     render() {
         super.render();
         const content = this._el.querySelector('.content');
@@ -40,19 +48,36 @@ export default class ProfileView extends BaseView {
         const changingBlock = document.createElement('div');
         profileSectionContent.appendChild(changingBlock);
 
-        if (!this.user) {
+        const menuButton = new ButtonComponent({ el: profileSectionContent });
+        menuButton.render();
+
+        if (!this.user && !this.error) {
             this.renderLoading(changingBlock);
+        } else if (this.error) {
+            this.renderError(profileSectionContent);
+            this.error = null;
         } else {
             this.renderProfile(changingBlock);
         }
-
-        const menuButton = new ButtonComponent({ el: profileSectionContent });
-        menuButton.render();
     }
 
     renderLoading(parent) {
         const loader = new LoaderComponent(parent);
         loader.render();
+    }
+
+    renderError(parent) {
+        let path = '/';
+        if (this.error.status === 401) {
+            path = '/login';
+        }
+        const errorBlock = new ErrorComponent({
+            el: parent,
+            path: path,
+            error: this.error.text,
+        });
+
+        errorBlock.render();
     }
 
     renderProfile(parent) {
