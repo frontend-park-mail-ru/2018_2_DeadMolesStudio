@@ -5,7 +5,7 @@
 import backDomain from '../projectSettings.js';
 import bus from './EventBus.js';
 
-class WS {
+export default class WS {
     constructor() {
         const address = backDomain.replace('https', 'wss');
         this.ws = new WebSocket(address);
@@ -26,15 +26,13 @@ class WS {
 
         try {
             const message = JSON.parse(messageText);
-            bus.emit(message.type, message.payload);
+            bus.emit(`ws:${message.status}`, message);
         } catch (err) {
             console.error('Error in handleMessage: ', err);
         }
     }
 
-    send(type, payload) {
-        this.ws.send(JSON.stringify({ type, payload }) );
+    send(messageJSON) {
+        this.ws.send(messageJSON);
     }
 }
-
-export default new WS();
