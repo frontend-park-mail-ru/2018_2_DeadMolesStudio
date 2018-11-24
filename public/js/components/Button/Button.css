@@ -14,12 +14,13 @@
 /*}*/
 
 .cute-btn {
-    background: #e57373;
-    color: #fff;
-    font-family: sans-serif;
+    background: var(--fashion-ketnipz);
+    color: var(--fashion-brown);
+    font-family: 'FashionFont', sans-serif;
+    font-weight: bold;
     font-size: 18px;
     border-radius: 10px;
-    border-bottom: 4px solid #af4448;
+    border-bottom: 4px solid var(--button-shadow);
 
     padding-top: 0.8rem;
     width: 6rem;

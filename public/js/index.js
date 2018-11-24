@@ -65,6 +65,7 @@ const startApp = () => {
 
     bus.on('fetch-logout', async () => {
         await SessionService.logout();
+        bus.emit('set-user', null);
         bus.emit('loggedout');
     });
 

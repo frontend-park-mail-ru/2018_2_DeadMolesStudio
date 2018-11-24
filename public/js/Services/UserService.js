@@ -1,5 +1,12 @@
 import backDomain from '../projectSettings.js';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
+import bus from '../modules/EventBus.js';
+
+let ourUser = null;
+bus.on('set-user', (data) => {
+    console.log('set-user', data);
+    ourUser = data;
+});
 
 export default class UserService {
     static FetchUser() {
@@ -33,7 +40,6 @@ export default class UserService {
      * @return Object data
      */
     static async getUser() {
-        const response = await this.FetchUser();
         const data = {
             user: null,
             err: {
@@ -42,6 +48,15 @@ export default class UserService {
             },
             ok: false,
         };
+
+        if (ourUser) {
+            console.log('юзер есть');
+            data.user = ourUser;
+            data.ok = true;
+            return data;
+        }
+
+        const response = await this.FetchUser();
 
         if (response.status === 401) {
             data.err.status = 401;
@@ -56,6 +71,7 @@ export default class UserService {
         }
 
         data.user = await response.json();
+        ourUser = data.user;
         data.ok = true;
         return data;
     }

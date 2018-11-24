@@ -76,7 +76,7 @@ export default class ScoreboardComponent {
                 this._page -= 1;
                 this._first = this._page * this._limit + 1;
                 pageIndicator.textContent = this._page + 1;
-                this.fetchPage1(this._limit, this._page);
+                this.fetchPage(this._limit, this._page);
             },
         });
 
@@ -91,7 +91,7 @@ export default class ScoreboardComponent {
                 this._page += 1;
                 this._first = this._page * this._limit + 1;
                 pageIndicator.textContent = this._page + 1;
-                this.fetchPage1(this._limit, this._page);
+                this.fetchPage(this._limit, this._page);
             },
         });
 
