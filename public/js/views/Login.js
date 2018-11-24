@@ -1,5 +1,4 @@
 import BaseView from './Base.js';
-import backDomain from '../projectSettings.js';
 
 import SectionComponent from '../components/Section/Section.mjs';
 import FormComponent from '../components/Form/Form.mjs';
@@ -8,6 +7,20 @@ import LinkComponent from '../components/Link/Link.mjs';
 import bus from '../modules/EventBus.js';
 
 export default class LoginView extends BaseView {
+    constructor(el) {
+        super(el);
+
+        this.form = null;
+
+        this.error = null;
+        bus.on('session:login-err', this.setError.bind(this) );
+    }
+
+    setError(err) {
+        this.error = err;
+        this.form.showErrors(this.error.errors);
+    }
+
     render() {
         super.render();
         const content = this._el.querySelector('.content');
@@ -27,49 +40,29 @@ export default class LoginView extends BaseView {
         signUpLink.render();
     }
 
-    // show() {
-    //     super.show();
-    // }
-
-    fetchLogin(req, form) {
-        bus.emit('fetch-login', { req, form });
+    fetchLogin(formData) {
+        bus.emit('fetch-login', formData);
     }
 
     renderForm(parent) {
-        const form = new FormComponent({
+        this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
             header: 'Войти!',
             name: 'login',
         });
 
-        form.render();
+        this.form.render();
 
-        form.on({
+        this.form.on({
             event: 'submit',
             callback: (event) => {
                 event.preventDefault();
 
-                form.hideErrors();
+                this.form.hideErrors();
 
-                const formData = form.innerElem.elements;
-                const email = formData.email.value;
-                const password = formData.password.value;
-
-                if (!(email && password) ) {
-                    const errors = [{
-                        text: 'Заполните оба поля!',
-                    }];
-                    form.showErrors(errors);
-                    return;
-                }
-
-                const req = {
-                    email: email,
-                    password: password,
-                };
-
-                this.fetchLogin(req, form);
+                const formData = this.form.innerElem.elements;
+                this.fetchLogin(formData);
             },
         });
     }

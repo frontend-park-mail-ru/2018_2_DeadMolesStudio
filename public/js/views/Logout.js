@@ -1,17 +1,19 @@
 import BaseView from './Base.js';
-import backDomain from '../projectSettings.js';
-
-import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 import bus from '../modules/EventBus.js';
-
 import LoaderComponent from '../components/Loader/Loader.js';
+import ErrorComponent from '../components/Error/Error.mjs';
 
 export default class LogoutView extends BaseView {
     render() {
         super.render();
         const content = this._el.querySelector('.content');
 
-        this.renderLoading(content);
+        if (navigator.onLine) {
+            this.renderLoading(content);
+        } else {
+            this.renderError(content);
+        }
+
 
         this.fetchLogout();
     }
@@ -25,7 +27,12 @@ export default class LogoutView extends BaseView {
         loader.render();
     }
 
-    // show() {
-    //     this.render();
-    // }
+    renderError(parent) {
+        const errorBlock = new ErrorComponent({
+            el: parent,
+            error: 'Сейчас нельзя выйти!',
+        });
+
+        errorBlock.render();
+    }
 }

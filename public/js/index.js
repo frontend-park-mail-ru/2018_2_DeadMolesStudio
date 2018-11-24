@@ -63,6 +63,29 @@ const startApp = () => {
         }
     });
 
+    bus.on('fetch-logout', async () => {
+        await SessionService.logout();
+        bus.emit('loggedout');
+    });
+
+    bus.on('fetch-login', async (formData) => {
+        const data = await SessionService.login(formData);
+        if (data.ok) {
+            bus.emit('showprofile');
+        } else {
+            bus.emit('session:login-err', data.err);
+        }
+    });
+
+    bus.on('fetch-signup-user', async (formData) => {
+        const data = await UserService.signup(formData);
+        if (data.ok) {
+            bus.emit('showprofile');
+        } else {
+            bus.emit('user:signup-err', data.err);
+        }
+    });
+
     bus.on('fetch-scoreboard', () => {
         ScoreboardService.FetchScoreboard()
             .then( (data) => {
@@ -85,109 +108,14 @@ const startApp = () => {
             });
     });
 
-    bus.on('fetch-logout', () => {
-        SessionService.FetchLogout()
-            .then( () => {
-                bus.emit('loggedout');
-            })
-            .catch( () => {
-                alert('Сейчас нельзя выйти.');
-                bus.emit('showmenu');
-            });
-    });
 
-    bus.on('fetch-update-user', ({ req, form }) => {
-        UserService.FetchUpdateUpUser(req)
-            .then( () => {
-                bus.emit('showprofile');
-            })
-            .catch( (response) => {
-                const { status } = response;
-                switch (status) {
-                case 400:
-                    bus.emit('showprofile');
-                    break;
-                case 401:
-                    alert('Надо авторизоваться');
-                    bus.emit('tologin');
-                    break;
-                case 403:
-                    response.json()
-                        .then( (data) => {
-                            const errorList = data.error;
-                            form.showErrors(errorList);
-                        });
-                    break;
-                default:
-                    alert('Что-то пошло не так!');
-                    bus.emit('showmenu');
-                }
-            });
-    });
-
-    bus.on('fetch-login', ({ req, form }) => {
-        SessionService.FetchLogin(req)
-            .then( () => {
-                bus.emit('showprofile');
-            })
-            .catch( (status) => {
-                const errors = [];
-                switch (status) {
-                case 400:
-                    alert('Что-то пошло не так, лучше зарегистрируйтесь!');
-                    bus.emit('tosignup');
-                    break;
-                case 422:
-                    errors.push({
-                        text: 'Неверная пара почта/пароль',
-                    });
-                    form.showErrors(errors);
-                    break;
-                default:
-                    alert('Что-то пошло не так');
-                    bus.emit('showmenu');
-                    break;
-                }
-            });
-    });
-
-    bus.on('fetch-signup-user', ({ req, form }) => {
-        UserService.FetchSignUpUser(req)
-            .then( () => {
-                bus.emit('showprofile');
-            })
-            .catch( (response) => {
-                const { status } = response;
-                response.json()
-                    .then( (body) => {
-                        let { error: errors } = body;
-                        if (!errors) errors = [];
-                        form.hideErrors();
-                        switch (status) {
-                        case 400:
-                            errors.push({
-                                text: 'Что-то пошло не так! Попробуйте позже!',
-                            });
-                            form.showErrors(errors);
-                            break;
-                        case 403:
-                            form.showErrors(errors);
-                            break;
-                        case 422:
-                            errors.push({
-                                text: 'Заполните все поля!',
-                            });
-                            form.showErrors(errors);
-                            break;
-                        default:
-                            errors.push({
-                                text: 'Что-то пошло не так!',
-                            });
-                            form.showErrors(errors);
-                            break;
-                        }
-                    });
-            });
+    bus.on('fetch-update-user', async ({ formData, user }) => {
+        const data = await UserService.update(formData, user);
+        if (data.ok) {
+            bus.emit('showprofile');
+        } else {
+            bus.emit('user:update-err', data.err);
+        }
     });
 
     router.start();

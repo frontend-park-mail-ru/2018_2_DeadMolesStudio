@@ -1,3 +1,4 @@
+import ErrorComponent from "../components/Error/Error.mjs";
 import BaseView from './Base.js';
 import backDomain from '../projectSettings.js';
 
@@ -13,14 +14,23 @@ import LoaderComponent from '../components/Loader/Loader.js';
 export default class EditProfileView extends BaseView {
     constructor(el) {
         super(el);
-        this.user = null;
 
+        this.form = null;
+
+        this.user = null;
         bus.on('user:get-profile', this.setUser.bind(this) );
+
+        this.error = null;
+        bus.on('user:update-err', this.setError.bind(this) );
     }
 
-    renderLoading(parent) {
-        const loader = new LoaderComponent(parent);
-        loader.render();
+    setError(err) {
+        this.error = err.mainErr;
+        if (this.error !== null) {
+            this.render();
+        } else {
+            this.form.showErrors(err.errors);
+        }
     }
 
     show() {
@@ -32,8 +42,8 @@ export default class EditProfileView extends BaseView {
         bus.emit('fetch-user');
     }
 
-    fetchUpdate(req, form) {
-        bus.emit('fetch-update-user', { req, form });
+    fetchUpdate(formData) {
+        bus.emit('fetch-update-user', { formData: formData, user: this.user });
     }
 
     setUser(user) {
@@ -42,88 +52,23 @@ export default class EditProfileView extends BaseView {
     }
 
     renderForm(parent) {
-        const form = new FormComponent({
+        this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
             header: 'Настройки профиля',
             // TODO указать правильный name
             name: 'signup',
         });
-        form.render();
+        this.form.render();
 
-        form.on({
+        this.form.on({
             event: 'submit',
             callback: (event) => {
                 event.preventDefault();
-                form.hideErrors();
+                this.form.hideErrors();
 
-                const formData = form.innerElem.elements;
-                const email = formData.email.value;
-                const nickname = formData.nickname.value;
-                const password = formData.password.value;
-                const passwordRepeat = formData.password_repeat.value;
-                const userAvatar = formData.avatar;
-
-                if (userAvatar) {
-                    console.log('ecnm');
-                    console.log(userAvatar);
-                } else {
-                    console.log('no');
-                }
-
-                if (userAvatar.value === '') {
-                    console.log('пусто');
-                } else {
-                    console.log('ytn');
-                    console.log(formData.avatar.files[0]);
-                }
-
-                if (userAvatar.value !== '') {
-                    console.log('avatar block');
-                    console.log(userAvatar.value);
-                    // // && this.user.avatar !== userAvatar
-                    //     console.log(userAvatar);
-                    const avatarData = new FormData();
-                    const newAvatar = formData.avatar.files[0];
-                    avatarData.append('avatar', newAvatar);
-
-                    AjaxFetchModule
-                        .doPut({
-                            path: '/profile/avatar',
-                            domain: backDomain,
-                            contentType: 'multipart/form-data',
-                            body: formData.avatar.files[0],
-                        })
-                        .then( (response) => {
-                            console.log(response.status);
-                        })
-                        .catch( (err) => {
-                            console.log(err);
-                        });
-                }
-
-                const req = {};
-
-                if (email !== this.user.email) {
-                    req.email = email;
-                }
-
-                if (nickname !== this.user.nickname) {
-                    req.nickname = nickname;
-                }
-
-                if (password) {
-                    if (password !== passwordRepeat) {
-                        const errors = [{
-                            text: 'Пароли не совпадают!',
-                        }];
-                        form.showErrors(errors);
-                        return;
-                    }
-                    req.password = password;
-                }
-
-                this.fetchUpdate(req, form);
+                const formData = this.form.innerElem.elements;
+                this.fetchUpdate(formData);
             },
         });
     }
@@ -139,18 +84,35 @@ export default class EditProfileView extends BaseView {
         const changingBlock = document.createElement('div');
         editSectionContent.appendChild(changingBlock);
 
-        if (!this.user) {
-            this.renderLoading(changingBlock);
-        } else {
-            this.renderForm(changingBlock);
-        }
-
         const profileButton = new ButtonComponent({
             el: editSectionContent,
             href: '/profile',
             text: 'Назад',
         });
         profileButton.render();
+
+        if (!this.user && !this.error) {
+            this.renderLoading(changingBlock);
+        } else if (this.error) {
+            this.renderError(editSectionContent);
+            this.error = null;
+        } else {
+            this.renderForm(changingBlock);
+        }
+    }
+
+    renderLoading(parent) {
+        const loader = new LoaderComponent(parent);
+        loader.render();
+    }
+
+    renderError(parent) {
+        const errorBlock = new ErrorComponent({
+            el: parent,
+            error: this.error,
+        });
+
+        errorBlock.render();
     }
 
     get inputs() {

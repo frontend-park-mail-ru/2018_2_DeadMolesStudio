@@ -7,6 +7,20 @@ import LinkComponent from '../components/Link/Link.mjs';
 import bus from '../modules/EventBus.js';
 
 export default class SignUpView extends BaseView {
+    constructor(el) {
+        super(el);
+
+        this.form = null;
+
+        this.error = null;
+        bus.on('user:signup-err', this.setError.bind(this) );
+    }
+
+    setError(err) {
+        this.error = err;
+        this.form.showErrors(this.error.errors);
+    }
+
     render() {
         super.render();
         const content = this._el.querySelector('.content');
@@ -26,55 +40,28 @@ export default class SignUpView extends BaseView {
         loginLink.render();
     }
 
-    fetchSignUp(req, form) {
-        bus.emit('fetch-signup-user', { req, form });
+    fetchSignUp(formData) {
+        bus.emit('fetch-signup-user', formData);
     }
 
     renderForm(parent) {
-        const form = new FormComponent({
+        this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
             header: 'Зарегистрироваться!',
             name: 'signup',
         });
-        form.render();
+        this.form.render();
 
-        form.on({
+        this.form.on({
             event: 'submit',
             callback: (event) => {
                 event.preventDefault();
 
-                form.hideErrors();
+                this.form.hideErrors();
 
-                const formData = form.innerElem.elements;
-                const email = formData.email.value;
-                const nickname = formData.nickname.value;
-                const password = formData.password.value;
-                const passwordRepeat = formData.password_repeat.value;
-
-                if (password !== passwordRepeat) {
-                    const errors = [{
-                        text: 'Пароли не совпадают!',
-                    }];
-                    form.showErrors(errors);
-                    return;
-                }
-
-                if (!(email && password && passwordRepeat && nickname) ) {
-                    const errors = [{
-                        text: 'Заполните все поля!',
-                    }];
-                    form.showErrors(errors);
-                    return;
-                }
-
-                const req = {
-                    email: email,
-                    nickname: nickname,
-                    password: password,
-                };
-
-                this.fetchSignUp(req, form);
+                const formData = this.form.innerElem.elements;
+                this.fetchSignUp(formData);
             },
         });
     }
