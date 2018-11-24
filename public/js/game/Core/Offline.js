@@ -28,6 +28,12 @@ export default class OfflineGame extends GameCore {
                 speed: 1.7,
                 speedY: 0,
             },
+            truck: {
+                percentsX: 30,
+                percentsY: 6,
+                width: 10,
+                height: 15,
+            },
             score: 0,
         };
 
@@ -66,9 +72,11 @@ export default class OfflineGame extends GameCore {
 
         this.endTimerID = setTimeout( () => {
             console.log('FINISH!!!!');
-            alert('Время вышло!');
             clearInterval(this.secsInervalID);
-            bus.emit(EVENTS.FINISH_GAME, this.state.score);
+            clearTimeout(this.endTimerID);
+            cancelAnimationFrame(this.gameloopRequestId);
+            this.stopController();
+            bus.emit('show-game-result', { text: 'Время вышло :( Вы не успели все собрать :(', score: this.state.score });
         }, this.gameTime * 1000);
         this.secsInervalID = setInterval( () => {
             this.gameTime -= 1;
@@ -119,6 +127,17 @@ export default class OfflineGame extends GameCore {
             }
         }
 
+        if (this.macroCollision(this.state.truck, this.state.me) ) {
+            console.log(`уперся ${this.state.truck.percentsX > this.state.me.percentsX ? 'слева' : 'справа'}`);
+            if (this.state.truck.percentsX > this.state.me.percentsX) {
+                this.state.me.blockRight = true;
+                this.state.me.blockLeft = false;
+            } else {
+                this.state.me.blockRight = false;
+                this.state.me.blockLeft = true;
+            }
+        }
+
         bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
 
         const allCollected = this.state.targetList.length === 0;
@@ -126,10 +145,11 @@ export default class OfflineGame extends GameCore {
         //     if (product.collected === false) allCollected = false;
         // });
         if (allCollected) {
-            alert('Вы собрали все продукты! Победа!');
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-            bus.emit(EVENTS.FINISH_GAME, this.state.score);
+            bus.emit('show-game-result', { text: 'Вы собрали все из списка покупок! Победа!', score: this.state.score });
+            clearInterval(this.secsInervalID);
             clearTimeout(this.endTimerID);
+            this.stopController();
             return;
         }
         this.gameloopRequestId = requestAnimationFrame(this.gameloop);
@@ -163,18 +183,27 @@ export default class OfflineGame extends GameCore {
 
     onControlsPressed(event) {
         if ( this.pressed('LEFT', event) ) {
-            this.state.me.percentsX = Math.max(0, this.state.me.percentsX - this.state.me.speed);
-            this.state.me.direction = 'LEFT';
+            if (!this.state.me.blockLeft) {
+                this.state.me.percentsX = Math.max(0, this.state.me.percentsX - this.state.me.speed);
+                this.state.me.direction = 'LEFT';
+            }
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
+            this.state.me.blockRight = false;
+
         }
         if ( this.pressed('RIGHT', event) ) {
-            this.state.me.percentsX = Math.min(100, this.state.me.percentsX + this.state.me.speed);
-            this.state.me.direction = 'RIGHT';
+            if (!this.state.me.blockRight) {
+                this.state.me.percentsX = Math.min(100, this.state.me.percentsX + this.state.me.speed);
+                this.state.me.direction = 'RIGHT';
+            }
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
+            this.state.me.blockLeft = false;
         }
         if ( this.pressed('JUMP', event) ) {
+            this.state.me.blockRight = false;
+            this.state.me.blockLeft = false;
             if (this.state.me.speedY === 0) {
-                this.state.me.speedY = 5;
+                this.state.me.speedY = 4;
                 this.jumpInterval = setInterval( () => {
                     this.state.me.percentsY += this.state.me.speedY;
                     this.state.me.speedY -= this.state.playerGravity;

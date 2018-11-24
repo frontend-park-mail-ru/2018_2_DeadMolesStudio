@@ -4,7 +4,8 @@ import SectionComponent from '../components/Section/Section.mjs';
 import GAME_MODES from '../game/GameModes.js';
 import Game from '../game/Game.js';
 import bus from '../modules/EventBus.js';
-import launchFullscreen, {exitFullscreen} from '../modules/fullscreenAPI/fullscreen.js';
+import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
+import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent.js';
 
 export default class GameView extends BaseView {
     constructor(el) {
@@ -13,7 +14,6 @@ export default class GameView extends BaseView {
 
         bus.on('CLOSE GAME', (scores) => {
             this.destroy();
-            alert(`Игра окончена. Вы набрали ${scores} очков!`);
             bus.emit('showmenu');
         });
     }
@@ -21,11 +21,6 @@ export default class GameView extends BaseView {
     show() {
         this._el.hidden = false;
         this.render();
-    }
-
-    showFinalWindow() {
-        const scene = this._el.querySelector('.game-scene');
-        // scene.
     }
 
     render() {
@@ -42,6 +37,9 @@ export default class GameView extends BaseView {
                 <canvas class="js-canvas game-view__canvas game-canvas" width="600" height="400"></canvas>
             </div>
         `);
+
+        const finishComponent = new FinishGameComponent({ el: gameSection.sectionContent });
+
         const scene = this._el.querySelector('.game-scene');
         this.canvas = this._el.querySelector('.js-canvas');
         console.log(`Scene: (${window.innerWidth}, ${window.innerHeight}) Canvas: (${this.canvas.width}, ${this.canvas.height}) `);

@@ -6,6 +6,7 @@
 @import "../js/components/Loader/Loader.css";
 @import "../js/game/GameScene/GameInfoComponent/GameInfoComponent.css";
 @import "../js/game/GameScene/css/GameScene.css";
+@import "../js/game/GameScene/FinishGameComponent/FinishGameComponent.css";
 
 :root {
     --fashion-blue: #c3c3e0;

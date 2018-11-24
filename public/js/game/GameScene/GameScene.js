@@ -4,6 +4,7 @@ import GamePlayerFigure from './Player.js';
 import GameProductFigure from './Product.js';
 import PRODUCTS from './ProductTypes.js';
 import GameInfoComponent from './GameInfoComponent/GameInfoComponent.js';
+import ImageFigure from "./ImageFigure.js";
 
 export default class GameScene {
     constructor(canvas) {
@@ -42,6 +43,15 @@ export default class GameScene {
             return p;
         });
 
+        if (this.state.truck) {
+            this.truck = new ImageFigure(ctx, 'js/game/GameScene/img/telega.png' );
+            this.truck.x = state.truck.percentsX / 100 * ctx.canvas.width;
+            this.truck.y = (100 - state.truck.percentsY) / 100 * ctx.canvas.height;
+            this.truck.width = state.truck.width / 100 * ctx.canvas.width;
+            this.truck.height = state.truck.height / 100 * ctx.canvas.height;
+            this.truck.id = scene.push(this.truck);
+        }
+
         this.me.y = (100 - state.me.percentsY) / 100 * ctx.canvas.height;
         this.me.x = state.me.percentsX / 100 * ctx.canvas.width;
         this.me.direction = state.me.direction;
@@ -77,10 +87,12 @@ export default class GameScene {
             const updProduct = this.state.products[pos];
             if ( (updProduct.collected || updProduct.dead) && product.id) {
                 if (product.type === 'EATEN_CORRECT') return;
-                console.log('gamescene:collected');
                 const isTarget = this.state.targetList.indexOf(product.type) !== -1;
                 product.type = isTarget ? 'EATEN_CORRECT' : 'EATEN_WRONG';
-                setTimeout( () => scene.removeFigure(product.id), 1 * 1000);
+                setTimeout( () => {
+                    scene.removeFigure(product.id);
+                    product.id = null;
+                }, 1 * 1000);
                 return;
             }
             product.type = updProduct.type;

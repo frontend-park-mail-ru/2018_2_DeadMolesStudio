@@ -2,7 +2,7 @@ import EVENTS from './Events.js';
 import bus from '../../modules/EventBus.js';
 
 const KEYS = {
-    JUMP: [' ', '__touch'],
+    JUMP: [' ', '__touch', 'ArrowUp', 'W', 'w', 'Ц', 'ц'],
     LEFT: ['a', 'A', 'ф', 'Ф', 'ArrowLeft', '__left_incline'],
     RIGHT: ['d', 'D', 'в', 'В', 'ArrowRight', '__right_incline'],
 };
@@ -44,6 +44,11 @@ export default class GameCore {
 
         this.controller.destroy();
         this.scene.stop();
+    }
+
+    stopController() {
+        bus.off(EVENTS.CONTROLS_PRESSED, this.onControlsPressed);
+        this.controller.destroy();
     }
 
     pressed(name, data) {

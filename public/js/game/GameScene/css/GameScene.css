@@ -92,3 +92,6 @@
 
 }
 
+.game-scene--blurred {
+    filter: blur(5px);
+}
