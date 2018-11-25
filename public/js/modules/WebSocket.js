@@ -26,7 +26,11 @@ export default class WS {
 
         try {
             const message = JSON.parse(messageText);
-            bus.emit(`ws:${message.status}`, message);
+            if (message.status) {
+                bus.emit(`ws:message${message.status}`, message);
+            } else {
+                bus.emit('ws:message', message);
+            }
         } catch (err) {
             console.error('Error in handleMessage: ', err);
         }

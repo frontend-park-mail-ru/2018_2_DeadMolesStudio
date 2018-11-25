@@ -14,6 +14,7 @@ import EditProfileView from './views/EditProfile.js';
 import SignUpView from './views/SignUp.js';
 import GameView from './views/GameView.js';
 import PreGameView from './views/PreGame.js';
+import MiniChatView from "./views/MiniChatView.js";
 
 const startApp = () => {
     const rootElement = document.querySelector('#root');
@@ -120,6 +121,8 @@ const startApp = () => {
             bus.emit('user:update-err', data.err);
         }
     });
+
+
 
     router.start();
 };
