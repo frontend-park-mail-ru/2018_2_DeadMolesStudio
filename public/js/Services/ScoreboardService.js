@@ -7,12 +7,6 @@ export default class ScoreboardService {
             .doGet({
                 path: '/scoreboard?limit=10',
                 domain: backDomain,
-            })
-            .then( (response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                return Promise.reject(response.status);
             });
     }
 
@@ -21,12 +15,30 @@ export default class ScoreboardService {
             .doGet({
                 path: `/scoreboard?limit=${limit}&page=${page}`,
                 domain: backDomain,
-            })
-            .then( (response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                return Promise.reject(response.status);
             });
+    }
+
+    static async getScoreboard({ limit = 10, page = 0 } = {}) {
+        const data = {
+            scoreboard: null,
+            ok: false,
+        };
+
+        let response = null;
+
+        if (page === 0) {
+            response = await this.FetchScoreboard();
+        } else {
+            response = await this.FetchPageScoreboard(limit, page);
+        }
+
+        if (response.status !== 200) {
+            return data;
+        }
+
+        data.scoreboard = await response.json();
+        data.ok = true;
+
+        return data;
     }
 }

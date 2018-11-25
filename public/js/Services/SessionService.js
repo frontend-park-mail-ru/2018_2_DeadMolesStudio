@@ -1,4 +1,5 @@
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
+import userState from '../modules/User.mjs';
 import backDomain from '../projectSettings.js';
 
 export default class SessionService {
@@ -25,6 +26,11 @@ export default class SessionService {
      */
     static async logout() {
         const response = await this.FetchLogout();
+
+        if (response.status === 200) {
+            userState.deleteUser();
+        }
+
         return response;
     }
 

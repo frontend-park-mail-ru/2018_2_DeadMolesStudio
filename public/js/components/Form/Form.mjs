@@ -1,13 +1,14 @@
 import { noop } from '../../modules/Utils.mjs';
 
 export default class FormComponent {
-    constructor({ el = document.body, name, header, inputs = [] } = {}) {
+    constructor({ el = document.body, name, header, inputs = [], multipart = false } = {}) {
         this._el = el;
         this._name = name;
         this._header = header;
         this._inputs = inputs;
         this._innerElem = null;
         this._errorsList = null;
+        this._multipart = multipart;
     }
 
     render() {
@@ -20,6 +21,10 @@ export default class FormComponent {
         const form = window.formTmplTemplate(options);
         this._el.insertAdjacentHTML('beforeend', form);
         this._innerElem = this._el.querySelector('form');
+        if (this._multipart) {
+
+            this._innerElem.setAttribute('enctype', 'multipart/form-data');
+        }
 
         this._errorsList = document.createElement('ul');
         const submitButton = this._innerElem.elements['submit'];

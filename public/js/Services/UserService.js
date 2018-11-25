@@ -1,12 +1,6 @@
 import backDomain from '../projectSettings.js';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
-import bus from '../modules/EventBus.js';
-
-let ourUser = null;
-bus.on('set-user', (data) => {
-    console.log('set-user', data);
-    ourUser = data;
-});
+import userState from '../modules/User.mjs';
 
 export default class UserService {
     static FetchUser() {
@@ -36,6 +30,21 @@ export default class UserService {
     }
 
     /**
+     Получить данные пользователя для модуля User
+     * @return user
+     */
+    static async getUserState() {
+        const response = await this.FetchUser();
+
+        if (response.status !== 200) {
+            return null;
+        }
+
+        const user = await response.json();
+        return user;
+    }
+
+    /**
      Получить данные о пользователе
      * @return Object data
      */
@@ -49,9 +58,9 @@ export default class UserService {
             ok: false,
         };
 
-        if (ourUser) {
-            console.log('юзер есть');
-            data.user = ourUser;
+        if (userState.isAuth() ) {
+            console.log('юзер есть', userState);
+            data.user = userState.getUser();
             data.ok = true;
             return data;
         }
@@ -71,8 +80,10 @@ export default class UserService {
         }
 
         data.user = await response.json();
-        ourUser = data.user;
         data.ok = true;
+
+        userState.setUser(data.user);
+
         return data;
     }
 
@@ -153,45 +164,6 @@ export default class UserService {
         const nickname = formData.nickname.value;
         const password = formData.password.value;
         const passwordRepeat = formData.password_repeat.value;
-        const userAvatar = formData.avatar;
-
-        // if (userAvatar) {
-        //     console.log('ecnm');
-        //     console.log(userAvatar);
-        // } else {
-        //     console.log('no');
-        // }
-        //
-        // if (userAvatar.value === '') {
-        //     console.log('пусто');
-        // } else {
-        //     console.log('ytn');
-        //     console.log(formData.avatar.files[0]);
-        // }
-        //
-        // if (userAvatar.value !== '') {
-        //     console.log('avatar block');
-        //     console.log(userAvatar.value);
-        //     // // && this.user.avatar !== userAvatar
-        //     //     console.log(userAvatar);
-        //     const avatarData = new FormData();
-        //     const newAvatar = formData.avatar.files[0];
-        //     avatarData.append('avatar', newAvatar);
-        //
-        //     AjaxFetchModule
-        //         .doPut({
-        //             path: '/profile/avatar',
-        //             domain: backDomain,
-        //             contentType: 'multipart/form-data',
-        //             body: formData.avatar.files[0],
-        //         })
-        //         .then( (response) => {
-        //             console.log(response.status);
-        //         })
-        //         .catch( (err) => {
-        //             console.log(err);
-        //         });
-        // }
 
         const req = {};
 
@@ -236,6 +208,7 @@ export default class UserService {
             return data;
         }
 
+        userState.deleteUser();
         data.ok = true;
         return data;
     }

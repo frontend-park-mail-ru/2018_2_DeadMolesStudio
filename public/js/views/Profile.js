@@ -86,12 +86,13 @@ export default class ProfileView extends BaseView {
             el: parent,
             data: profileData,
         });
+
         profile.render();
 
         const editProfileButton = new ButtonComponent({
             el: parent,
             href: '/profile/settings',
-            text: 'Изменить',
+            text: 'Редактировать',
         });
         editProfileButton.render();
     }

@@ -54,6 +54,11 @@ const startApp = () => {
         router.go('/profile');
     });
 
+    bus.on('fetch-user-state', async () => {
+        const data = await UserService.getUserState();
+        bus.emit('get-user-state', data);
+    });
+
     bus.on('fetch-user', async () => {
         const data = await UserService.getUser();
         if (data.ok) {
@@ -65,7 +70,6 @@ const startApp = () => {
 
     bus.on('fetch-logout', async () => {
         await SessionService.logout();
-        bus.emit('set-user', null);
         bus.emit('loggedout');
     });
 
@@ -87,26 +91,24 @@ const startApp = () => {
         }
     });
 
-    bus.on('fetch-scoreboard', () => {
-        ScoreboardService.FetchScoreboard()
-            .then( (data) => {
-                bus.emit('scoreboard:get-data', data);
-            })
-            .catch( () => {
-                alert('Что-то пошло не так.');
-                bus.emit('showmenu');
-            });
+    bus.on('fetch-scoreboard', async () => {
+        const data = await ScoreboardService.getScoreboard();
+        if (data.ok) {
+            bus.emit('scoreboard:get-data', data.scoreboard);
+        } else {
+            alert('Что-то пошло не так.');
+            bus.emit('showmenu');
+        }
     });
 
-    bus.on('fetch-page-scoreboard', ({ limit, page }) => {
-        ScoreboardService.FetchPageScoreboard(limit, page)
-            .then( (data) => {
-                bus.emit('scoreboard:get-page', data);
-            })
-            .catch( () => {
-                alert('Что-то пошло не так.');
-                bus.emit('showmenu');
-            });
+    bus.on('fetch-page-scoreboard', async ({ limit, page }) => {
+        const data = await ScoreboardService.getScoreboard({ limit: limit, page: page });
+        if (data.ok) {
+            bus.emit('scoreboard:get-page', data.scoreboard);
+        } else {
+            alert('Что-то пошло не так.');
+            bus.emit('showmenu');
+        }
     });
 
 

@@ -1,10 +1,10 @@
-import ErrorComponent from "../components/Error/Error.mjs";
-import BaseView from './Base.js';
-import backDomain from '../projectSettings.js';
-
+import ErrorComponent from '../components/Error/Error.mjs';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
-import bus from '../modules/EventBus.js';
+import backDomain from '../projectSettings.js';
+import BaseView from './Base.js';
 
+
+import bus from '../modules/EventBus.js';
 import SectionComponent from '../components/Section/Section.mjs';
 import FormComponent from '../components/Form/Form.mjs';
 import ButtonComponent from '../components/Button/Button.mjs';
@@ -21,10 +21,16 @@ export default class EditProfileView extends BaseView {
         bus.on('user:get-profile', this.setUser.bind(this) );
 
         this.error = null;
-        bus.on('user:update-err', this.setError.bind(this) );
+        bus.on('user:get-profile-err', this.setError.bind(this) );
+        bus.on('user:update-err', this.setErrorUpdate.bind(this) );
     }
 
     setError(err) {
+        this.error = err.text;
+        this.render();
+    }
+
+    setErrorUpdate(err) {
         this.error = err.mainErr;
         if (this.error !== null) {
             this.render();
@@ -49,28 +55,6 @@ export default class EditProfileView extends BaseView {
     setUser(user) {
         this.user = user;
         this.render();
-    }
-
-    renderForm(parent) {
-        this.form = new FormComponent({
-            el: parent,
-            inputs: this.inputs,
-            header: 'Настройки профиля',
-            // TODO указать правильный name
-            name: 'signup',
-        });
-        this.form.render();
-
-        this.form.on({
-            event: 'submit',
-            callback: (event) => {
-                event.preventDefault();
-                this.form.hideErrors();
-
-                const formData = this.form.innerElem.elements;
-                this.fetchUpdate(formData);
-            },
-        });
     }
 
     render() {
@@ -99,6 +83,76 @@ export default class EditProfileView extends BaseView {
         } else {
             this.renderForm(changingBlock);
         }
+    }
+
+    renderForm(parent) {
+        this.form = new FormComponent({
+            el: parent,
+            inputs: this.inputs,
+            header: 'Настройки профиля',
+            // TODO указать правильный name
+            name: 'signup',
+            multipart: true,
+        });
+        this.form.render();
+
+        this.form.on({
+            event: 'submit',
+            callback: (event) => {
+                event.preventDefault();
+                this.form.hideErrors();
+
+                const formData = this.form.innerElem.elements;
+                //
+                // const а = new FormData(formData);
+                // console.log(a);
+
+                console.log(formData);
+
+                const userAvatar = formData.avatar;
+
+                if (userAvatar) {
+                    console.log('ecnm');
+                    console.log(userAvatar);
+                } else {
+                    console.log('no');
+                }
+
+                if (userAvatar.value === '') {
+                    console.log('пусто');
+                } else {
+                    console.log('ytn');
+                    console.log(formData.avatar.files[0]);
+                    console.log(formData.avatar.name);
+                }
+
+                if (userAvatar.value !== '') {
+                    console.log('avatar block');
+                    console.log(userAvatar.value);
+                    // // && this.user.avatar !== userAvatar
+                    //     console.log(userAvatar);
+                    const avatarData = new FormData();
+                    const newAvatar = formData.avatar.files[0];
+                    avatarData.append('avatar', newAvatar);
+
+                    AjaxFetchModule
+                        .doPut({
+                            path: '/profile/avatar',
+                            domain: backDomain,
+                            contentType: 'multipart/form-data',
+                            body: avatarData,
+                        })
+                        .then( (response) => {
+                            console.log(response.status);
+                        })
+                        .catch( (err) => {
+                            console.log(err);
+                        });
+                }
+
+                this.fetchUpdate(formData);
+            },
+        });
     }
 
     renderLoading(parent) {

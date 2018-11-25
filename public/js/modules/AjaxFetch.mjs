@@ -1,5 +1,7 @@
 export default class AjaxFetchModule {
-    static _ajax({ method = 'GET', path = '/', domain = '', contentType = null, body } = {}) {
+    static _ajax({
+        method = 'GET', path = '/', domain = '', contentType = null, body,
+    } = {}) {
         const url = domain + path;
 
         const options = {
@@ -33,7 +35,7 @@ export default class AjaxFetchModule {
         return this._ajax({ ...params, method: 'DELETE' });
     }
 
-    static doPut (params = {}) {
-        return this._ajax({...params, method: "PUT"});
+    static doPut(params = {}) {
+        return this._ajax({ ...params, method: 'PUT' });
     }
 }
