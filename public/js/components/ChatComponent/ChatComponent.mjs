@@ -24,14 +24,16 @@ export default class ChatComponent {
         window.addEventListener('keydown', (e) => {
             // console.log(e.key.toLowerCase());
             if (e.key.toLowerCase() === 'enter') {
-                bus.emit('chat-comp:send-message', this.messageInput.value);
-                this.messageInput.value = '';
+                if (this.messageInput.value) {
+                    bus.emit('chat-comp:send-message', this.messageInput.value);
+                    this.messageInput.value = '';
+                }
             }
         });
     }
 
     appendMessage(message) {
-        const newMessage = `<div class="chat-field__chat-message"><span class="chat-message__message-author">[${ message.author }]: </span>${message.text}</div>`;
+        const newMessage = `<div class="chat-field__chat-message"><span class="chat-message__message-author ${message.my ? 'chat-message--my-message' : ''}">[${message.nickname}]: </span>${message.text}</div>`;
         this.chatField.insertAdjacentHTML('afterbegin', newMessage);
     }
 }

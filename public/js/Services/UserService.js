@@ -20,6 +20,14 @@ export default class UserService {
             });
     }
 
+    static FetchUserByID(id) {
+        return AjaxFetchModule
+            .doGet({
+                path: `/profile?id=${id}`,
+                domain: backDomain,
+            });
+    }
+
     static FetchUpdateUpUser(req = {}) {
         return AjaxFetchModule
             .doPut({
@@ -42,6 +50,21 @@ export default class UserService {
 
         const user = await response.json();
         return user;
+    }
+
+    static async getUserByID(id) {
+        const data = {
+            user: null,
+            ok: false,
+        };
+
+        const response = await this.FetchUserByID(id);
+        if (response.status !== 200) {
+            return data;
+        }
+        data.user = await response.json();
+        data.ok = true;
+        return data;
     }
 
     /**

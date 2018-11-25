@@ -1,4 +1,4 @@
-.chat-component {
+.list-component {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -29,17 +29,13 @@
     font-weight: bolder;
 }
 
-.chat-message--my-message {
-    color: darkred !important;
-}
-
-.chat-component__chat-field {
+.list-component__list-field {
     background: #f3dfdf;
     width: 100vw;
     height: 100vh;
 
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
     overflow-y: scroll;
     box-sizing: border-box;

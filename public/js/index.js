@@ -52,7 +52,7 @@ const startApp = () => {
         .register('/play', GameView)
         .register('/screenchat', ChatView)
         .register('/pregame', PreGameView);
-
+    
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
 

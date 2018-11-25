@@ -24,12 +24,14 @@ export default class WS {
 
     handleMessage(event) {
         const messageText = event.data;
+        console.log(`ws.handleMessage(${messageText})`);
 
         try {
             const message = JSON.parse(messageText);
             if (message.status) {
                 bus.emit(`ws:message${message.status}`, message);
             } else {
+                console.log(`ws.send(${message})`);
                 bus.emit('ws:message', message);
             }
         } catch (err) {
@@ -38,6 +40,7 @@ export default class WS {
     }
 
     send(messageJSON) {
+        console.log(`ws.send(${messageJSON})`);
         this.ws.send(messageJSON);
     }
 }
