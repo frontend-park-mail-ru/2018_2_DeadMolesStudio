@@ -33,12 +33,24 @@
 
 .head-component__open-button{
     padding-right: 0.3rem;
+    display: flex;
+    flex-direction: row;
 }
 
-.temp{
+.square{
     width: 0.7rem;
     height: 0.7rem;
     border: 1px solid var(--fashion-brown);
+}
+
+.user-btn{
+    width: 0.7rem;
+    height: 0.7rem;
+    content: 'u';
+    background: url('../../../img/users.jpg');
+    background-size: cover;
+
+    /*border: 1px solid var(--fashion-brown);*/
 }
 
 .iframe-block__iframe {

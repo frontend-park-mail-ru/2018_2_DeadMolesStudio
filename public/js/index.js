@@ -15,6 +15,7 @@ import EditProfileView from './views/EditProfile.js';
 import SignUpView from './views/SignUp.js';
 import GameView from './views/GameView.js';
 import PreGameView from './views/PreGame.js';
+import ChatView from './views/ChatView.js';
 import MiniChatView from './views/MiniChatView.js';
 
 const renderChat = (parent) => {
@@ -30,7 +31,6 @@ const renderChat = (parent) => {
         event: 'click',
         callback: (event) => {
             event.preventDefault();
-            console.log('кнопка для открытия чата');
             chat.toggle();
         },
     });
@@ -50,7 +50,11 @@ const startApp = () => {
         .register('/signup', SignUpView)
         .register('/scoreboard', ScoreboardView)
         .register('/play', GameView)
+        .register('/screenchat', ChatView)
         .register('/pregame', PreGameView);
+
+    renderChat(rootElement);
+    const iframe = document.querySelector('iframe');
 
     bus.on('loggedout', () => {
         router.go('/login');
@@ -58,6 +62,10 @@ const startApp = () => {
 
     bus.on('tologin', () => {
         router.go('/login');
+    });
+
+    bus.on('chat', () => {
+        router.go('/screenchat');
     });
 
     bus.on('tosignup', () => {
@@ -81,10 +89,18 @@ const startApp = () => {
         bus.emit('get-user-state', data);
     });
 
+
     bus.on('fetch-user', async () => {
         const data = await UserService.getUser();
         if (data.ok) {
+            const mes = {
+                type: 'set-user',
+                userId: data.user.id,
+                userNickName: data.user.nickname,
+            };
+            iframe.contentWindow.postMessage(JSON.stringify(mes), '*');
             bus.emit('user:get-profile', data.user);
+
         } else {
             bus.emit('user:get-profile-err', data.err);
         }
@@ -144,7 +160,10 @@ const startApp = () => {
     });
 
 
-    renderChat(rootElement);
+    const getUser = async () => {
+        const data = await UserService.getUserState();
+        bus.emit('get-user-state', data);
+    };
 
 
     router.start();

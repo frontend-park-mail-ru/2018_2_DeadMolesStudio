@@ -69,6 +69,7 @@
     /*bottom: 2%;*/
     /*left: 1%;*/
     text-decoration: none;
+    margin-right: 3px;
 }
 
 .chat-component-open-btn:hover{

@@ -1,5 +1,3 @@
-import ButtonComponent from '../components/Button/Button.mjs';
-import ChatMiniComponent from '../components/ChatMini/ChatMini.mjs';
 import BaseView from './Base.js';
 import userState from '../modules/User.mjs';
 import MenuComponent from '../components/Menu/Menu.mjs';
