@@ -29,7 +29,7 @@ export default class OfflineGame extends GameCore {
                 speedY: 0,
             },
             truck: {
-                percentsX: 30,
+                percentsX: -30,
                 percentsY: 6,
                 width: 10,
                 height: 15,
@@ -100,6 +100,7 @@ export default class OfflineGame extends GameCore {
             if (product.percentsY <= 110) {
                 product.speed += this.state.gravityAcceleration * delay;
             }
+
             product.percentsY -= product.speed / 1000 * delay;
             if (this.macroCollision(product, this.state.me) ) {
                 // Если собрали продукт
@@ -137,6 +138,37 @@ export default class OfflineGame extends GameCore {
                 this.state.me.blockLeft = true;
             }
         }
+
+
+
+        if (this.macroCollision(this.state.truck, this.state.me) ) {
+            if (this.state.me.speedY < 0 && (this.state.me.percentsX) < (this.state.truck.percentsX + this.state.truck.width/2) && (this.state.me.percentsX) > (this.state.truck.percentsX - this.state.truck.width/2)) {
+                console.log('уперлись сверху');
+                this.state.me.blockDown = true;
+                clearInterval(this.jumpInterval);
+                this.jumpInterval = null;
+                this.state.me.percentsY = this.state.truck.height + 4;
+                this.state.playerGravity = 0;
+                this.state.me.speedY = 0;
+            } else {
+                this.state.me.percentsY = this.state.truck.height + 4;
+                this.state.playerGravity = 0.4;
+                this.state.me.speedY = 0;
+            }
+        } else {
+            console.log('нет столкновения');
+            if (!this.jumpInterval) {
+                console.log('и интервала тоже нет');
+                this.state.me.percentsY = 8.7;
+                this.state.playerGravity = 0.4;
+                this.state.me.speedY = 0;
+            }
+        }
+
+        if (this.state.me.blockDown === true) {
+            this.state.me.percentsY = this.state.truck.height + 4;
+        }
+
 
         bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
 
@@ -204,6 +236,7 @@ export default class OfflineGame extends GameCore {
             this.state.me.blockLeft = false;
             if (this.state.me.speedY === 0) {
                 this.state.me.speedY = 4;
+                this.state.playerGravity = 0.4; // уберите, чтобы получить телегу-батут
                 this.jumpInterval = setInterval( () => {
                     this.state.me.percentsY += this.state.me.speedY;
                     this.state.me.speedY -= this.state.playerGravity;
@@ -211,6 +244,7 @@ export default class OfflineGame extends GameCore {
                         this.state.me.speedY = 0;
                         this.state.me.percentsY = 8.7;
                         clearInterval(this.jumpInterval);
+                        this.jumpInterval = null;
                     }
                 }, 20);
             }
