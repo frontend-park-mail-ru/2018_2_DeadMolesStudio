@@ -41,6 +41,32 @@ export default class MiniChatView extends BaseView {
 
         this.chatComponent = new ChatComponent({ el: content });
         this.chatComponent.render();
-        this.handleMessage({ author: 'хардкод', message: 'привет, я хардкод' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'Тег является контейнером, содержание которого игнорируется браузерами, не поддерживающими данный тег. Для таких браузеровТег является контейнером, содержание которого игнорируется браузерами, не поддерживающими данный тег. Для таких браузеровТег является контейнером, содержание которого игнорируется браузерами, не поддерживающими данный тег. Для таких браузеров' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+        this.handleMessage({ author: 'хардкод', message: 'ghbdtn' });
+         // this.handleMessage({ author: 'хардкод', message: 'Тег является контейнером, содержание которого игнорируетсяТег является контейнером, содержание которого игнорируется браузерами, не поддерживающими данный тег. Для таких браузеровТег является контейнером, содержание которого игнорируется браузерами, не поддерживающими данный тег. Для таких браузеров браузерами, не поддерживающими данный тег. Для таких браузеров можно указать альтернативный текст, который увидят пользователи. Он должен располагаться между элементами и ' });
     }
 }

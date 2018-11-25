@@ -3,6 +3,7 @@
 @import "../js/components/Section/Section.css";
 @import "../js/components/Link/Link.css";
 @import "../js/components/Scoreboard/Scoreboard.css";
+@import "../js/components/ChatMini/ChatMini.css";
 @import "../js/components/Loader/Loader.css";
 @import "../js/game/GameScene/GameInfoComponent/GameInfoComponent.css";
 @import "../js/game/GameScene/css/GameScene.css";
@@ -20,7 +21,6 @@
     padding: 0;
     margin: 0;
     font-family: 'FashionFont', sans-serif;
-    color: #444;
 }
 
 body {

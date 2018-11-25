@@ -7,7 +7,8 @@ import bus from './EventBus.js';
 
 export default class WS {
     constructor() {
-        const address = backDomain.replace('https', 'wss');
+        const address = backDomain.replace('https', 'wss') + '/chat/ws';
+        console.log(address);
         this.ws = new WebSocket(address);
 
         this.ws.onopen = (event) => {

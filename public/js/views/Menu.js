@@ -1,3 +1,5 @@
+import ButtonComponent from '../components/Button/Button.mjs';
+import ChatMiniComponent from '../components/ChatMini/ChatMini.mjs';
 import BaseView from './Base.js';
 import userState from '../modules/User.mjs';
 import MenuComponent from '../components/Menu/Menu.mjs';
@@ -10,10 +12,10 @@ export default class MenuView extends BaseView {
 
         const menuSection = new SectionComponent({ el: content, name: 'index' });
         menuSection.render();
-
+        const menuContent = menuSection.sectionContent;
 
         const menu = new MenuComponent({
-            el: menuSection.sectionContent,
+            el: menuContent,
             titles: this.titles,
         });
         menu.render();
@@ -40,7 +42,7 @@ export default class MenuView extends BaseView {
         titles.set('scoreboard', 'Списки лидеров');
         titles.set('about', 'Об игре');
 
-        console.log(userState.isAuth());
+        console.log(userState.isAuth() );
         if (userState.isAuth() ) {
             titles.set('logout', 'Выход');
         } else {
