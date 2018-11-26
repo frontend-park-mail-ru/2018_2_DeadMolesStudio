@@ -8,15 +8,7 @@ import LoaderComponent from '../components/Loader/Loader.js';
 export default class MenuView extends BaseView {
     constructor(el) {
         super(el);
-        console.log('конструктор меню');
-        this.user = false;
-        bus.on('user-state-set', this.setUser.bind(this) );
-    }
-
-    setUser() {
-        console.log('в меню юзер установлен');
-        this.user = true;
-        this.render();
+        bus.on('user-state-set', this.render.bind(this) );
     }
 
     render() {
@@ -27,7 +19,7 @@ export default class MenuView extends BaseView {
         menuSection.render();
         const menuContent = menuSection.sectionContent;
 
-        if (this.user) {
+        if (userState.isExist() ) {
             this.renderMenu(menuContent);
             this.setPlayBtn(menuContent);
         } else {
@@ -53,8 +45,6 @@ export default class MenuView extends BaseView {
 
 
     renderMenu(parent) {
-        console.log('РЕНДЕР МЕНЮ');
-
         const menu = new MenuComponent({
             el: parent,
             titles: this.titles,
