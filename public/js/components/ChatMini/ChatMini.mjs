@@ -106,8 +106,8 @@ export default class ChatMiniComponent {
         this.chat.appendChild(this.iframeBlock);
 
         this.iframe = document.createElement('iframe');
-        this.iframe.setAttribute('width', this.width);
-        this.iframe.setAttribute('height', this.height);
+        this.iframe.setAttribute('width', '230');
+        this.iframe.setAttribute('height', '300');
         this.iframe.setAttribute('src', 'js/Chat/chat.html');
         this.iframe.className = 'iframe-block__iframe';
         this.iframeBlock.appendChild(this.iframe);

@@ -38,6 +38,10 @@ export default class MiniChatView extends BaseView {
 
     showListUsers() {
         this.chatComponent.chatBlock.innerHTML = '';
+        this.users = {
+          1: 'Вася',
+          2: 'Петя',
+        };
         this.listComponent = new ListComponent({ el: this.content, users: this.users });
         this.listComponent.render();
     }
@@ -51,30 +55,104 @@ export default class MiniChatView extends BaseView {
     handleMessage(json) {
         if (json.action === 'send') {
             const message = json.payload;
-            const { author, message: text } = message;
+            const {author, message: text} = message;
             console.log(`тип сделал запрос за автором с id=${author}`);
             let nickname = 'Аноним';
             if (author) {
                 if (this.users[author]) {
-                    this.chatComponent.appendMessage({ nickname: this.users[author], text });
+                    this.chatComponent.appendMessage({nickname: this.users[author], text});
                     return;
                 }
 
-                const data = UserService.FetchUserByID(author);
-                if (data.ok) {
-                    nickname = data.user.nickname;
-                    console.log(data.user);
-                    this.chatComponent.appendMessage({ nickname, text });
-                    if (!this.users[author]) {
-                        this.users[author] = nickname;
+                let data = null;
+                const f = async () => {
+                    data = await UserService.getUserByID(author);
+                    if (data.ok) {
+                        nickname = data.user.nickname;
+                        console.log(data.user);
+                        this.chatComponent.appendMessage({nickname, text});
+                        if (!this.users[author]) {
+                            this.users[author] = nickname;
+                        }
+                        return;
                     }
-                    return;
-                }
-                nickname = 'Аноним (не найдено)';
-                this.chatComponent.appendMessage({ nickname, text });
+                    nickname = 'Аноним (не найдено)';
+                    this.chatComponent.appendMessage({nickname, text});
+                };
+                f();
+                // const data = UserService.FetchUserByID(author);
+
                 return;
             }
-            this.chatComponent.appendMessage({ nickname, text });
+            this.chatComponent.appendMessage({nickname, text});
+        } else if (json.action === 'get') {
+            console.log("GET----------");
+            const messages = json.payload.messages;
+            console.log('GET', messages);
+            messages.forEach( message => {
+                const { author, message: text } = message;
+                console.log('iter');
+                let nickname = 'Аноним';
+                if (author) {
+                    if (this.users[author]) {
+                        this.chatComponent.appendMessage({ nickname: this.users[author], text });
+                        return;
+                    }
+
+                    let data = null;
+                    const f = async () => {
+                        data = await UserService.getUserByID(author);
+                        if (data.ok) {
+                            nickname = data.user.nickname;
+                            console.log(data.user);
+                            this.chatComponent.appendMessage({ nickname, text });
+                            if (!this.users[author]) {
+                                this.users[author] = nickname;
+                            }
+                            return;
+                        }
+                        nickname = 'Аноним (не найдено)';
+                        this.chatComponent.appendMessage({ nickname, text });
+                    };
+                    f();
+                    // const data = UserService.FetchUserByID(author);
+
+                    return;
+                }
+                this.chatComponent.appendMessage({ nickname, text });
+            });
+            // for (let i = 0; i < messages.length; i++) {
+            //     const { author, message: text } = messages[i];
+            //     console.log('iter');
+            //     let nickname = 'Аноним';
+            //     if (author) {
+            //         if (this.users[author]) {
+            //             this.chatComponent.appendMessage({ nickname: this.users[author], text });
+            //             return;
+            //         }
+            //
+            //         let data = null;
+            //         const f = async () => {
+            //             data = await UserService.getUserByID(author);
+            //             if (data.ok) {
+            //                 nickname = data.user.nickname;
+            //                 console.log(data.user);
+            //                 this.chatComponent.appendMessage({ nickname, text });
+            //                 if (!this.users[author]) {
+            //                     this.users[author] = nickname;
+            //                 }
+            //                 return;
+            //             }
+            //             nickname = 'Аноним (не найдено)';
+            //             this.chatComponent.appendMessage({ nickname, text });
+            //         };
+            //         f();
+            //         // const data = UserService.FetchUserByID(author);
+            //
+            //         return;
+            //     }
+            //     this.chatComponent.appendMessage({ nickname, text });
+            // }
         }
     }
 
@@ -98,7 +176,12 @@ export default class MiniChatView extends BaseView {
 
         this.chatComponent = new ChatComponent({ el: this.content });
         this.chatComponent.render();
-        // this.listComponent = new ListComponent({ el: this.content, users: this.users });
-        // this.listComponent.render();
+
+        const getMes = {
+            action: 'get',
+        };
+        setTimeout( () => this.ws.send(JSON.stringify(getMes) ), 2 * 1000);
+        this.listComponent = new ListComponent({ el: this.content, users: this.users });
+        this.listComponent.render();
     }
 }

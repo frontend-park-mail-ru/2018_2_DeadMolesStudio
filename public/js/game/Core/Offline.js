@@ -29,7 +29,7 @@ export default class OfflineGame extends GameCore {
                 speedY: 0,
             },
             truck: {
-                percentsX: -30,
+                percentsX: 30,
                 percentsY: 6,
                 width: 10,
                 height: 15,

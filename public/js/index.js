@@ -52,7 +52,7 @@ const startApp = () => {
         .register('/play', GameView)
         .register('/screenchat', ChatView)
         .register('/pregame', PreGameView);
-    
+
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
 
@@ -164,6 +164,8 @@ const startApp = () => {
         const data = await UserService.getUserState();
         bus.emit('get-user-state', data);
     };
+
+    getUser();
 
 
     router.start();

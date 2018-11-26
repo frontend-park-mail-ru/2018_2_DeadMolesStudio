@@ -7,7 +7,7 @@
     box-sizing: border-box;
 
     color: #444;
-    overflow: hidden;
+    overflow-y: hidden;
 }
 
 * {
