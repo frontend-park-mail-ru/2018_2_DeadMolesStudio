@@ -34,7 +34,7 @@ const renderChat = (parent) => {
             chat.toggle();
         },
     });
-    chatButton.render();
+    // chatButton.render();
 };
 
 const startApp = () => {
@@ -84,10 +84,17 @@ const startApp = () => {
         router.go('/profile');
     });
 
-    bus.on('fetch-user-state', async () => {
+    // bus.on('fetch-user-state', async () => {
+    //     const data = await UserService.getUserState();
+    //     bus.emit('get-user-state', data);
+    // });
+
+    const getUser = async () => {
         const data = await UserService.getUserState();
         bus.emit('get-user-state', data);
-    });
+    };
+
+    getUser();
 
 
     bus.on('fetch-user', async () => {
@@ -100,7 +107,6 @@ const startApp = () => {
             };
             iframe.contentWindow.postMessage(JSON.stringify(mes), '*');
             bus.emit('user:get-profile', data.user);
-
         } else {
             bus.emit('user:get-profile-err', data.err);
         }
@@ -158,14 +164,6 @@ const startApp = () => {
             bus.emit('user:update-err', data.err);
         }
     });
-
-
-    const getUser = async () => {
-        const data = await UserService.getUserState();
-        bus.emit('get-user-state', data);
-    };
-
-    getUser();
 
 
     router.start();

@@ -17,6 +17,8 @@ class User {
 
     setUser(data) {
         this.user = data;
+        console.log('установили юзера');
+        bus.emit('user-state-set');
     }
 
     getUser() {

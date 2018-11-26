@@ -5,7 +5,7 @@ export default class ScoreboardService {
     static FetchScoreboard() {
         return AjaxFetchModule
             .doGet({
-                path: '/scoreboard?limit=10',
+                path: '/scoreboard?limit=5',
                 domain: backDomain,
             });
     }
@@ -18,7 +18,7 @@ export default class ScoreboardService {
             });
     }
 
-    static async getScoreboard({ limit = 10, page = 0 } = {}) {
+    static async getScoreboard({ limit = 5, page = 0 } = {}) {
         const data = {
             scoreboard: null,
             ok: false,

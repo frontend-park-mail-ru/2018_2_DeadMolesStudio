@@ -20,7 +20,8 @@
 * {
     padding: 0;
     margin: 0;
-    font-family: 'FashionFont', sans-serif;
+    font-family: 'FashionFont', 'Arial', sans-serif;
+    font-weight: bold;
 }
 
 body {

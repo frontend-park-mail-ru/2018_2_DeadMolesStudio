@@ -3,7 +3,7 @@ import bus from '../../modules/EventBus.js';
 
 export default class ScoreboardComponent {
     constructor({
-        el = document.body, data = [], limit = 10, total = 10,
+        el = document.body, data = [], limit = 5, total = 5,
     } = {}) {
         this._el = el;
         this._data = data;
