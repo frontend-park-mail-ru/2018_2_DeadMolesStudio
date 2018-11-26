@@ -103,11 +103,14 @@ export default class EditProfileView extends BaseView {
                 this.form.hideErrors();
 
                 const formData = this.form.innerElem.elements;
+                const f = this.form.innerElem;
                 //
                 // const а = new FormData(formData);
                 // console.log(a);
 
+                console.log('edit profile');
                 console.log(formData);
+                console.log(f);
 
                 const userAvatar = formData.avatar;
 

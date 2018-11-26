@@ -40,7 +40,6 @@ export default class MenuView extends BaseView {
         titles.set('scoreboard', 'Списки лидеров');
         titles.set('about', 'Об игре');
 
-        console.log(userState.isAuth() );
         if (userState.isAuth() ) {
             titles.set('logout', 'Выход');
         } else {
