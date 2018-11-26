@@ -3,46 +3,12 @@ import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 import userState from '../modules/User.mjs';
 
 export default class UserService {
-    static FetchUser() {
-        return AjaxFetchModule
-            .doGet({
-                path: '/profile',
-                domain: backDomain,
-            });
-    }
-
-    static FetchSignUpUser(req = {}) {
-        return AjaxFetchModule
-            .doPost({
-                path: '/profile',
-                domain: backDomain,
-                body: req,
-            });
-    }
-
-    static FetchUserByID(id) {
-        return AjaxFetchModule
-            .doGet({
-                path: `/profile?id=${id}`,
-                domain: backDomain,
-            });
-    }
-
-    static FetchUpdateUpUser(req = {}) {
-        return AjaxFetchModule
-            .doPut({
-                path: '/profile',
-                domain: backDomain,
-                body: req,
-            });
-    }
-
     /**
      Получить данные пользователя для модуля User
      * @return user
      */
     static async getUserState() {
-        const response = await this.FetchUser();
+        const response = await this.fetchUser();
 
         if (response.status !== 200) {
             return null;
@@ -52,13 +18,18 @@ export default class UserService {
         return user;
     }
 
+    /**
+     Получить данные о пользователя по ID
+     * @param id
+     * @return user
+     */
     static async getUserByID(id) {
         const data = {
             user: null,
             ok: false,
         };
 
-        const response = await this.FetchUserByID(id);
+        const response = await this.fetchUserByID(id);
         if (response.status !== 200) {
             return data;
         }
@@ -88,7 +59,7 @@ export default class UserService {
             return data;
         }
 
-        const response = await this.FetchUser();
+        const response = await this.fetchUser();
 
         if (response.status === 401) {
             data.err.status = 401;
@@ -149,7 +120,7 @@ export default class UserService {
             password: password,
         };
 
-        const response = await this.FetchSignUpUser(req);
+        const response = await this.fetchSignUpUser(req);
 
         if (response.status === 403) {
             const body = await response.json();
@@ -212,7 +183,7 @@ export default class UserService {
             return data;
         }
 
-        const response = await this.FetchUpdateUpUser(req);
+        const response = await this.fetchUpdateUpUser(req);
 
         if (response.status === 403) {
             const body = await response.json();
@@ -234,5 +205,39 @@ export default class UserService {
         userState.deleteUser();
         data.ok = true;
         return data;
+    }
+
+    static fetchUser() {
+        return AjaxFetchModule
+            .doGet({
+                path: '/profile',
+                domain: backDomain,
+            });
+    }
+
+    static fetchSignUpUser(req = {}) {
+        return AjaxFetchModule
+            .doPost({
+                path: '/profile',
+                domain: backDomain,
+                body: req,
+            });
+    }
+
+    static fetchUserByID(id) {
+        return AjaxFetchModule
+            .doGet({
+                path: `/profile?id=${id}`,
+                domain: backDomain,
+            });
+    }
+
+    static fetchUpdateUpUser(req = {}) {
+        return AjaxFetchModule
+            .doPut({
+                path: '/profile',
+                domain: backDomain,
+                body: req,
+            });
     }
 }

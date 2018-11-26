@@ -2,7 +2,7 @@ import BaseView from './Base.js';
 import WS from '../modules/WebSocket.js';
 import ChatComponent from '../components/ChatComponent/ChatComponent.mjs';
 import bus from '../modules/EventBus.js';
-import UserService from '../Services/UserService.js';
+import UserService from '../services/UserService.js';
 import ListComponent from '../components/ListComponent/ListComponent.mjs';
 
 
@@ -80,7 +80,7 @@ export default class MiniChatView extends BaseView {
                     this.chatComponent.appendMessage({nickname, text});
                 };
                 f();
-                // const data = UserService.FetchUserByID(author);
+                // const data = UserService.fetchUserByID(author);
 
                 return;
             }
@@ -115,7 +115,7 @@ export default class MiniChatView extends BaseView {
                         this.chatComponent.appendMessage({ nickname, text });
                     };
                     f();
-                    // const data = UserService.FetchUserByID(author);
+                    // const data = UserService.fetchUserByID(author);
 
                     return;
                 }
@@ -147,7 +147,7 @@ export default class MiniChatView extends BaseView {
             //             this.chatComponent.appendMessage({ nickname, text });
             //         };
             //         f();
-            //         // const data = UserService.FetchUserByID(author);
+            //         // const data = UserService.fetchUserByID(author);
             //
             //         return;
             //     }

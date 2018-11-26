@@ -2,9 +2,9 @@ import ButtonComponent from './components/Button/Button.mjs';
 import ChatMiniComponent from './components/ChatMini/ChatMini.mjs';
 import Router from './modules/Router.js';
 import bus from './modules/EventBus.js';
-import ScoreboardService from './Services/ScoreboardService.js';
-import SessionService from './Services/SessionService.js';
-import UserService from './Services/UserService.js';
+import ScoreboardService from './services/ScoreboardService.js';
+import SessionService from './services/SessionService.js';
+import UserService from './services/UserService.js';
 import ScoreboardView from './views/Scoreboard.js';
 import MenuView from './views/Menu.js';
 import LoginView from './views/Login.js';
@@ -24,7 +24,7 @@ const renderChat = (parent) => {
 
     const chatButton = new ButtonComponent({
         el: parent,
-        className: 'js-router-ignore chat-mini-bth',
+        className: 'app-router-ignore chat-mini-bth',
         text: '\uD83D\uDCE9',
     });
     chatButton.on({

@@ -27,7 +27,7 @@ export default class FinishGameComponent {
     render() {
         console.log('render finish');
         this.block = document.createElement('div');
-        this.block.className = 'game-scene__game-finish-component js-router-ignore';
+        this.block.className = 'game-scene__game-finish-component app-router-ignore';
 
         this.block.innerHTML += `<p>${this.text}</p> <p>Вы набрали: ${this.score} очков</p>`;
 

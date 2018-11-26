@@ -3,29 +3,12 @@ import userState from '../modules/User.mjs';
 import backDomain from '../projectSettings.js';
 
 export default class SessionService {
-    static FetchLogin(req = {}) {
-        return AjaxFetchModule
-            .doPost({
-                path: '/session',
-                domain: backDomain,
-                body: req,
-            });
-    }
-
-    static FetchLogout() {
-        return AjaxFetchModule
-            .doDelete({
-                path: '/session',
-                domain: backDomain,
-            });
-    }
-
     /**
      Разлогинить пользователя
      * @return {Promise} response
      */
     static async logout() {
-        const response = await this.FetchLogout();
+        const response = await this.fetchLogout();
 
         if (response.status === 200) {
             userState.deleteUser();
@@ -63,7 +46,7 @@ export default class SessionService {
             password: password,
         };
 
-        const response = await this.FetchLogin(req);
+        const response = await this.fetchLogin(req);
 
         if (response.status === 422) {
             data.err.status = response.status;
@@ -83,5 +66,22 @@ export default class SessionService {
 
         data.ok = true;
         return data;
+    }
+
+    static fetchLogin(req = {}) {
+        return AjaxFetchModule
+            .doPost({
+                path: '/session',
+                domain: backDomain,
+                body: req,
+            });
+    }
+
+    static fetchLogout() {
+        return AjaxFetchModule
+            .doDelete({
+                path: '/session',
+                domain: backDomain,
+            });
     }
 }

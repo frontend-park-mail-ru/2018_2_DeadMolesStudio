@@ -1,11 +1,11 @@
 import Figure from '../../modules/graphics/Figure.js';
-import PRODUCTS from "./ProductTypes.js";
+import PRODUCTS from './ProductTypes.js';
 
 export default class GameProductFigure extends Figure {
     constructor(ctx) {
         super(ctx);
 
-        // this.body = new ImageFigure(this.ctx, 'js/game/GameScene/ketnipz.png');
+        // this.body = new ImageFigure(this.ctx, 'app/game/GameScene/ketnipz.png');
 
         this.x = 0;
         this.y = 0;

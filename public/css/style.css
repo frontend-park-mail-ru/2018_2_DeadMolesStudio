@@ -1,13 +1,13 @@
-@import "../js/components/Button/Button.css";
-@import "../js/components/Menu/Menu.css";
-@import "../js/components/Section/Section.css";
-@import "../js/components/Link/Link.css";
-@import "../js/components/Scoreboard/Scoreboard.css";
-@import "../js/components/ChatMini/ChatMini.css";
-@import "../js/components/Loader/Loader.css";
-@import "../js/game/GameScene/GameInfoComponent/GameInfoComponent.css";
-@import "../js/game/GameScene/css/GameScene.css";
-@import "../js/game/GameScene/FinishGameComponent/FinishGameComponent.css";
+@import "../app/components/Button/Button.css";
+@import "../app/components/Menu/Menu.css";
+@import "../app/components/Section/Section.css";
+@import "../app/components/Link/Link.css";
+@import "../app/components/Scoreboard/Scoreboard.css";
+@import "../app/components/ChatMini/ChatMini.css";
+@import "../app/components/Loader/Loader.css";
+@import "../app/game/GameScene/GameInfoComponent/GameInfoComponent.css";
+@import "../app/game/GameScene/css/GameScene.css";
+@import "../app/game/GameScene/FinishGameComponent/FinishGameComponent.css";
 
 :root {
     --fashion-blue: #c3c3e0;

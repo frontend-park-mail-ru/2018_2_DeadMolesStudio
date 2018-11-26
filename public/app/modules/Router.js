@@ -76,7 +76,7 @@ export default class Router {
             if (!(event.target instanceof HTMLAnchorElement) ) {
                 return;
             }
-            if (event.target.classList.contains('js-router-ignore')) {
+            if (event.target.classList.contains('app-router-ignore')) {
                 return;
             }
 

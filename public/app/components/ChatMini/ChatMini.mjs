@@ -39,7 +39,7 @@ export default class ChatMiniComponent {
 
         const userButton = new ButtonComponent({
             el: this.userButton,
-            className: 'js-router-ignore chat-component-open-btn',
+            className: 'app-router-ignore chat-component-open-btn',
             text: '<div class="user-btn"></div>',
         });
         userButton.on({
@@ -60,7 +60,7 @@ export default class ChatMiniComponent {
 
         const openButton = new ButtonComponent({
             el: this.openButton,
-            className: 'js-router-ignore chat-component-open-btn',
+            className: 'app-router-ignore chat-component-open-btn',
             text: '<div class="square"></div>',
         });
         openButton.on({
@@ -108,7 +108,7 @@ export default class ChatMiniComponent {
         this.iframe = document.createElement('iframe');
         this.iframe.setAttribute('width', '230');
         this.iframe.setAttribute('height', '300');
-        this.iframe.setAttribute('src', 'js/Chat/chat.html');
+        this.iframe.setAttribute('src', 'app/chat/chat.html');
         this.iframe.className = 'iframe-block__iframe';
         this.iframeBlock.appendChild(this.iframe);
 

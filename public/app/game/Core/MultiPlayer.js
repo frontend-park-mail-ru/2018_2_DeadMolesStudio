@@ -2,7 +2,7 @@ import GameCore from './GameCore.js';
 import EVENTS from './Events.js';
 import bus from '../../modules/EventBus.js';
 import { randInt } from '../../modules/Utils.mjs';
-import GameService from '../../Services/GameService.js';
+import GameService from '../../services/GameService.js';
 
 // percentsX считаю в процентах слева направо
 // percentsY считаю в процентах снизу вверх

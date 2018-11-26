@@ -4,7 +4,7 @@ import GamePlayerFigure from './Player.js';
 import GameProductFigure from './Product.js';
 import PRODUCTS from './ProductTypes.js';
 import GameInfoComponent from './GameInfoComponent/GameInfoComponent.js';
-import ImageFigure from "./ImageFigure.js";
+import ImageFigure from './ImageFigure.js';
 
 export default class GameScene {
     constructor(canvas) {
@@ -38,13 +38,13 @@ export default class GameScene {
             p.textSize = this.state.productHeight / 100 * ctx.canvas.height;
             p.id = this.scene.push(p);
             p.x = (product.percentsX - productWigth / 2) / 100 * ctx.canvas.width;
-            p.y = (100 - (product.percentsY - productHeight / 2)) / 100 * ctx.canvas.height;
+            p.y = (100 - (product.percentsY - productHeight / 2) ) / 100 * ctx.canvas.height;
             p.type = product.type;
             return p;
         });
 
         if (this.state.truck) {
-            this.truck = new ImageFigure(ctx, 'js/game/GameScene/img/telega.png' );
+            this.truck = new ImageFigure(ctx, 'app/game/GameScene/img/telega.png');
             this.truck.x = state.truck.percentsX / 100 * ctx.canvas.width;
             this.truck.y = (100 - state.truck.percentsY) / 100 * ctx.canvas.height;
             this.truck.width = state.truck.width / 100 * ctx.canvas.width;
@@ -98,7 +98,7 @@ export default class GameScene {
             product.type = updProduct.type;
             const { productWidth, productHeight } = state;
             product.x = (updProduct.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
-            product.y = (100 - (updProduct.percentsY + productHeight / 2)) / 100 * ctx.canvas.height;
+            product.y = (100 - (updProduct.percentsY + productHeight / 2) ) / 100 * ctx.canvas.height;
         });
     }
 

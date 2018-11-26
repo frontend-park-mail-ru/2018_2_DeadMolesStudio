@@ -23,6 +23,11 @@ export default class ProfileView extends BaseView {
         this.fetchUser();
     }
 
+    hide() {
+        super.hide();
+        this.user = null;
+    }
+
     fetchUser() {
         bus.emit('fetch-user');
     }
@@ -33,6 +38,7 @@ export default class ProfileView extends BaseView {
     }
 
     setError(err) {
+        this.user = null;
         this.error = err;
         this.render();
     }

@@ -1,7 +1,7 @@
 import GAME_MODES from './GameModes.js';
 import OfflineGame from './Core/Offline.js';
-import GameScene from "./GameScene/GameScene.js";
-import GameController from "./GameController.js";
+import GameScene from './GameScene/GameScene.js';
+import GameController from './GameController.js';
 
 export default class Game {
     constructor(mode, canvas) {

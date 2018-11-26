@@ -16,7 +16,7 @@ export default class ChatView extends BaseView {
         this.iframe = document.createElement('iframe');
         this.iframe.setAttribute('width', '1000');
         this.iframe.setAttribute('height', '400');
-        this.iframe.setAttribute('src', 'js/Chat/chat.html');
+        this.iframe.setAttribute('src', 'app/chat/chat.html');
         chatSectionContent.appendChild(this.iframe);
 
         const button = document.querySelector('.chat-mini-bth');

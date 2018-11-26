@@ -42,7 +42,7 @@ export default class GameView extends BaseView {
 
         const scene = this._el.querySelector('.game-scene');
         this.canvas = this._el.querySelector('.js-canvas');
-        console.log(`Scene: (${window.innerWidth}, ${window.innerHeight}) Canvas: (${this.canvas.width}, ${this.canvas.height}) `);
+        // console.log(`Scene: (${window.innerWidth}, ${window.innerHeight}) Canvas: (${this.canvas.width}, ${this.canvas.height}) `);
 
         const mql = window.matchMedia('only screen and (orientation: portrait)');
         if (mql.matches) {
@@ -63,7 +63,7 @@ export default class GameView extends BaseView {
             launchFullscreen(documentEl);
         }
         this.createGame();
-        const backButton = new ButtonComponent({ el: scene, className: 'cute-btn js-router-ignore game-scene__back-button' });
+        const backButton = new ButtonComponent({ el: scene, className: 'cute-btn app-router-ignore game-scene__back-button' });
         backButton.on({
             event: 'click',
             callback: (event) => {
