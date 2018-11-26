@@ -16,14 +16,14 @@ export default class MiniChatView extends BaseView {
         bus.on('chat-comp:send-message', this.sendMessage.bind(this) );
         window.addEventListener('message', (event) => {
             const json = JSON.parse(event.data);
-            console.log(json);
+            // console.log(json);
             if (json.type === 'show-list') {
                 this.showListUsers();
             }
         });
         window.addEventListener('message', (event) => {
             const json = JSON.parse(event.data);
-            console.log(json);
+            // console.log(json);
             if (json.type === 'set-user') {
                 this.userId = json.userId;
                 this.userNickName = json.userNickName;
@@ -32,16 +32,16 @@ export default class MiniChatView extends BaseView {
     }
 
     show() {
-        console.log(this.el);
+        // console.log(this.el);
         this.el.hidden = false;
     }
 
     showListUsers() {
         this.chatComponent.chatBlock.innerHTML = '';
-        this.users = {
-          1: 'Вася',
-          2: 'Петя',
-        };
+        // this.users = {
+        //   1: 'Вася',
+        //   2: 'Петя',
+        // };
         this.listComponent = new ListComponent({ el: this.content, users: this.users });
         this.listComponent.render();
     }
@@ -56,7 +56,7 @@ export default class MiniChatView extends BaseView {
         if (json.action === 'send') {
             const message = json.payload;
             const {author, message: text} = message;
-            console.log(`тип сделал запрос за автором с id=${author}`);
+            // console.log(`тип сделал запрос за автором с id=${author}`);
             let nickname = 'Аноним';
             if (author) {
                 if (this.users[author]) {
@@ -69,7 +69,7 @@ export default class MiniChatView extends BaseView {
                     data = await UserService.getUserByID(author);
                     if (data.ok) {
                         nickname = data.user.nickname;
-                        console.log(data.user);
+                        // console.log(data.user);
                         this.chatComponent.appendMessage({nickname, text});
                         if (!this.users[author]) {
                             this.users[author] = nickname;
@@ -86,12 +86,12 @@ export default class MiniChatView extends BaseView {
             }
             this.chatComponent.appendMessage({nickname, text});
         } else if (json.action === 'get') {
-            console.log("GET----------");
+            // console.log("GET----------");
             const messages = json.payload.messages;
-            console.log('GET', messages);
+            // console.log('GET', messages);
             messages.forEach( message => {
                 const { author, message: text } = message;
-                console.log('iter');
+                // console.log('iter');
                 let nickname = 'Аноним';
                 if (author) {
                     if (this.users[author]) {
@@ -163,7 +163,7 @@ export default class MiniChatView extends BaseView {
             },
             action: 'send',
         };
-        console.log(`Отправлено: ${mes}`);
+        // console.log(`Отправлено: ${mes}`);
         this.ws.send(JSON.stringify(mes) );
     }
 
