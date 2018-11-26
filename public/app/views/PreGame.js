@@ -14,8 +14,8 @@ export default class PreGameView extends BaseView{
         content.removeChild(title);
         section.sectionContent.insertAdjacentHTML('beforeend', `
             <div class="pre-game">
-                <h1>Обучение</h1>
                 <div class="pre-game__rules">
+                     <h1>Обучение</h1>
                     В игре есть список покупок.<br>
                     Вам надо ловить продукты из списка покупок, <br>
                     передвигая героя при помощи клавиш-стрелок или при помощи наклонов смартфона.<br>
@@ -28,7 +28,7 @@ export default class PreGameView extends BaseView{
             </div>
         `);
         const preGameEl = section.sectionContent.querySelector('.pre-game');
-        const backButton = new ButtonComponent({ el: preGameEl, className: 'cute-btn game-scene__back-button' });
+        const backButton = new ButtonComponent({ el: preGameEl, className: 'cute-btn pre-game__back-button' });
         backButton.render();
         const playButton = new ButtonComponent({ el: preGameEl, text: 'Начать игру', href: 'play' });
         playButton.render();

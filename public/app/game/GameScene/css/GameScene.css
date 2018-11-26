@@ -26,6 +26,10 @@
 
 }
 
+/*body {*/
+    /*overflow: hidden;*/
+/*}*/
+
 .game-canvas {
     /*filter: saturate(150%);*/
 }
@@ -34,6 +38,13 @@
     position: relative;
     /*border: 20px solid white;*/
     /*box-sizing: border-box;*/
+}
+
+.pre-game__back-button {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    opacity: 0.85;
 }
 
 @media only screen and (orientation:portrait){
@@ -69,6 +80,23 @@
         top: -5%;
         left: -7%;
         z-index: -1;
+    }
+
+    .pre-game {
+        padding: 5rem;
+        box-sizing: border-box;
+    }
+
+    .pre-game__rules {
+        /*margin-top: 9rem;*/
+        /*margin-left: 1rem;*/
+    }
+
+    .pre-game__back-button {
+        position: absolute;
+        top: 3%;
+        left: 1%;
+        opacity: 0.85;
     }
 }
 

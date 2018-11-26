@@ -18,6 +18,7 @@ export default class BaseView extends View {
         const gameTitle = this._el.querySelector('.game_title');
 
         const h1 = document.createElement('h1');
+        h1.className = 'game_title__h';
         gameTitle.appendChild(h1);
 
         const gameTitleLink = new LinkComponent({

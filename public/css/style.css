@@ -78,13 +78,27 @@ section {
 }
 
 .rules {
-    width: 50%;
+    width: 60vw;
     align-items: center;
 
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    margin-bottom: 2rem;
 }
 
+@media screen and (max-width: 23rem) {
+    .rules {
+        width: 60vw;
+        height: 50vh;
+        align-items: center;
+
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        margin-bottom: 2rem;
+    }
+}
 
 .bordered_input {
     border: 1px solid black;
@@ -122,6 +136,10 @@ section {
     display: inline-block;
     text-align: center;
 
+}
+
+h1.game_title__h {
+    text-align: center;
 }
 
 @font-face {
