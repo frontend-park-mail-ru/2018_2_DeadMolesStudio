@@ -1,0 +1,44 @@
+@media only screen and (orientation:landscape) {
+    .game-scene__game-finish-component {
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 50vw;
+        height: 50vh;
+        z-index: 50;
+        background: #c3c3e0;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        box-shadow: 0px 0px 54px 4px rgba(0, 0, 0, 0.75);
+    }
+}
+
+@media only screen and (orientation:portrait) {
+    .game-scene__game-finish-component {
+        position: absolute;
+        /*margin-top: 40%;*/
+        left: 10%;
+        width: 50vh;
+        height: 50vw;
+        z-index: 50;
+        background: #c3c3e0;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+
+        box-shadow: 0px 0px 54px 4px rgba(0, 0, 0, 0.75);
+    }
+}
+
+.game-finish-component__text-block{
+    font-size: 1em;
+    text-align: center;
+    padding: 2rem;
+    padding-bottom: 0.7rem;
+}

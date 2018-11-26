@@ -1,0 +1,10 @@
+.game-scene__game-info-elem {
+    position: absolute;
+    font-family: Futura, sans-serif;
+    color: black;
+    margin-top: 3%;
+}
+
+.game-info-elem__products {
+    font-size: 2em;
+}

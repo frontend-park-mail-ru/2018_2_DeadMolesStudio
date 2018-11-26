@@ -12,16 +12,20 @@
         "FormData": true,
         "requestAnimationFrame": true,
         "cancelAnimationFrame": true,
-        "performance": true
+        "performance": true,
+        "Image": true,
+        "WebSocket": true,
+        "cacheFiles" : true
     },
     "rules": {
         "eslint-env": "browser",
         "indent": ["error", 4],
+        "no-param-reassign": 0,
         "space-in-parens": ["error", "never", { "exceptions": ["()"] }],
         "arrow-body-style": ["error", "as-needed"],
         "object-shorthand": ["error", "consistent"],
         "function-paren-newline": ["error", "consistent"],
-        "class-methods-use-this": ["error", { "exceptMethods": ["render", "back", "forward", "fetchUser"] }],
+        "class-methods-use-this": ["error", { "exceptMethods": ["render", "back", "forward", "fetchUser", "fetchSignUp"] }],
         "import/extensions": ["always"],
         "no-plusplus": ["error", {
             "allowForLoopAfterthoughts": true

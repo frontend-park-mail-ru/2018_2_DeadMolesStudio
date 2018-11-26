@@ -1,0 +1,14 @@
+{
+  "name": "Abstract Ketnipz",
+  "short_name": "Ketnipz",
+  "lang": "ru-RU",
+  "start_url": "/",
+  "display": "fullscreen", // standalone, minimal-ui, browser
+  "orientation": "landscape", // portrait, any
+  "prefer_related_applications": false,
+  "icons": [ {
+    "src": "/img/favicon.png",
+    "type": "image/png",
+    "sizes": "1000x1000"
+  } ]
+}

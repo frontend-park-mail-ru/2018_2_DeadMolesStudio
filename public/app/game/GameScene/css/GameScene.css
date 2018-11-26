@@ -1,0 +1,127 @@
+.game-scene, .game-canvas, .game-canvas__background {
+    height: 100vh;
+    width: 100vw;
+}
+
+.game-scene__back-button {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    opacity: 0.85;
+}
+
+.game-canvas__background {
+    background-image: url('../img/magaz.png');
+    /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
+    background-size: cover;
+    filter: blur(15px) grayscale(0.3);
+
+    position: fixed; /* поставь fixed и будет на весь экран) */
+    width: 120%;
+    height: 120%;
+    top: -10%;
+    left: -10%;
+    z-index: -1;
+    overflow: hidden;
+
+}
+
+/*body {*/
+    /*overflow: hidden;*/
+/*}*/
+
+.game-canvas {
+    /*filter: saturate(150%);*/
+}
+
+.game-scene {
+    position: relative;
+    /*border: 20px solid white;*/
+    /*box-sizing: border-box;*/
+}
+
+.pre-game__back-button {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    opacity: 0.85;
+}
+
+@media only screen and (orientation:portrait){
+
+    .game-scene, .pre-game, .game-scene__game-finish-component {
+
+        -webkit-transform: rotate(90deg);
+
+        -moz-transform: rotate(90deg);
+
+        -o-transform: rotate(90deg);
+
+        -ms-transform: rotate(90deg);
+
+        transform: rotate(90deg);
+
+    }
+
+    .game-scene, .game-canvas, .game-canvas__background, .pre-game {
+        height: 100vw;
+        width: 100vh;
+    }
+
+    .game-canvas__background {
+        /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
+        background-image: url('../img/magaz.png');
+        background-size: cover;
+        filter: blur(3px) grayscale(0.1);
+
+        position: fixed; /* поставь fixed и будет на весь экран) */
+        width: 120%;
+        height: 120%;
+        top: -5%;
+        left: -7%;
+        z-index: -1;
+    }
+
+    .pre-game {
+        padding: 5rem;
+        box-sizing: border-box;
+    }
+
+    .pre-game__rules {
+        /*margin-top: 9rem;*/
+        /*margin-left: 1rem;*/
+    }
+
+    .pre-game__back-button {
+        position: absolute;
+        top: 3%;
+        left: 1%;
+        opacity: 0.85;
+    }
+}
+
+@media only screen and (orientation:landscape){
+
+    #html__body {
+
+        /*height: 100vw;*/
+
+        -webkit-transform: rotate(0deg);
+
+        -moz-transform: rotate(0deg);
+
+        -o-transform: rotate(0deg);
+
+        -ms-transform: rotate(0deg);
+
+        transform: rotate(0deg);
+
+    }
+
+
+
+}
+
+.game-scene--blurred {
+    filter: blur(5px);
+}
