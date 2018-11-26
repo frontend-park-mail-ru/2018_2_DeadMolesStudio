@@ -9,6 +9,7 @@ this.addEventListener('install', (event) => {
                 '/',
                 '/about',
                 '/play',
+                './public/dist/bundle.js',
                 ...cacheFiles,
             ]) )
             .catch( (err) => {
