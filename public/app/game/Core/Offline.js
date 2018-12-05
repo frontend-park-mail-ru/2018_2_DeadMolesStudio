@@ -3,6 +3,8 @@ import EVENTS from './Events.js';
 import bus from '../../modules/EventBus.js';
 import { randInt } from '../../modules/Utils.mjs';
 
+
+
 // percentsX считаю в процентах слева направо
 // percentsY считаю в процентах снизу вверх
 export default class OfflineGame extends GameCore {
@@ -12,7 +14,7 @@ export default class OfflineGame extends GameCore {
         this.state = {};
         this.lastFrame = 0;
         this.gameloopRequestId = null;
-
+        this.productGenIntrvalID = null;
         this.gameloop = this.gameloop.bind(this);
     }
 
@@ -31,6 +33,7 @@ export default class OfflineGame extends GameCore {
                 height: 18,
                 speed: 1.7,
                 speedY: 0,
+                score: 0,
             },
             truck: {
                 percentsX: truckPos,
@@ -38,37 +41,30 @@ export default class OfflineGame extends GameCore {
                 width: 10,
                 height: 15,
             },
-            score: 0,
+            collected: [],
         };
 
         this.state.playerGravity = 0.4;
         this.state.products = [];
-        this.state.targetList = [];
-        for (let i = 0; i < 4; i++) {
-            let newProduct = randInt(1, 6);
-            while (this.state.targetList.indexOf(newProduct) !== -1) {
-                newProduct = randInt(1, 6);
-            }
-            this.state.targetList.push(newProduct);
-        }
+
+        this.genTargetList(4);
+
         this.state.productWidth = 5;
         this.state.productHeight = 5;
         this.state.startSpeed = 30;
         this.state.gravityAcceleration = 0;
         this.state.productsIntervalPercents = 35;
         this.state.productsRand = 3;
-        for (let i = 0; i < 10; i++) {
-            const rand = randInt(-this.state.productsRand, this.state.productsRand);
-            this.state.products[i] = {
+
+        this.productGenIntrvalID = setInterval( () => {
+            console.log('продукт создан');
+            this.state.products.push({
                 type: randInt(1, 6),
                 percentsX: randInt(5, 95), // считаем что тут задаем центр
-                percentsY: 130 + i * this.state.productsIntervalPercents + rand, // и тут
-                collected: false,
+                percentsY: 100 + randInt(1, 5),
                 speed: this.state.startSpeed, // randInt(25, 40), // доли тысячные
-                dead: false,
-            };
-        }
-        // console.log(this.state.products);
+            });
+        }, 1 * 1000);
 
         this.gameTime = 30; // seconds
         this.state.leftTime = this.gameTime;
@@ -80,7 +76,7 @@ export default class OfflineGame extends GameCore {
             clearTimeout(this.endTimerID);
             cancelAnimationFrame(this.gameloopRequestId);
             this.stopController();
-            bus.emit('show-game-result', { text: 'Время вышло :( Вы не успели все собрать :(', score: this.state.score });
+            bus.emit('show-game-result', { text: 'Финиш!', score: this.state.me.score });
         }, this.gameTime * 1000);
         this.secsInervalID = setInterval( () => {
             this.gameTime -= 1;
@@ -91,6 +87,7 @@ export default class OfflineGame extends GameCore {
     destroy() {
         console.log('DESTROOOOY!');
         clearTimeout(this.endTimerID);
+        clearInterval(this.productGenIntrvalID);
         cancelAnimationFrame(this.gameloopRequestId);
         super.destroy();
     }
@@ -98,6 +95,7 @@ export default class OfflineGame extends GameCore {
     gameloop(now) {
         const delay = now - this.lastFrame;
         this.lastFrame = now;
+        this.state.collected = [];
 
         for (let i = 0; i < this.state.products.length; i++) {
             const product = this.state.products[i];
@@ -108,27 +106,26 @@ export default class OfflineGame extends GameCore {
             product.percentsY -= product.speed / 1000 * delay;
             if (this.macroCollision(product, this.state.me) ) {
                 // Если собрали продукт
-                product.collected = true;
-                product.speed = 0;
-                product.percentsX = -100;
-                product.percentsY = 50;
-                const productPosInTargetList = this.state.targetList.indexOf(product.type);
+                const productPosInTargetList = this.state.me.targetList.indexOf(product.type);
                 const isTarget = productPosInTargetList !== -1;
+                let points = 0;
                 if (isTarget) {
-                    this.state.score += 3;
-                    bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-                    this.state.targetList.splice(productPosInTargetList, 1);
+                    points = 3;
+                    this.state.me.targetList.splice(productPosInTargetList, 1);
                 } else {
-                    this.state.score -= 1;
+                    points = -1;
                 }
+                this.state.me.score += points;
+                this.state.collected.push({
+                    percentsX: product.percentsX,
+                    percentsY: product.percentsY,
+                    points: points,
+                });
+                this.state.products.splice(i, 1);
             }
             if (product.percentsY < -20) {
-                const maxProductsY = Math.max(...this.state.products.map(p => p.percentsY) );
-                const rand = randInt(-this.state.productsRand, this.state.productsRand);
-                product.percentsY = maxProductsY + this.state.productsIntervalPercents + rand;
-                product.percentsX = randInt(5, 95);
-                product.speed = this.state.startSpeed;
-                product.type = randInt(1, 6);
+                // пропал продукт
+                this.state.products.splice(i, 1);
             }
         }
 
@@ -166,19 +163,23 @@ export default class OfflineGame extends GameCore {
 
         bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
 
-        const allCollected = this.state.targetList.length === 0;
-        // this.state.products.forEach( product => {
-        //     if (product.collected === false) allCollected = false;
-        // });
+        const allCollected = this.state.me.targetList.length === 0;
+
         if (allCollected) {
-            bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-            bus.emit('show-game-result', { text: 'Вы собрали все из списка покупок! Победа!', score: this.state.score });
-            clearInterval(this.secsInervalID);
-            clearTimeout(this.endTimerID);
-            this.stopController();
-            return;
+            this.genTargetList(4);
         }
         this.gameloopRequestId = requestAnimationFrame(this.gameloop);
+    }
+
+    genTargetList(len = 4) {
+        this.state.me.targetList = [];
+        for (let i = 0; i < len; i++) {
+            let newProduct = randInt(1, 6);
+            while (this.state.me.targetList.indexOf(newProduct) !== -1) {
+                newProduct = randInt(1, 6);
+            }
+            this.state.me.targetList.push(newProduct);
+        }
     }
 
     macroCollision(product, me) {

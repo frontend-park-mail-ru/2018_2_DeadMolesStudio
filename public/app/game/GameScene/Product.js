@@ -6,7 +6,7 @@ export default class GameProductFigure extends Figure {
         super(ctx);
 
         // this.body = new ImageFigure(this.ctx, 'app/game/GameScene/ketnipz.png');
-
+        this.id = null;
         this.x = 0;
         this.y = 0;
         this.direction = 'RIGHT';

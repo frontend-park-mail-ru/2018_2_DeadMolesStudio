@@ -9,6 +9,17 @@ const PRODUCTS = {
 
     EATEN_CORRECT: '+3',
     EATEN_WRONG: '-1',
+
+    HIDDEN_POOL: '\uD83D\uDCA9', // 💩
+};
+
+PRODUCTS.COLLECTED = (points = 1) => {
+    const id = `COL_${points}`;
+    if (!PRODUCTS[id]) {
+        const sign = points >= 0 ? '+' : '';
+        PRODUCTS[id] = `${sign}${points}`;
+    }
+    return id;
 };
 
 export default PRODUCTS;
