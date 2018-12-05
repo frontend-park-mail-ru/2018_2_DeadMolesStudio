@@ -2,7 +2,7 @@
   "name": "AbstractKetnipz",
   "version": "1.0.0",
   "description": "",
-  "private": true,
+
   "scripts": {
     "build": "pug --client public --name-after-file && npm run find_files && webpack",
     "start": "node index.js",

@@ -49,7 +49,7 @@
 
 @media only screen and (orientation:portrait){
 
-    .game-scene, .pre-game, .game-scene__game-finish-component {
+    .game-scene, .pre-game, .game-scene__game-finish-component, .chat-block, .chat-mini-bth {
 
         -webkit-transform: rotate(90deg);
 

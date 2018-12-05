@@ -34,7 +34,7 @@ const renderChat = (parent) => {
             chat.toggle();
         },
     });
-    // chatButton.render();
+    chatButton.render();
 };
 
 const startApp = () => {
