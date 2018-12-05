@@ -16,6 +16,9 @@ export default class OfflineGame extends GameCore {
         this.gameloopRequestId = null;
         this.productGenIntrvalID = null;
         this.gameloop = this.gameloop.bind(this);
+
+        this.playerNum = 1;
+        this.playerName = `player${this.playerNum}`;
     }
 
     start() {
@@ -25,7 +28,7 @@ export default class OfflineGame extends GameCore {
             truckPos = randInt(20, 80);
         }
         this.state = {
-            me: {
+            player1: {
                 percentsY: 8.7,
                 percentsX: 50,
                 direction: 'RIGHT',
@@ -46,6 +49,8 @@ export default class OfflineGame extends GameCore {
 
         this.state.playerGravity = 0.4;
         this.state.products = [];
+
+        this.state.playerName = this.playerName;
 
         this.genTargetList(4);
 
@@ -76,7 +81,7 @@ export default class OfflineGame extends GameCore {
             clearTimeout(this.endTimerID);
             cancelAnimationFrame(this.gameloopRequestId);
             this.stopController();
-            bus.emit('show-game-result', { text: 'Финиш!', score: this.state.me.score });
+            bus.emit('show-game-result', { text: 'Финиш!', score: this.state.player1.score });
         }, this.gameTime * 1000);
         this.secsInervalID = setInterval( () => {
             this.gameTime -= 1;
@@ -104,18 +109,18 @@ export default class OfflineGame extends GameCore {
             }
 
             product.percentsY -= product.speed / 1000 * delay;
-            if (this.macroCollision(product, this.state.me) ) {
+            if (this.macroCollision(product, this.state.player1) ) {
                 // Если собрали продукт
-                const productPosInTargetList = this.state.me.targetList.indexOf(product.type);
+                const productPosInTargetList = this.state.player1.targetList.indexOf(product.type);
                 const isTarget = productPosInTargetList !== -1;
                 let points = 0;
                 if (isTarget) {
                     points = 3;
-                    this.state.me.targetList.splice(productPosInTargetList, 1);
+                    this.state.player1.targetList.splice(productPosInTargetList, 1);
                 } else {
                     points = -1;
                 }
-                this.state.me.score += points;
+                this.state.player1.score += points;
                 this.state.collected.push({
                     percentsX: product.percentsX,
                     percentsY: product.percentsY,
@@ -129,41 +134,41 @@ export default class OfflineGame extends GameCore {
             }
         }
 
-        if (this.macroCollision(this.state.truck, this.state.me) ) {
-            if (this.state.truck.percentsX > this.state.me.percentsX) {
-                this.state.me.blockRight = true;
-                this.state.me.blockLeft = false;
+        if (this.macroCollision(this.state.truck, this.state.player1) ) {
+            if (this.state.truck.percentsX > this.state.player1.percentsX) {
+                this.state.player1.blockRight = true;
+                this.state.player1.blockLeft = false;
             } else {
-                this.state.me.blockRight = false;
-                this.state.me.blockLeft = true;
+                this.state.player1.blockRight = false;
+                this.state.player1.blockLeft = true;
             }
         }
 
-        if (!this.state.me.blockDown && this.macroCollision(this.state.truck, this.state.me) && (this.state.me.percentsY > 8.7) ) {
-            if (this.state.me.speedY < 0
-                && (this.state.me.percentsX) < (this.state.truck.percentsX + this.state.truck.width / 2)
-                && (this.state.me.percentsX) > (this.state.truck.percentsX - this.state.truck.width / 2) ) {
-                this.state.me.blockDown = true;
-                this.state.me.speedY = -0.4;
-                this.state.me.percentsY = this.state.truck.height + 4;
+        if (!this.state.player1.blockDown && this.macroCollision(this.state.truck, this.state.player1) && (this.state.player1.percentsY > 8.7) ) {
+            if (this.state.player1.speedY < 0
+                && (this.state.player1.percentsX) < (this.state.truck.percentsX + this.state.truck.width / 2)
+                && (this.state.player1.percentsX) > (this.state.truck.percentsX - this.state.truck.width / 2) ) {
+                this.state.player1.blockDown = true;
+                this.state.player1.speedY = -0.4;
+                this.state.player1.percentsY = this.state.truck.height + 4;
             } else {
-                this.state.me.blockDown = false;
-                this.state.me.percentsY = 8.7;
+                this.state.player1.blockDown = false;
+                this.state.player1.percentsY = 8.7;
             }
         }
 
-        if (this.state.me.blockDown
-            && !( (this.state.me.percentsX) < (this.state.truck.percentsX + this.state.truck.width / 2)
-                 && (this.state.me.percentsX) > (this.state.truck.percentsX - this.state.truck.width / 2) ) ) {
-            this.state.me.blockDown = false;
-            this.state.me.percentsY = 8.7;
-            this.state.me.speedY = 0;
+        if (this.state.player1.blockDown
+            && !( (this.state.player1.percentsX) < (this.state.truck.percentsX + this.state.truck.width / 2)
+                 && (this.state.player1.percentsX) > (this.state.truck.percentsX - this.state.truck.width / 2) ) ) {
+            this.state.player1.blockDown = false;
+            this.state.player1.percentsY = 8.7;
+            this.state.player1.speedY = 0;
         }
 
 
         bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
 
-        const allCollected = this.state.me.targetList.length === 0;
+        const allCollected = this.state.player1.targetList.length === 0;
 
         if (allCollected) {
             this.genTargetList(4);
@@ -172,19 +177,19 @@ export default class OfflineGame extends GameCore {
     }
 
     genTargetList(len = 4) {
-        this.state.me.targetList = [];
+        this.state.player1.targetList = [];
         for (let i = 0; i < len; i++) {
             let newProduct = randInt(1, 6);
-            while (this.state.me.targetList.indexOf(newProduct) !== -1) {
+            while (this.state.player1.targetList.indexOf(newProduct) !== -1) {
                 newProduct = randInt(1, 6);
             }
-            this.state.me.targetList.push(newProduct);
+            this.state.player1.targetList.push(newProduct);
         }
     }
 
     macroCollision(product, me) {
         const { productWidth, productHeight } = this.state;
-        const { width: meWidth, height: meHeight } = this.state.me;
+        const { width: meWidth, height: meHeight } = this.state[this.playerName];
 
         // координаты левого верхнего угла продукта
         const productX = product.percentsX - (productWidth - 1) / 2;
@@ -206,43 +211,43 @@ export default class OfflineGame extends GameCore {
 
     onControlsPressed(event) {
         if (this.pressed('LEFT', event) ) {
-            if (!this.state.me.blockLeft) {
-                this.state.me.percentsX = Math.max(0, this.state.me.percentsX - this.state.me.speed);
-                this.state.me.direction = 'LEFT';
+            if (!this.state.player1.blockLeft) {
+                this.state.player1.percentsX = Math.max(0, this.state.player1.percentsX - this.state.player1.speed);
+                this.state.player1.direction = 'LEFT';
             }
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-            this.state.me.blockRight = false;
+            this.state.player1.blockRight = false;
         }
         if (this.pressed('RIGHT', event) ) {
-            if (!this.state.me.blockRight) {
-                this.state.me.percentsX = Math.min(100, this.state.me.percentsX + this.state.me.speed);
-                this.state.me.direction = 'RIGHT';
+            if (!this.state.player1.blockRight) {
+                this.state.player1.percentsX = Math.min(100, this.state.player1.percentsX + this.state.player1.speed);
+                this.state.player1.direction = 'RIGHT';
             }
             bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-            this.state.me.blockLeft = false;
+            this.state.player1.blockLeft = false;
         }
         if (this.pressed('JUMP', event) ) {
-            this.state.me.blockRight = false;
-            this.state.me.blockLeft = false;
-            this.state.me.blockDown = false;
-            if (this.state.me.speedY === 0) {
-                this.state.me.speedY = 4;
+            this.state.player1.blockRight = false;
+            this.state.player1.blockLeft = false;
+            this.state.player1.blockDown = false;
+            if (this.state.player1.speedY === 0) {
+                this.state.player1.speedY = 4;
                 this.jumpInterval = setInterval( () => {
-                    if (this.state.me.blockDown === false) {
-                        this.state.me.percentsY += this.state.me.speedY;
-                        this.state.me.speedY -= this.state.playerGravity;
+                    if (this.state.player1.blockDown === false) {
+                        this.state.player1.percentsY += this.state.player1.speedY;
+                        this.state.player1.speedY -= this.state.playerGravity;
                     } else {
-                        this.state.me.blockRight = false;
-                        this.state.me.blockLeft = false;
-                        this.state.me.speedY = 0;
-                        this.state.me.percentsY = this.state.truck.height + 4;
+                        this.state.player1.blockRight = false;
+                        this.state.player1.blockLeft = false;
+                        this.state.player1.speedY = 0;
+                        this.state.player1.percentsY = this.state.truck.height + 4;
                         clearInterval(this.jumpInterval);
                         this.jumpInterval = null;
                         return;
                     }
-                    if (this.state.me.percentsY <= 8.7) {
-                        this.state.me.speedY = 0;
-                        this.state.me.percentsY = 8.7;
+                    if (this.state.player1.percentsY <= 8.7) {
+                        this.state.player1.speedY = 0;
+                        this.state.player1.percentsY = 8.7;
                         clearInterval(this.jumpInterval);
                         this.jumpInterval = null;
                     }
