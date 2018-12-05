@@ -7,18 +7,26 @@ import GameInfoComponent from './GameInfoComponent/GameInfoComponent.js';
 import ImageFigure from './ImageFigure.js';
 
 export default class GameScene {
-    constructor(canvas) {
+    constructor(canvas, poolSize = 7) {
         this.bus = bus;
         this.canvas = canvas;
+        this.poolSize = poolSize;
         this.ctx = canvas.getContext('2d');
-        this.scene = new Scene(this.ctx);
 
+        this.scene = new Scene(this.ctx);
         this.state = null;
         this.requestFrameID = null;
-        this.lastFrameTime = 0;
 
+        this.lastFrameTime = 0;
         this.products = [];
+
         this.me = null;
+        this.productFiguresPool = null;
+        this.productPoolNext = null;
+
+        this.collectedFiguresPool = null;
+        this.collectedPoolNext = null;
+        this.collectedPoolUsing = null;
     }
 
     init(state) {
@@ -31,16 +39,41 @@ export default class GameScene {
         const pixWidth = meWidth / 100 * ctx.canvas.width;
         const pixHeight = meHeight / 100 * ctx.canvas.height;
 
+        this.productFiguresPool = Array.from({ length: this.poolSize }, () => new GameProductFigure(ctx) );
+        this.productFiguresPool.forEach( (product) => {
+            product.textSize = this.state.productHeight / 100 * ctx.canvas.height;
+            product.id = this.scene.push(product);
+            product.x = -100;
+            product.y = -100;
+            product.type = PRODUCTS.HIDDEN_POOL;
+        });
+        this.productPoolNext = 0;
+
+        this.collectedPoolUsing = [];
+        this.collectedFiguresPool = Array.from({ length: this.poolSize }, () => new GameProductFigure(ctx) );
+        this.collectedFiguresPool.forEach( (collected) => {
+            collected.textSize = this.state.productHeight / 100 * ctx.canvas.height;
+            collected.id = this.scene.push(collected);
+            collected.x = -100;
+            collected.y = -100;
+            collected.type = PRODUCTS.HIDDEN_POOL;
+            this.collectedPoolUsing.push(false);
+        });
+        this.collectedPoolNext = 0;
+
+
         this.me = new GamePlayerFigure(ctx, pixWidth, pixHeight);
         this.me.id = this.scene.push(this.me);
-        this.products = this.state.products.map( (product) => {
-            const p = new GameProductFigure(ctx);
-            p.textSize = this.state.productHeight / 100 * ctx.canvas.height;
-            p.id = this.scene.push(p);
-            p.x = (product.percentsX - productWigth / 2) / 100 * ctx.canvas.width;
-            p.y = (100 - (product.percentsY - productHeight / 2) ) / 100 * ctx.canvas.height;
-            p.type = product.type;
-            return p;
+        this.state.products.forEach( (product) => {
+            const idx = this.productPoolNext;
+            if (idx >= this.productFiguresPool.length) {
+                console.error('Pool of productFigures out of range');
+                return;
+            }
+            this.productPoolNext += 1;
+            this.productFiguresPool[idx].x = (product.percentsX - productWigth / 2) / 100 * ctx.canvas.width;
+            this.productFiguresPool[idx].y = (100 - (product.percentsY - productHeight / 2) ) / 100 * ctx.canvas.height;
+            this.productFiguresPool[idx].type = product.type;
         });
 
         if (this.state.truck) {
@@ -72,33 +105,68 @@ export default class GameScene {
 
         // TODO: тут подпихиваем обновленный список продуктов
         let productList = '';
-        this.state.targetList.forEach( (targetProduct) => {
+        this.state.me.targetList.forEach( (targetProduct) => {
             productList += `${PRODUCTS[targetProduct]}`;
         });
 
         this.gameInfo.setInfo({
-            score: this.state.score,
+            score: this.state.me.score,
             time: this.state.leftTime,
             productList: productList,
         });
         this.gameInfo.render();
 
-        this.products.forEach( (product, pos) => {
-            const updProduct = this.state.products[pos];
-            if ( (updProduct.collected || updProduct.dead) && product.id) {
-                if (product.type === 'EATEN_CORRECT') return;
-                const isTarget = this.state.targetList.indexOf(product.type) !== -1;
-                product.type = isTarget ? 'EATEN_CORRECT' : 'EATEN_WRONG';
-                setTimeout( () => {
-                    scene.removeFigure(product.id);
-                    product.id = null;
-                }, 1 * 1000);
+        // выносим все элементы продуктов из пула за сцену
+        this.productFiguresPool.forEach( (product) => {
+            product.x = -100;
+            product.y = -100;
+            product.type = PRODUCTS.HIDDEN_POOL;
+        });
+        this.productPoolNext = 0;
+
+        const { productWidth, productHeight } = this.state;
+
+        // рисуем пришедшие из стейта данные о продуктах
+        this.state.products.forEach( (product) => {
+            const idx = this.productPoolNext;
+
+            if (idx >= this.productFiguresPool.length) {
+                console.error('Pool of productFigures out of range');
                 return;
             }
-            product.type = updProduct.type;
-            const { productWidth, productHeight } = state;
-            product.x = (updProduct.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
-            product.y = (100 - (updProduct.percentsY + productHeight / 2) ) / 100 * ctx.canvas.height;
+
+            this.productPoolNext += 1;
+
+            this.productFiguresPool[idx].x = (product.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
+            // TODO проверить некст строку, возможно должен быть минус | <- вот тут
+            this.productFiguresPool[idx].y = (100 - (product.percentsY + productHeight / 2) ) / 100 * ctx.canvas.height;
+            this.productFiguresPool[idx].type = product.type;
+        });
+
+        // о собранных продуктах
+        this.state.collected.forEach( (collected) => {
+            const idx = this.collectedPoolNext;
+            this.collectedPoolUsing[idx] = true;
+            // console.log('idx:', idx, 'using:', this.collectedPoolUsing);
+            this.collectedPoolNext = this.collectedPoolUsing.indexOf(false);
+
+            if (idx >= this.collectedFiguresPool.length || idx < 0) {
+                console.error('Pool of collectedFigures out of range:', idx);
+                return;
+            }
+
+            this.collectedFiguresPool[idx].x = (collected.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
+            this.collectedFiguresPool[idx].y = (100 - (collected.percentsY + productHeight / 2) ) / 100 * ctx.canvas.height;
+            this.collectedFiguresPool[idx].type = PRODUCTS.COLLECTED(collected.points);
+            // console.log('before', this.collectedFiguresPool[idx]);
+
+            setTimeout( () => {
+                // console.log('in timeout:', this.collectedFiguresPool[idx]);
+                this.collectedFiguresPool[idx].x = -100;
+                this.collectedFiguresPool[idx].y = -100;
+                this.collectedFiguresPool[idx].type = PRODUCTS.HIDDEN_POOL;
+                this.collectedPoolUsing[idx] = false;
+            }, 1 * 1000);
         });
     }
 
@@ -116,11 +184,11 @@ export default class GameScene {
 
         this.gameInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: textSize });
         let productList = '';
-        this.state.targetList.forEach( (targetProduct) => {
+        this.state.me.targetList.forEach( (targetProduct) => {
             productList += `${PRODUCTS[targetProduct]}`;
         });
         this.gameInfo.setInfo({
-            score: this.state.score,
+            score: this.state.me.score,
             time: this.state.leftTime,
             productList: productList,
         });
