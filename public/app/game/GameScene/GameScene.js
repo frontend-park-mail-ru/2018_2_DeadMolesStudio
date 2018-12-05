@@ -27,6 +27,9 @@ export default class GameScene {
         this.collectedFiguresPool = null;
         this.collectedPoolNext = null;
         this.collectedPoolUsing = null;
+
+        this.playerName = null;
+        this.opponentName = null;
     }
 
     init(state) {
@@ -34,8 +37,10 @@ export default class GameScene {
 
         this.state = state;
 
-        const { productWigth, productHeight } = state;
-        const { width: meWidth, height: meHeight } = state.me;
+        this.playerName = this.state.playerName;
+
+        const { productWidth, productHeight } = state;
+        const { width: meWidth, height: meHeight } = state[this.playerName];
         const pixWidth = meWidth / 100 * ctx.canvas.width;
         const pixHeight = meHeight / 100 * ctx.canvas.height;
 
@@ -71,7 +76,7 @@ export default class GameScene {
                 return;
             }
             this.productPoolNext += 1;
-            this.productFiguresPool[idx].x = (product.percentsX - productWigth / 2) / 100 * ctx.canvas.width;
+            this.productFiguresPool[idx].x = (product.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
             this.productFiguresPool[idx].y = (100 - (product.percentsY - productHeight / 2) ) / 100 * ctx.canvas.height;
             this.productFiguresPool[idx].type = product.type;
         });
@@ -85,9 +90,9 @@ export default class GameScene {
             this.truck.id = scene.push(this.truck);
         }
 
-        this.me.y = (100 - state.me.percentsY) / 100 * ctx.canvas.height;
-        this.me.x = state.me.percentsX / 100 * ctx.canvas.width;
-        this.me.direction = state.me.direction;
+        this.me.y = (100 - state[this.playerName].percentsY) / 100 * ctx.canvas.height;
+        this.me.x = state[this.playerName].percentsX / 100 * ctx.canvas.width;
+        this.me.direction = state[this.playerName].direction;
         this.me.id = scene.push(this.me);
         this.renderScene = this.renderScene.bind(this);
     }
@@ -97,20 +102,20 @@ export default class GameScene {
 
         this.state = state;
 
-        this.me.jumping = this.state.me.percentsY > 8.7;
+        this.me.jumping = this.state[this.playerName].percentsY > 8.7;
 
-        this.me.y = (100 - (state.me.percentsY) ) / 100 * ctx.canvas.height;
-        this.me.x = state.me.percentsX / 100 * ctx.canvas.width;
-        this.me.direction = this.state.me.direction;
+        this.me.y = (100 - (state[this.playerName].percentsY) ) / 100 * ctx.canvas.height;
+        this.me.x = state[this.playerName].percentsX / 100 * ctx.canvas.width;
+        this.me.direction = this.state[this.playerName].direction;
 
         // TODO: тут подпихиваем обновленный список продуктов
         let productList = '';
-        this.state.me.targetList.forEach( (targetProduct) => {
+        this.state[this.playerName].targetList.forEach( (targetProduct) => {
             productList += `${PRODUCTS[targetProduct]}`;
         });
 
         this.gameInfo.setInfo({
-            score: this.state.me.score,
+            score: this.state[this.playerName].score,
             time: this.state.leftTime,
             productList: productList,
         });
@@ -184,11 +189,11 @@ export default class GameScene {
 
         this.gameInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: textSize });
         let productList = '';
-        this.state.me.targetList.forEach( (targetProduct) => {
+        this.state[this.playerName].targetList.forEach( (targetProduct) => {
             productList += `${PRODUCTS[targetProduct]}`;
         });
         this.gameInfo.setInfo({
-            score: this.state.me.score,
+            score: this.state[this.playerName].score,
             time: this.state.leftTime,
             productList: productList,
         });

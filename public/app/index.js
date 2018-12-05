@@ -16,7 +16,7 @@ import SignUpView from './views/SignUp.js';
 import GameView from './views/GameView.js';
 import PreGameView from './views/PreGame.js';
 import ChatView from './views/ChatView.js';
-import MiniChatView from './views/MiniChatView.js';
+import preLoad from './modules/PreLoad.js';
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -55,6 +55,15 @@ const startApp = () => {
 
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
+
+    bus.on('preload:loaded', () => { console.log('all gameImages loaded'); alert('all gameImages loaded'); });
+
+    const gameResources = [
+        'app/game/GameScene/img/ketnipz.png',
+        'app/game/GameScene/img/ketnipz_jump.png',
+        'app/game/GameScene/img/magaz.png',
+    ];
+    preLoad(gameResources);
 
     bus.on('loggedout', () => {
         router.go('/login');
