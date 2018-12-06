@@ -103,40 +103,15 @@ export default class EditProfileView extends BaseView {
                 this.form.hideErrors();
 
                 const formData = this.form.innerElem.elements;
-                const f = this.form.innerElem;
-                //
-                // const а = new FormData(formData);
-                // console.log(a);
+                const avatar = this.form.innerElem.querySelector('input[name ="avatar"]');
 
-                console.log('edit profile');
-                console.log(formData);
-                console.log(f);
-
-                const userAvatar = formData.avatar;
-
-                if (userAvatar) {
-                    console.log('ecnm');
-                    console.log(userAvatar);
-                } else {
-                    console.log('no');
-                }
-
-                if (userAvatar.value === '') {
-                    console.log('пусто');
-                } else {
-                    console.log('ytn');
-                    console.log(formData.avatar.files[0]);
-                    console.log(formData.avatar.name);
-                }
-
-                if (userAvatar.value !== '') {
-                    console.log('avatar block');
-                    console.log(userAvatar.value);
-                    // // && this.user.avatar !== userAvatar
-                    //     console.log(userAvatar);
+                if (avatar.value !== '') {
                     const avatarData = new FormData();
-                    const newAvatar = formData.avatar.files[0];
-                    avatarData.append('avatar', newAvatar);
+                    avatarData.append('avatar', avatar.files[0], avatar.value);
+
+                    console.log(avatarData.has('avatar') );
+                    // console.log(avatarData.values() );
+
 
                     AjaxFetchModule
                         .doPut({
@@ -146,12 +121,68 @@ export default class EditProfileView extends BaseView {
                             body: avatarData,
                         })
                         .then( (response) => {
+                            console.log(response);
                             console.log(response.status);
                         })
                         .catch( (err) => {
                             console.log(err);
                         });
                 }
+
+
+                // console.log(avatar);
+                // console.log(avatar.files[0]);
+                // console.log(avatar.name);
+
+                // const f = this.form.innerElem;
+                //
+                // const а = new FormData(formData);
+                // console.log(a);
+
+                // console.log('edit profile');
+                // console.log(formData);
+                // // console.log(f);
+                //
+                // const userAvatar = formData.avatar;
+                //
+                // if (userAvatar) {
+                //     console.log('ecnm');
+                //     console.log(userAvatar);
+                // } else {
+                //     console.log('no');
+                // }
+                //
+                // if (userAvatar.value === '') {
+                //     console.log('пусто');
+                // } else {
+                //     console.log('ytn');
+                //     console.log(formData.avatar.files[0]);
+                //     console.log(formData.avatar.name);
+                // }
+
+                // if (userAvatar.value !== '') {
+                //     console.log('avatar block');
+                //     console.log(userAvatar.value);
+                //     // // && this.user.avatar !== userAvatar
+                //     //     console.log(userAvatar);
+                //     const avatarData = new FormData();
+                //     const newAvatar = formData.avatar.files[0];
+                //     avatarData.append('avatar', newAvatar);
+                //
+                //     AjaxFetchModule
+                //         .doPut({
+                //             path: '/profile/avatar',
+                //             domain: backDomain,
+                //             contentType: 'multipart/form-data',
+                //             body: avatarData,
+                //         })
+                //         .then( (response) => {
+                //             console.log(response.status);
+                //         })
+                //         .catch( (err) => {
+                //             console.log(err);
+                //         });
+                // }
 
                 this.fetchUpdate(formData);
             },
@@ -201,7 +232,7 @@ export default class EditProfileView extends BaseView {
             {
                 name: 'avatar',
                 type: 'file',
-                accept: 'image/jpeg,image/png',
+                // accept: 'image/jpeg,image/png',
                 className: 'bordered_input',
             },
             {

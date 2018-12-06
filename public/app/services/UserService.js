@@ -53,7 +53,6 @@ export default class UserService {
         };
 
         if (userState.isAuth() ) {
-            console.log('юзер есть', userState);
             data.user = userState.getUser();
             data.ok = true;
             return data;
@@ -100,16 +99,30 @@ export default class UserService {
         const password = formData.password.value;
         const passwordRepeat = formData.password_repeat.value;
 
-        if (password !== passwordRepeat) {
+        if (!(email && password && passwordRepeat && nickname) ) {
             data.err.errors.push({
-                text: 'Пароли не совпадают',
+                text: 'Заполните все поля!',
             });
             return data;
         }
 
-        if (!(email && password && passwordRepeat && nickname) ) {
+        if (!this.validateEmail(email) ) {
             data.err.errors.push({
-                text: 'Заполните все поля!',
+                text: 'Емэил не верный',
+            });
+            return data;
+        }
+
+        if (!this.validateNickname(nickname) ) {
+            data.err.errors.push({
+                text: 'Nickname не верный',
+            });
+            return data;
+        }
+
+        if (password !== passwordRepeat) {
+            data.err.errors.push({
+                text: 'Пароли не совпадают',
             });
             return data;
         }
@@ -205,6 +218,18 @@ export default class UserService {
         userState.deleteUser();
         data.ok = true;
         return data;
+    }
+
+    static validateEmail(email) {
+        const reg = /^(?!.*@.*@.*$)(?!.*@.*\-\-.*\..*$)(?!.*@.*\-\..*$)(?!.*@.*\-$)(?!.*<.*$)(?!.*>.*$)(.*@.+(\..{1,11})?)$/;
+
+        return reg.test(email);
+    }
+
+    static validateNickname(nickname) {
+        const reg = /^(?!.*<.*$)(?!.*>.*$)(?!.* .*$)(.*)$/;
+
+        return reg.test(nickname);
     }
 
     static fetchUser() {

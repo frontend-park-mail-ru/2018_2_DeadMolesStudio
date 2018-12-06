@@ -1,3 +1,5 @@
+import backDomain from '../../projectSettings.js';
+
 export default class ProfileComponent {
     constructor({ el = document.body, data = {} } = {}) {
         this._el = el;
@@ -29,7 +31,10 @@ export default class ProfileComponent {
             win,
             draws,
             loss,
+            avatar,
         } = this._data;
+
+        console.log(avatar);
         const profile = {
             'Никнейм: ': nickname,
             'Почта: ': email,
@@ -49,5 +54,12 @@ export default class ProfileComponent {
                 `.trim()
             );
         }
+        profileBlock.insertAdjacentHTML(
+            'beforeend', `
+                <img src="${backDomain + avatar}" alt="аватар" class="user-avatar-block">
+                `.trim()
+        );
     }
 }
+
+// <img src="../../../img/ketnipz-default.jpg" alt="аватар" class="user-avatar-block">

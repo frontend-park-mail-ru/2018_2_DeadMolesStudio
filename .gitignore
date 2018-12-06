@@ -1,5 +1,8 @@
 .idea
-js/components/Form/form.tmpl.js
+app/components/Form/form.tmpl.js
+
+sw-files.js
+
 
 public/dist
 

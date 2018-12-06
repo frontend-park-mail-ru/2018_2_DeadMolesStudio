@@ -22,7 +22,6 @@ export default class FormComponent {
         this._el.insertAdjacentHTML('beforeend', form);
         this._innerElem = this._el.querySelector('form');
         if (this._multipart) {
-
             this._innerElem.setAttribute('enctype', 'multipart/form-data');
         }
 

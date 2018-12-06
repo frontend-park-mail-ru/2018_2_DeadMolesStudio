@@ -15,7 +15,8 @@ export default class AjaxFetchModule {
                 options.headers = { 'Content-Type': 'application/json; charset=utf-8' };
                 options.body = JSON.stringify(body);
             } else {
-                options.headers = { 'Content-Type': contentType };
+                console.log('dcdsdff');
+                // options.headers = { 'Content-Type': 'multipart/form-data' };
                 options.body = body;
             }
         }

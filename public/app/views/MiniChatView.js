@@ -104,7 +104,7 @@ export default class MiniChatView extends BaseView {
                         data = await UserService.getUserByID(author);
                         if (data.ok) {
                             nickname = data.user.nickname;
-                            console.log(data.user);
+                            // console.log(data.user);
                             this.chatComponent.appendMessage({ nickname, text });
                             if (!this.users[author]) {
                                 this.users[author] = nickname;
