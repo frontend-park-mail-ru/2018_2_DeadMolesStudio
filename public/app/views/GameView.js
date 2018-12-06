@@ -1,8 +1,8 @@
 import BaseView from './Base.js';
 import ButtonComponent from '../components/Button/Button.mjs';
 import SectionComponent from '../components/Section/Section.mjs';
-import GAME_MODES from '../game/GameModes.js';
-import Game from '../game/Game.js';
+import GAME_MODES from '../game/GameModes.ts';
+import Game from '../game/Game.ts';
 import bus from '../modules/EventBus.js';
 import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
 import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent.js';

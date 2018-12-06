@@ -1,22 +1,29 @@
 export default class GameController {
+
+    canvas;
+    sensitivity;
+
+    keys;
+    previous;
+
+    onPress;
+    onUp;
+
     constructor(canvas) {
         this.canvas = canvas;
-        this.previous = {};
+        this.sensitivity = 1;
+
         this.keys = {};
+        this.previous = {};
 
         this.onPress = this.keyHandler.bind(this, 'press');
         this.onUp = this.keyHandler.bind(this, 'up');
-        this.sensivity = 1;
     }
 
     start() {
         document.addEventListener('keydown', this.onPress);
         document.addEventListener('keyup', this.onUp);
-        // let gyroscope = new Gyroscope({frequency: 60});
-        // gyroscope.addEventListener('reading', e => {
-        //     alert(`$Y:${gyroscope.y}`);
-        // });
-        // gyroscope.start();
+
         window.addEventListener('devicemotion', this.onDeviceMotion.bind(this), true);
         window.addEventListener('touchstart', this.onTouchStart.bind(this) );
         window.addEventListener('touchend', this.onTouchEnd.bind(this) );
@@ -39,20 +46,9 @@ export default class GameController {
 
     onDeviceMotion(e) {
         // e.acceleration
-        this.angleY = e.accelerationIncludingGravity.y;
-        this.keys['__right_incline'] = this.angleY > this.sensivity;
-        this.keys['__left_incline'] = this.angleY < -this.sensivity;
-        // if (this.angleY < 0) {
-        //     // Наклон влево
-        //     // alert(`Влево ${angleY}`);
-        //     this.keys['__right_incline'] = false;
-        //     this.keys['__left_incline'] = true;
-        // } else {
-        //     // Наклон вправо
-        //     // alert(`Вправо ${angleY}`);
-        //     this.keys['__right_incline'] = true;
-        //     this.keys['__left_incline'] = false;
-        // }
+        const angleY = e.accelerationIncludingGravity.y;
+        this.keys['__right_incline'] = angleY > this.sensitivity;
+        this.keys['__left_incline'] = angleY < -this.sensitivity;
     }
 
     // нажата ли клавиша
@@ -86,7 +82,7 @@ export default class GameController {
         }, {});
 
         // this.previous = Object.assign({}, this.keys);
-        this.previous = Object.assign({}, this.keys);
+        this.previous = { ...this.keys };
         return clicked;
     }
 }

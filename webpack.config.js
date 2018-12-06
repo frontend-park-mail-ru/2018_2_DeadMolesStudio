@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: './public/app/index.js',
+    devtool: 'inline-source-map',
     output: {
         path: path.resolve(__dirname, 'public/dist'),
         filename: 'bundle.[hash].js',
@@ -17,6 +18,9 @@ module.exports = {
             inject: 'body',
         }),
     ],
+    resolve: {
+        extensions: ['.ts', ' '],
+    },
     module: {
         rules: [
             {
@@ -39,6 +43,11 @@ module.exports = {
                         },
                     },
                 ],
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                loader: 'ts-loader',
             },
         ],
     },

@@ -1,11 +1,16 @@
-import GAME_MODES from './GameModes.js';
+import GAME_MODES from './GameModes';
 import OfflineGame from './Core/Offline.js';
 import GameScene from './GameScene/GameScene.js';
-import GameController from './GameController.js';
+import GameController from './GameController';
 
 export default class Game {
+
+    gameScene;
+    gameController;
+    gameCore;
+
     constructor(mode, canvas) {
-        console.log('Game()');
+        // console.log('Game()');
         let GameConstructor = null;
         switch (mode) {
         case GAME_MODES.ONLINE_MULTI:
@@ -16,6 +21,7 @@ export default class Game {
         default:
             console.log(mode, ' NOT FOUND');
         }
+
 
         this.gameScene = new GameScene(canvas);
         this.gameController = new GameController(canvas);
