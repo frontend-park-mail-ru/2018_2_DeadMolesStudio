@@ -1,7 +1,7 @@
 const fs = require('fs');
 const globby = require('globby');
 
-const dir = ['**/public/index.html',
+const dir = ['**/public/template.html',
     '**/public/css/*.*',
     '**/public/fonts/*.*',
     '**/public/app/**/*.*',

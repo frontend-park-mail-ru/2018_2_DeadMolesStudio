@@ -1,6 +1,8 @@
 .idea
 js/components/Form/form.tmpl.js
 
+public/dist
+
 # Created by https://www.gitignore.io/api/macos,node
 
 ### macOS ###

@@ -1,25 +1,22 @@
 var path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
-
-const srcPath = subPath => path.join(__dirname, './', subPath);
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'development',
     entry: './public/app/index.js',
     output: {
         path: path.resolve(__dirname, 'public/dist'),
-        filename: 'bundle.js',
+        filename: 'bundle.[hash].js',
     },
-    resolve: {
-        extensions: ['.js', '.css', '.html'],
-        alias: {
-            components: srcPath('components'),
-            models: srcPath('models'),
-            utils: srcPath('utils'),
-            config: srcPath('config'),
-        },
-    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: '../index.html',
+            template: './public/template.html',
+            inject: 'body',
+        }),
+    ],
     module: {
         rules: [
             {
@@ -38,8 +35,8 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })]
-                        }
+                            plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
+                        },
                     },
                 ],
             },
