@@ -1,28 +1,45 @@
-import GameCore from './GameCore.js';
-import EVENTS from './Events.js';
+import GameCore from './GameCore';
+import EVENTS from './Events';
 import bus from '../../modules/EventBus.js';
-import { randInt } from '../../modules/Utils.mjs';
-
+import { randInt } from '../../modules/Utils.js';
 
 
 // percentsX считаю в процентах слева направо
 // percentsY считаю в процентах снизу вверх
 export default class OfflineGame extends GameCore {
+
+    lastFrame;
+    gameloopRequestId;
+    productGenIntervalID;
+    jumpInterval;
+    secsIntervalID;
+    endTimerID;
+
+    state;
+    playerNum;
+    playerName;
+    gameTime;
+
     constructor(controller, scene) {
-        console.log('OfflineGame()');
         super(controller, scene);
-        this.state = {};
+
         this.lastFrame = 0;
         this.gameloopRequestId = null;
-        this.productGenIntrvalID = null;
+        this.productGenIntervalID = null;
+        this.jumpInterval = null;
+        this.secsIntervalID = null;
+        this.endTimerID = null;
         this.gameloop = this.gameloop.bind(this);
 
+        this.state = {};
         this.playerNum = 1;
         this.playerName = `player${this.playerNum}`;
+
+        this.gameTime = null;
     }
 
-    start() {
-        super.start();
+    start(_) {
+        super.start(_);
         let truckPos = randInt(20, 80);
         while (truckPos < 60 && truckPos > 40) {
             truckPos = randInt(20, 80);
@@ -61,7 +78,7 @@ export default class OfflineGame extends GameCore {
         this.state.productsIntervalPercents = 35;
         this.state.productsRand = 3;
 
-        this.productGenIntrvalID = setInterval( () => {
+        this.productGenIntervalID = setInterval( () => {
             console.log('продукт создан');
             this.state.products.push({
                 type: randInt(1, 6),
@@ -77,13 +94,13 @@ export default class OfflineGame extends GameCore {
 
         this.endTimerID = setTimeout( () => {
             console.log('FINISH!!!!');
-            clearInterval(this.secsInervalID);
+            clearInterval(this.secsIntervalID);
             clearTimeout(this.endTimerID);
             cancelAnimationFrame(this.gameloopRequestId);
             this.stopController();
             bus.emit('show-game-result', { text: 'Финиш!', score: this.state.player1.score });
         }, this.gameTime * 1000);
-        this.secsInervalID = setInterval( () => {
+        this.secsIntervalID = setInterval( () => {
             this.gameTime -= 1;
             this.state.leftTime = this.gameTime;
         }, 1000);
@@ -92,7 +109,7 @@ export default class OfflineGame extends GameCore {
     destroy() {
         console.log('DESTROOOOY!');
         clearTimeout(this.endTimerID);
-        clearInterval(this.productGenIntrvalID);
+        clearInterval(this.productGenIntervalID);
         cancelAnimationFrame(this.gameloopRequestId);
         super.destroy();
     }

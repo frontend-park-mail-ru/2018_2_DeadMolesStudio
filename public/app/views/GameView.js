@@ -5,7 +5,7 @@ import GAME_MODES from '../game/GameModes.ts';
 import Game from '../game/Game.ts';
 import bus from '../modules/EventBus.js';
 import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
-import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent.js';
+import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent.ts';
 
 export default class GameView extends BaseView {
     constructor(el) {

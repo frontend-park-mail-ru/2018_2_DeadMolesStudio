@@ -1,13 +1,22 @@
-import Figure from '../../modules/graphics/Figure.js';
-import ImageFigure from './ImageFigure.js';
+import Figure from '../../modules/graphics/Figure';
+import ImageFigure from './ImageFigure';
 
 export default class GamePlayerFigure extends Figure {
-    constructor(ctx, meWidth, meHeight) {
+
+    body;
+    bodyJump;
+    jumping;
+    direction;
+
+    isOpponent;
+
+    constructor(ctx, meWidth, meHeight, isOpponent = false) {
         super(ctx);
 
         this.body = new ImageFigure(this.ctx, 'app/game/GameScene/img/ketnipz.png');
         this.bodyJump = new ImageFigure(this.ctx, 'app/game/GameScene/img/ketnipz_jump.png');
-        console.log(meWidth, meHeight);
+        this.isOpponent = isOpponent;
+
         this.body.width = meWidth;
         this.body.height = meHeight;
         this.bodyJump.width = meWidth;

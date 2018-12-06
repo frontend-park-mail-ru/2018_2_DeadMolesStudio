@@ -1,4 +1,11 @@
 export default class Scene {
+
+    ctx;
+    frontView;
+    backView;
+    figures;
+    _curFigureID;
+
     constructor(ctx) {
         this.ctx = ctx;
         this.frontView = [];

@@ -1,4 +1,12 @@
 export default class Figure {
+
+    ctx;
+    x;
+    y;
+    width;
+    height;
+    fillStyle;
+
     constructor(ctx) {
         this.ctx = ctx;
         this.x = 0;

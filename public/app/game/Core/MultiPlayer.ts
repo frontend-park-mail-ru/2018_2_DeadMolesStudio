@@ -1,12 +1,26 @@
-import GameCore from './GameCore.js';
-import EVENTS from './Events.js';
+import GameCore from './GameCore';
+import EVENTS from './Events';
 import bus from '../../modules/EventBus.js';
-import { randInt } from '../../modules/Utils.mjs';
 import GameService from '../../services/GameService.js';
 
 // percentsX считаю в процентах слева направо
 // percentsY считаю в процентах снизу вверх
 export default class MultiPlayerGame extends GameCore {
+
+    lastFrame;
+    gameloopRequestId;
+    secsIntervalID;
+    opponentID;
+    endTimerID;
+
+    gameService;
+
+    state;
+    playerNum;
+    playerName;
+    opponentName;
+    gameTime;
+
     constructor(controller, scene) {
         console.log('MultiPlayerGame()');
         super(controller, scene);
@@ -23,7 +37,7 @@ export default class MultiPlayerGame extends GameCore {
     }
 
     start(json) {
-        super.start();
+        super.start(json);
         bus.on('ws:state', this.handleState.bind(this) );
         bus.on('ws:disconnected', this.handleDisconnect.bind(this) );
         bus.on('ws:time_over', this.handleTimeOver.bind(this) );
@@ -49,12 +63,12 @@ export default class MultiPlayerGame extends GameCore {
         this.endTimerID = setTimeout( () => {
             console.log('FINISH!!!!');
             alert('Время вышло!');
-            clearInterval(this.secsInervalID);
+            clearInterval(this.secsIntervalID);
             // TODO вот тут возможно стоит ждать финиша от сервера а не самим выводить резалт
             bus.emit(EVENTS.FINISH_GAME, this.state.score);
         }, this.gameTime * 1000);
 
-        this.secsInervalID = setInterval( () => {
+        this.secsIntervalID = setInterval( () => {
             this.gameTime -= 1;
             this.state.leftTime = this.gameTime;
         }, 1000);
@@ -101,14 +115,14 @@ export default class MultiPlayerGame extends GameCore {
     }
 
     // TODO по идее этот метод не нужен :(
-    // gameloop(now) {
-    //     const delay = now - this.lastFrame;
-    //     this.lastFrame = now;
-    //
-    //     bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
-    //
-    //     this.gameloopRequestId = requestAnimationFrame(this.gameloop);
-    // }
+    gameloop(now) {
+        const delay = now - this.lastFrame;
+        this.lastFrame = now;
+
+        bus.emit(EVENTS.GAME_STATE_CHANGED, this.state);
+
+        this.gameloopRequestId = requestAnimationFrame(this.gameloop);
+    }
 
     onControlsPressed(event) {
         const actions = [];

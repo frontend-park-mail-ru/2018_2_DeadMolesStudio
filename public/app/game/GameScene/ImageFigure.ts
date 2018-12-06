@@ -1,6 +1,12 @@
-import Figure from '../../modules/graphics/Figure.js';
+import Figure from '../../modules/graphics/Figure';
 
 export default class ImageFigure extends Figure {
+
+    imagePath;
+    image;
+    imageLoaded;
+    direction;
+
     constructor(ctx, imagePath) {
         super(ctx);
         this.width = 0;

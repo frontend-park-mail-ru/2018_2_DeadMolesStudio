@@ -1,7 +1,7 @@
 import {
     createElementFromHTML,
     noop,
-} from '../../modules/Utils.mjs';
+} from '../../modules/Utils.js';
 
 export default class LinkComponent {
     constructor({ el = document.body, text = '', href = '', className = 'default_link' }) {

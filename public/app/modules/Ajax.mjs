@@ -1,4 +1,4 @@
-import { noop } from './Utils.mjs';
+import { noop } from './Utils.js';
 
 export default class AjaxModule {
     static _ajax({ callback = noop, method = 'GET', path = '/', domain = '', body } = {}) {

@@ -1,4 +1,4 @@
-import EVENTS from './Events.js';
+import EVENTS from './Events';
 import bus from '../../modules/EventBus.js';
 
 const KEYS = {
@@ -8,6 +8,11 @@ const KEYS = {
 };
 
 export default class GameCore {
+
+    controller;
+    scene;
+    controllersLoopIntervalId;
+
     constructor(controller, scene) {
         this.controller = controller;
         this.scene = scene;
@@ -19,7 +24,7 @@ export default class GameCore {
         this.onControlsPressed = this.onControlsPressed.bind(this);
     }
 
-    start() {
+    start(json) {
         bus.on(EVENTS.CONTROLS_PRESSED, this.onControlsPressed);
         bus.on(EVENTS.START_GAME, this.onGameStarted);
         bus.on(EVENTS.FINISH_GAME, this.onGameFinished);
@@ -55,19 +60,19 @@ export default class GameCore {
         return KEYS[name].some( key => data[key.toLowerCase()] );
     }
 
-    onControlsPressed() {
+    onControlsPressed(event) {
         console.error('this method must be overriden');
     }
 
-    onGameStarted() {
+    onGameStarted(event) {
         console.error('this method must be overriden');
     }
 
-    onGameFinished() {
+    onGameFinished(event) {
         console.error('this method must be overriden');
     }
 
-    onGameStateChanged() {
+    onGameStateChanged(event) {
         console.error('this method must be overriden');
     }
 }

@@ -1,5 +1,5 @@
 import ButtonComponent from '../Button/Button.mjs';
-import { noop } from '../../modules/Utils.mjs';
+import { noop } from '../../modules/Utils.js';
 
 export default class MenuComponent {
     constructor({ el = document.body, titles = {}, actionOnButton = noop } = {}) {

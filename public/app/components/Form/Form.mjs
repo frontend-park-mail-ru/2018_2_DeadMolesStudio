@@ -1,4 +1,4 @@
-import { noop } from '../../modules/Utils.mjs';
+import { noop } from '../../modules/Utils.js';
 
 export default class FormComponent {
     constructor({ el = document.body, name, header, inputs = [], multipart = false } = {}) {

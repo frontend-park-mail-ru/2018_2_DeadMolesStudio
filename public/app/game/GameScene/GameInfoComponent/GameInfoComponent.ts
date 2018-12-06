@@ -1,4 +1,11 @@
 export default class GameInfoComponent {
+
+    parentElem;
+    score;
+    time;
+    productList;
+    infoElem;
+
     constructor({ parentElem, textSize = '30px', top = '11%', left = '2%' }) {
         this.parentElem = parentElem;
         this.score = null;

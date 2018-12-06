@@ -1,11 +1,18 @@
-import Figure from '../../modules/graphics/Figure.js';
-import PRODUCTS from './ProductTypes.js';
+import Figure from '../../modules/graphics/Figure';
+import PRODUCTS from './ProductTypes';
 
 export default class GameProductFigure extends Figure {
+
+    id;
+    textSize;
+    direction;
+
+    type;
+    text;
+
     constructor(ctx) {
         super(ctx);
 
-        // this.body = new ImageFigure(this.ctx, 'app/game/GameScene/ketnipz.png');
         this.id = null;
         this.x = 0;
         this.y = 0;
@@ -25,11 +32,6 @@ export default class GameProductFigure extends Figure {
         this.text = PRODUCTS[this.type];
 
         ctx.fillText(this.text, this.x, this.y);
-        // this.body.x = this.x;
-        // this.body.y = this.y;
-        // this.body.direction = this.direction;
-        //
-        // this.body.render();
     }
 
     setup() {}

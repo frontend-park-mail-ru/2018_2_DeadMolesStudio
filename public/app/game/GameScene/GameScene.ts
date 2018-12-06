@@ -1,26 +1,49 @@
-import bus from '../../modules/EventBus.js';
-import Scene from '../../modules/graphics/Scene.js';
-import GamePlayerFigure from './Player.js';
-import GameProductFigure from './Product.js';
-import PRODUCTS from './ProductTypes.js';
-import GameInfoComponent from './GameInfoComponent/GameInfoComponent.js';
-import ImageFigure from './ImageFigure.js';
+import Scene from '../../modules/graphics/Scene';
+import GamePlayerFigure from './Player';
+import GameProductFigure from './Product';
+import PRODUCTS from './ProductTypes';
+import GameInfoComponent from './GameInfoComponent/GameInfoComponent';
+import ImageFigure from './ImageFigure';
 
 export default class GameScene {
+
+    ctx;
+    canvas;
+    scene;
+
+    requestFrameId;
+    lastFrameTime;
+
+    me;
+    opponent;
+    truck;
+    gameInfo;
+
+    poolSize;
+    productFiguresPool;
+    productPoolNext;
+
+    collectedFiguresPool;
+    collectedPoolNext;
+    collectedPoolUsing;
+
+    state;
+    playerName;
+    opponentName;
+
+
     constructor(canvas, poolSize = 7) {
-        this.bus = bus;
         this.canvas = canvas;
-        this.poolSize = poolSize;
         this.ctx = canvas.getContext('2d');
-
         this.scene = new Scene(this.ctx);
-        this.state = null;
-        this.requestFrameID = null;
 
+        this.requestFrameId = null;
         this.lastFrameTime = 0;
-        this.products = [];
 
         this.me = null;
+        this.truck = null;
+        this.poolSize = poolSize;
+
         this.productFiguresPool = null;
         this.productPoolNext = null;
 
@@ -28,6 +51,7 @@ export default class GameScene {
         this.collectedPoolNext = null;
         this.collectedPoolUsing = null;
 
+        this.state = null;
         this.playerName = null;
         this.opponentName = null;
     }
@@ -98,7 +122,7 @@ export default class GameScene {
     }
 
     setState(state) {
-        const { ctx, scene } = this;
+        const { ctx } = this;
 
         this.state = state;
 
@@ -176,10 +200,9 @@ export default class GameScene {
     }
 
     renderScene(now) {
-        const { ctx, scene } = this;
         this.lastFrameTime = now;
 
-        scene.render();
+        this.scene.render();
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
 

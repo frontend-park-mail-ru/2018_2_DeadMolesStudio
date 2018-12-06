@@ -1,6 +1,6 @@
 import GAME_MODES from './GameModes';
-import OfflineGame from './Core/Offline.js';
-import GameScene from './GameScene/GameScene.js';
+import OfflineGame from './Core/Offline';
+import GameScene from './GameScene/GameScene';
 import GameController from './GameController';
 
 export default class Game {

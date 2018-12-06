@@ -1,13 +1,20 @@
-import ButtonComponent from '../../../components/Button/Button.mjs';
+import ButtonComponent from '../../../components/Button/Button.js'
 import bus from '../../../modules/EventBus.js';
-import EVENTS from '../../Core/Events.js';
+import EVENTS from '../../Core/Events';
 
 export default class FinishGameComponent {
-    constructor({ el } = {}) {
+
+    el;
+    text;
+    score;
+    block;
+
+    constructor({ el = document.createElement('div') } = {}) {
         this.el = el;
 
         this.text = null;
         this.score = null;
+        this.block = null;
 
         bus.on('show-game-result', this.setInfo.bind(this) );
     }
