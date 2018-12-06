@@ -54,11 +54,20 @@ export default class ProfileComponent {
                 `.trim()
             );
         }
-        profileBlock.insertAdjacentHTML(
-            'beforeend', `
+
+        if (avatar) {
+            profileBlock.insertAdjacentHTML(
+                'beforeend', `
                 <img src="${backDomain + avatar}" alt="аватар" class="user-avatar-block">
                 `.trim()
-        );
+            );
+        } else {
+            profileBlock.insertAdjacentHTML(
+                'beforeend', `
+                <img src="../../../img/ketnipz-default.jpg" alt="аватар" class="user-avatar-block">
+                `.trim()
+            );
+        }
     }
 }
 

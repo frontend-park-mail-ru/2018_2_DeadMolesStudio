@@ -167,10 +167,12 @@ export default class UserService {
             ok: false,
         };
 
+
         const email = formData.email.value;
         const nickname = formData.nickname.value;
         const password = formData.password.value;
         const passwordRepeat = formData.password_repeat.value;
+        const userAvatar = formData.avatar;
 
         const req = {};
 
@@ -192,27 +194,40 @@ export default class UserService {
             req.password = password;
         }
 
-        if (Object.keys(req).length === 0) {
-            return data;
+        if (Object.keys(req).length !== 0) {
+            const response = await this.fetchUpdateUpUser(req);
+
+            if (response.status === 403) {
+                const body = await response.json();
+                data.err.errors = body.error;
+                return data;
+            }
+
+            if (response.status === 401) {
+                data.err.mainErr = 'Надо авторизоваться!';
+                return data;
+            }
+
+            if (response.status !== 200) {
+                data.err.mainErr = 'Что-то пошло не так!';
+                return data;
+            }
         }
 
-        const response = await this.fetchUpdateUpUser(req);
+        if (userAvatar.value !== '') {
+            console.log(userAvatar.files[0]);
+            const avatarData = new FormData();
+            avatarData.append('avatar', userAvatar.files[0], userAvatar.value);
 
-        if (response.status === 403) {
-            const body = await response.json();
-            data.err.errors = body.error;
-            return data;
-        }
+            const responseAvatar = await this.fetchUpdateAvatar(avatarData);
 
-        if (response.status === 401) {
-            data.err.mainErr = 'Надо авторизоваться!';
-            console.log(data);
-            return data;
-        }
+            if (responseAvatar.status !== 200) {
+                data.err.errors.push({
+                    text: 'Не удается загрузить аватарку!',
+                });
 
-        if (response.status !== 200) {
-            data.err.mainErr = 'Что-то пошло не так!';
-            return data;
+                return data;
+            }
         }
 
         userState.deleteUser();
@@ -263,6 +278,16 @@ export default class UserService {
                 path: '/profile',
                 domain: backDomain,
                 body: req,
+            });
+    }
+
+    static fetchUpdateAvatar(form) {
+        return AjaxFetchModule
+            .doPut({
+                path: '/profile/avatar',
+                domain: backDomain,
+                contentType: 'multipart/form-data',
+                body: form,
             });
     }
 }

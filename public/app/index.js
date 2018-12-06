@@ -56,7 +56,7 @@ const startApp = () => {
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
 
-    bus.on('preload:loaded', () => { console.log('all gameImages loaded'); alert('all gameImages loaded'); });
+    bus.on('preload:loaded', () => { console.log('all gameImages loaded'); });
 
     const gameResources = [
         'app/game/GameScene/img/ketnipz.png',
