@@ -4,10 +4,12 @@ const globby = require('globby');
 const dir = ['**/public/template.html',
     '**/public/css/*.*',
     '**/public/fonts/*.*',
-    '**/public/app/**/*.*',
     '**/public/img/**/*.*',
+    '**/public/dist/*.*',
+    '**/public/app/**/*.*',
     '**/public/app/game/**/*.*',
-    '!**/public/app/Service/*.*'];
+    '!**/public/app/**/*.js',
+    '!**/public/app/**/*.mjs'];
 
 globby(dir)
     .then( (paths) => {

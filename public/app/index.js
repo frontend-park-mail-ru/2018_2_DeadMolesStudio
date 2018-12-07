@@ -1,5 +1,6 @@
 import ButtonComponent from './components/Button/Button.ts';
 import ChatMiniComponent from './components/ChatMini/ChatMini.ts';
+import swInstall from '../sw-installer.js';
 import Router from './modules/Router.js';
 import bus from './modules/EventBus.js';
 import ScoreboardService from './services/ScoreboardService.js';
@@ -176,6 +177,7 @@ const startApp = () => {
 
 
     router.start();
+    swInstall();
 };
 
 startApp();

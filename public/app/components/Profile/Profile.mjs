@@ -71,4 +71,3 @@ export default class ProfileComponent {
     }
 }
 
-// <img src="../../../img/ketnipz-default.jpg" alt="аватар" class="user-avatar-block">

@@ -104,32 +104,6 @@ export default class EditProfileView extends BaseView {
 
                 const formData = this.form.innerElem.elements;
 
-                // const avatar = this.form.innerElem.querySelector('input[name ="avatar"]');
-                //
-                // if (avatar.value !== '') {
-                //     const avatarData = new FormData();
-                //     avatarData.append('avatar', avatar.files[0], avatar.value);
-                //
-                //     console.log(avatarData.has('avatar') );
-                //     // console.log(avatarData.values() );
-                //
-                //
-                //     AjaxFetchModule
-                //         .doPut({
-                //             path: '/profile/avatar',
-                //             domain: backDomain,
-                //             contentType: 'multipart/form-data',
-                //             body: avatarData,
-                //         })
-                //         .then( (response) => {
-                //             console.log(response);
-                //             console.log(response.status);
-                //         })
-                //         .catch( (err) => {
-                //             console.log(err);
-                //         });
-                // }
-
                 this.fetchUpdate(formData);
             },
         });
