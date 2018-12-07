@@ -3,6 +3,10 @@
 * @module modules
 */
 export default class View {
+
+    _el;
+    _created;
+
     constructor(el) {
         this._el = el;
         this._created = false;

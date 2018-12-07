@@ -1,14 +1,30 @@
-
-import ButtonComponent from '../Button/Button.mjs';
-import stateUser from '../../modules/User.mjs';
+import ButtonComponent from '../Button/Button';
+import stateUser from '../../modules/User';
 
 import bus from '../../modules/EventBus.js';
 
 export default class ChatMiniComponent {
-    constructor({ el, width = 230, height = 300 } = {}) {
+
+    el;
+    width;
+    height;
+
+    chat;
+    userButton;
+
+    openButton;
+    chatHead;
+    nameBlock;
+    iframeBlock;
+    iframe;
+
+    constructor({ el = document.createElement('div'), width = 230, height = 300 } = {}) {
         this.el = el;
         this.width = width;
         this.height = height;
+
+        this.chat = null;
+        this.userButton = null;
     }
 
     show() {

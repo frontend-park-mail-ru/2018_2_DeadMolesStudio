@@ -1,7 +1,7 @@
 import GameCore from './GameCore';
 import EVENTS from './Events';
 import bus from '../../modules/EventBus.js';
-import GameService from '../../services/GameService.js';
+import GameService from '../../services/GameService';
 
 // percentsX считаю в процентах слева направо
 // percentsY считаю в процентах снизу вверх
@@ -61,8 +61,6 @@ export default class MultiPlayerGame extends GameCore {
         bus.emit(EVENTS.START_GAME, this.state);
 
         this.endTimerID = setTimeout( () => {
-            console.log('FINISH!!!!');
-            alert('Время вышло!');
             clearInterval(this.secsIntervalID);
             // TODO вот тут возможно стоит ждать финиша от сервера а не самим выводить резалт
             bus.emit(EVENTS.FINISH_GAME, this.state.score);
@@ -154,7 +152,7 @@ export default class MultiPlayerGame extends GameCore {
     onGameFinished(scores) {
         console.log('gameFinished()');
         cancelAnimationFrame(this.gameloopRequestId);
-        bus.emit('CLOSE GAME', scores);
+        bus.emit(EVENTS.CLOSE_GAME, scores);
         this.gameService.destroy();
     }
 

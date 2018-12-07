@@ -1,13 +1,13 @@
 import ErrorComponent from '../components/Error/Error.mjs';
 import AjaxFetchModule from '../modules/AjaxFetch.mjs';
 import backDomain from '../projectSettings.js';
-import BaseView from './Base.js';
+import BaseView from './Base.ts';
 
 
 import bus from '../modules/EventBus.js';
-import SectionComponent from '../components/Section/Section.mjs';
+import SectionComponent from '../components/Section/Section.ts';
 import FormComponent from '../components/Form/Form.mjs';
-import ButtonComponent from '../components/Button/Button.mjs';
+import ButtonComponent from '../components/Button/Button.ts';
 import LoaderComponent from '../components/Loader/Loader.js';
 
 

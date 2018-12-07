@@ -1,6 +1,12 @@
 import bus from '../../modules/EventBus.js';
 
 export default class ChatComponent {
+
+    el;
+    chatBlock;
+    chatField;
+    messageInput;
+
     constructor({ el = document.body }) {
         this.el = el;
     }

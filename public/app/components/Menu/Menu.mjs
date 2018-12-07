@@ -1,4 +1,4 @@
-import ButtonComponent from '../Button/Button.mjs';
+import ButtonComponent from '../Button/Button.ts';
 import { noop } from '../../modules/Utils.js';
 
 export default class MenuComponent {

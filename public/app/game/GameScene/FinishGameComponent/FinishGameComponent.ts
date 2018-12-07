@@ -1,4 +1,4 @@
-import ButtonComponent from '../../../components/Button/Button.js'
+import ButtonComponent from '../../../components/Button/Button'
 import bus from '../../../modules/EventBus.js';
 import EVENTS from '../../Core/Events';
 
@@ -46,7 +46,6 @@ export default class FinishGameComponent {
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                console.log('ФИНИШКОМПОНЕНТ');
                 this.destroy();
                 bus.emit(EVENTS.FINISH_GAME, this.score);
             },

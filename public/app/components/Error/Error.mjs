@@ -1,4 +1,4 @@
-import ButtonComponent from '../Button/Button.mjs';
+import ButtonComponent from '../Button/Button.ts';
 
 export default class ErrorComponent {
     constructor({ el = document.body, path = '/', error } = {}) {

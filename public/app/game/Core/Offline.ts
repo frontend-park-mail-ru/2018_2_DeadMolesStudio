@@ -79,7 +79,6 @@ export default class OfflineGame extends GameCore {
         this.state.productsRand = 3;
 
         this.productGenIntervalID = setInterval( () => {
-            console.log('продукт создан');
             this.state.products.push({
                 type: randInt(1, 6),
                 percentsX: randInt(5, 95), // считаем что тут задаем центр
@@ -93,7 +92,6 @@ export default class OfflineGame extends GameCore {
         bus.emit(EVENTS.START_GAME, this.state);
 
         this.endTimerID = setTimeout( () => {
-            console.log('FINISH!!!!');
             clearInterval(this.secsIntervalID);
             clearTimeout(this.endTimerID);
             cancelAnimationFrame(this.gameloopRequestId);
@@ -107,7 +105,6 @@ export default class OfflineGame extends GameCore {
     }
 
     destroy() {
-        console.log('DESTROOOOY!');
         clearTimeout(this.endTimerID);
         clearInterval(this.productGenIntervalID);
         cancelAnimationFrame(this.gameloopRequestId);
@@ -285,9 +282,8 @@ export default class OfflineGame extends GameCore {
     }
 
     onGameFinished(scores) {
-        console.log('gameFinished()');
         cancelAnimationFrame(this.gameloopRequestId);
-        bus.emit('CLOSE GAME', scores);
+        bus.emit(EVENTS.CLOSE_GAME, scores);
     }
 
     onGameStateChanged(event) {

@@ -2,6 +2,9 @@ import WS from '../modules/WebSocket.js';
 import bus from '../modules/EventBus.js';
 
 export default class GameService {
+
+    ws;
+    
     constructor() {
         console.log('GameService()');
     }

@@ -1,4 +1,9 @@
 export default class SectionComponent {
+
+    _el;
+    _name;
+    _sectionContent;
+
     constructor({ el = document.body, name = 'index' } = {}) {
         this._el = el;
         this._name = name;

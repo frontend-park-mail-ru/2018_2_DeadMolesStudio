@@ -1,8 +1,8 @@
-import ButtonComponent from "../components/Button/Button.mjs";
+import ButtonComponent from "../components/Button/Button.ts";
 
-import BaseView from './Base.js';
+import BaseView from './Base.ts';
 
-import SectionComponent from '../components/Section/Section.mjs';
+import SectionComponent from '../components/Section/Section.ts';
 
 export default class ChatView extends BaseView {
     render() {

@@ -4,6 +4,14 @@ import {
 } from '../../modules/Utils.js';
 
 export default class ButtonComponent {
+
+    _el;
+    _href;
+    _text;
+    _innerElem;
+    _listenersToAdd;
+    _className;
+
     constructor({
         el = document.body, href = '/', text = 'Назад', className = 'cute-btn cute-btn--w10rem',
     } = {}) {

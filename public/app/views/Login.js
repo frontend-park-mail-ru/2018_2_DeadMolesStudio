@@ -1,8 +1,8 @@
-import BaseView from './Base.js';
+import BaseView from './Base.ts';
 
-import SectionComponent from '../components/Section/Section.mjs';
+import SectionComponent from '../components/Section/Section.ts';
 import FormComponent from '../components/Form/Form.mjs';
-import LinkComponent from '../components/Link/Link.mjs';
+import LinkComponent from '../components/Link/Link.ts';
 
 import bus from '../modules/EventBus.js';
 

@@ -1,8 +1,8 @@
-import BaseView from './Base.js';
-import userState from '../modules/User.mjs';
+import BaseView from './Base.ts';
+import userState from '../modules/User.ts';
 import bus from '../modules/EventBus.js';
 import MenuComponent from '../components/Menu/Menu.mjs';
-import SectionComponent from '../components/Section/Section.mjs';
+import SectionComponent from '../components/Section/Section.ts';
 import LoaderComponent from '../components/Loader/Loader.js';
 
 export default class MenuView extends BaseView {

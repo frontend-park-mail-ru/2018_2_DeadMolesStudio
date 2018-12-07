@@ -1,6 +1,6 @@
-import BaseView from './Base.js';
-import SectionComponent from "../components/Section/Section.mjs";
-import ButtonComponent from "../components/Button/Button.mjs";
+import BaseView from './Base.ts';
+import SectionComponent from "../components/Section/Section.ts";
+import ButtonComponent from "../components/Button/Button.ts";
 import bus from "../modules/EventBus.js";
 import {exitFullscreen} from "../modules/fullscreenAPI/fullscreen.js";
 

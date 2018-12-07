@@ -1,6 +1,10 @@
 import bus from './EventBus.js';
 
 class User {
+
+    user;
+    exist;
+
     constructor() {
         this.user = null;
         this.exist = false;

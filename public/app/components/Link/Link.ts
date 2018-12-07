@@ -4,6 +4,14 @@ import {
 } from '../../modules/Utils.js';
 
 export default class LinkComponent {
+
+    _el;
+    _text;
+    _href;
+    _className;
+    _innerElem;
+    _listenersToAdd;
+
     constructor({ el = document.body, text = '', href = '', className = 'default_link' }) {
         this._el = el;
         this._text = text;

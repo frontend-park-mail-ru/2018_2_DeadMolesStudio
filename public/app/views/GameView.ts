@@ -1,18 +1,22 @@
-import BaseView from './Base.js';
-import ButtonComponent from '../components/Button/Button.mjs';
-import SectionComponent from '../components/Section/Section.mjs';
-import GAME_MODES from '../game/GameModes.ts';
-import Game from '../game/Game.ts';
+import BaseView from './Base';
+import ButtonComponent from '../components/Button/Button';
+import SectionComponent from '../components/Section/Section';
+import GAME_MODES from '../game/GameModes';
+import Game from '../game/Game';
 import bus from '../modules/EventBus.js';
 import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
-import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent.ts';
+import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
+import EVENTS from '../game/Core/Events';
 
 export default class GameView extends BaseView {
+
+    canvas;
+    game;
+
     constructor(el) {
         super(el);
         this.canvas = null;
-
-        bus.on('CLOSE GAME', (scores) => {
+        bus.on(EVENTS.CLOSE_GAME, (scores) => {
             this.destroy();
             bus.emit('showmenu');
         });

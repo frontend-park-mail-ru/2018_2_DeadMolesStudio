@@ -1,8 +1,8 @@
-import BaseView from './Base.js';
+import BaseView from './Base.ts';
 
-import SectionComponent from '../components/Section/Section.mjs';
-import About from '../components/About/About.mjs';
-import ButtonComponent from '../components/Button/Button.mjs';
+import SectionComponent from '../components/Section/Section.ts';
+import About from '../components/About/About.ts';
+import ButtonComponent from '../components/Button/Button.ts';
 
 export default class AboutView extends BaseView {
     render() {

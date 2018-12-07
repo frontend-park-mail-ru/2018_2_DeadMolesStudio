@@ -7,6 +7,10 @@ const rules = [
 ];
 
 export default class AboutComponent {
+
+    _el;
+    _data;
+
     constructor({ el = document.body, data = rules } = {}) {
         this._el = el;
         this._data = data;

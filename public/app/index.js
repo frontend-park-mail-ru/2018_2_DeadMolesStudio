@@ -1,5 +1,5 @@
-import ButtonComponent from './components/Button/Button.mjs';
-import ChatMiniComponent from './components/ChatMini/ChatMini.mjs';
+import ButtonComponent from './components/Button/Button.ts';
+import ChatMiniComponent from './components/ChatMini/ChatMini.ts';
 import Router from './modules/Router.js';
 import bus from './modules/EventBus.js';
 import ScoreboardService from './services/ScoreboardService.js';
@@ -13,7 +13,7 @@ import AboutView from './views/About.js';
 import ProfileView from './views/Profile.js';
 import EditProfileView from './views/EditProfile.js';
 import SignUpView from './views/SignUp.js';
-import GameView from './views/GameView.js';
+import GameView from './views/GameView.ts';
 import PreGameView from './views/PreGame.js';
 import ChatView from './views/ChatView.js';
 import preLoad from './modules/PreLoad.js';
