@@ -1,9 +1,20 @@
 import bus from '../../modules/EventBus.js';
 
 export default class ListComponent {
+
+    el;
+    users;
+    chatBlock;
+    chatField;
+    messageInput;
+
     constructor({ el = document.body, users = {} }) {
         this.el = el;
         this.users = users;
+
+        this.chatField = null;
+        this.messageInput = null;
+        this.chatBlock = null;
     }
 
     render() {

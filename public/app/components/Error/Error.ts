@@ -1,7 +1,12 @@
-import ButtonComponent from '../Button/Button.ts';
+import ButtonComponent from '../Button/Button';
 
 export default class ErrorComponent {
-    constructor({ el = document.body, path = '/', error } = {}) {
+
+    _el;
+    _path;
+    _error;
+
+    constructor({ el = document.body, path = '/', error = 'Что-то пошло не так :('} = {}) {
         this._el = el;
         this._path = path;
         this._error = error;

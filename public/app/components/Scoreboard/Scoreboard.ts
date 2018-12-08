@@ -1,7 +1,17 @@
-import ButtonComponent from '../Button/Button.ts';
+import ButtonComponent from '../Button/Button';
 import bus from '../../modules/EventBus.js';
 
 export default class ScoreboardComponent {
+
+    _el;
+    _data;
+    _page;
+    _limit;
+    _total;
+    _first;
+    _fetchData;
+    _scoreboardList;
+
     constructor({
         el = document.body, data = [], limit = 5, total = 5,
     } = {}) {
@@ -12,6 +22,7 @@ export default class ScoreboardComponent {
         this._total = total;
         this._first = 1;
 
+        this._scoreboardList = null;
         this._fetchData = null;
         bus.on('scoreboard:get-page', this.setFetchData.bind(this) );
     }

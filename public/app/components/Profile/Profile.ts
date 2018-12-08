@@ -1,6 +1,10 @@
 import backDomain from '../../projectSettings.js';
 
 export default class ProfileComponent {
+
+    _el;
+    _data;
+
     constructor({ el = document.body, data = {} } = {}) {
         this._el = el;
         this._data = data;

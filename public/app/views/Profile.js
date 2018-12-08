@@ -1,11 +1,11 @@
 import BaseView from './Base.ts';
 import bus from '../modules/EventBus.js';
 
-import Profile from '../components/Profile/Profile.js';
+import Profile from '../components/Profile/Profile.ts';
 import SectionComponent from '../components/Section/Section.ts';
-import ErrorComponent from '../components/Error/Error.js';
+import ErrorComponent from '../components/Error/Error.ts';
 import ButtonComponent from '../components/Button/Button.ts';
-import LoaderComponent from '../components/Loader/Loader.js';
+import LoaderComponent from '../components/Loader/Loader.ts';
 
 export default class ProfileView extends BaseView {
     constructor(el) {

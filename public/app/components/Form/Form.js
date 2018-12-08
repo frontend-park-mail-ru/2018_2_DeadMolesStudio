@@ -2,8 +2,16 @@ import formTmpl from './form.tmpl.pug';
 import { noop } from '../../modules/Utils.js';
 
 export default class FormComponent {
+    // _el;
+    // _name;
+    // _header;
+    // _inputs;
+    // _innerElem;
+    // _errorsList;
+    // _multipart;
+
     constructor({
-        el = document.body, name, header, inputs = [], multipart = false,
+        el = document.body, name = '', header = '', inputs = [], multipart = false,
     } = {}) {
         this._el = el;
         this._name = name;

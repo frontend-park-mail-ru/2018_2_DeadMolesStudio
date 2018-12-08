@@ -3,7 +3,7 @@ import WS from '../modules/WebSocket.js';
 import ChatComponent from '../components/ChatComponent/ChatComponent.ts';
 import bus from '../modules/EventBus.js';
 import UserService from '../services/UserService.js';
-import ListComponent from '../components/ListComponent/ListComponent.js';
+import ListComponent from '../components/ListComponent/ListComponent.ts';
 
 
 export default class MiniChatView extends BaseView {
