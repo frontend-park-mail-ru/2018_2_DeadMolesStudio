@@ -1,14 +1,14 @@
-@import "../app/components/Button/Button.css";
-@import "../app/components/Menu/Menu.css";
-@import "../app/components/Section/Section.css";
-@import "../app/components/Profile/Profile.css";
-@import "../app/components/Link/Link.css";
-@import "../app/components/Scoreboard/Scoreboard.css";
-@import "../app/components/ChatMini/ChatMini.css";
-@import "../app/components/Loader/Loader.css";
-@import "../app/game/GameScene/GameInfoComponent/GameInfoComponent.css";
-@import "../app/game/GameScene/css/GameScene.css";
-@import "../app/game/GameScene/FinishGameComponent/FinishGameComponent.css";
+@import "../app/components/Button/Button.scss";
+@import "../app/components/Menu/Menu.scss";
+@import "../app/components/Section/Section.scss";
+@import "../app/components/Profile/Profile.scss";
+@import "../app/components/Link/Link.scss";
+@import "../app/components/Scoreboard/Scoreboard.scss";
+@import "../app/components/ChatMini/ChatMini.scss";
+@import "../app/components/Loader/Loader.scss";
+@import "../app/game/GameScene/GameInfoComponent/GameInfoComponent";
+@import "../app/game/GameScene/css/GameScene";
+@import "../app/game/GameScene/FinishGameComponent/FinishGameComponent";
 
 :root {
     --fashion-blue: #c3c3e0;

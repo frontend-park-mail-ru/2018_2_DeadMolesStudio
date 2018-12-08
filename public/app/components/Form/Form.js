@@ -1,7 +1,10 @@
+import formTmpl from './form.tmpl.pug';
 import { noop } from '../../modules/Utils.js';
 
 export default class FormComponent {
-    constructor({ el = document.body, name, header, inputs = [], multipart = false } = {}) {
+    constructor({
+        el = document.body, name, header, inputs = [], multipart = false,
+    } = {}) {
         this._el = el;
         this._name = name;
         this._header = header;
@@ -18,7 +21,8 @@ export default class FormComponent {
             inputs: this._inputs,
         };
 
-        const form = window.formTmplTemplate(options);
+        const form = formTmpl(options);
+
         this._el.insertAdjacentHTML('beforeend', form);
         this._innerElem = this._el.querySelector('form');
         if (this._multipart) {
@@ -26,7 +30,7 @@ export default class FormComponent {
         }
 
         this._errorsList = document.createElement('ul');
-        const submitButton = this._innerElem.elements['submit'];
+        const submitButton = this._innerElem.elements.submit;
         this._innerElem.insertBefore(this._errorsList, submitButton);
     }
 
@@ -48,7 +52,7 @@ export default class FormComponent {
 
     showErrors(errors = []) {
         errors.forEach( (item) => {
-            this._errorsList.innerHTML += `<li>${item['text']}</li>`;
+            this._errorsList.innerHTML += `<li>${item.text}</li>`;
         });
     }
 
