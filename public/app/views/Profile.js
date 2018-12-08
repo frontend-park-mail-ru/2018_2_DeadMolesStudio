@@ -1,9 +1,9 @@
 import BaseView from './Base.ts';
 import bus from '../modules/EventBus.js';
 
-import Profile from '../components/Profile/Profile.mjs';
+import Profile from '../components/Profile/Profile.js';
 import SectionComponent from '../components/Section/Section.ts';
-import ErrorComponent from '../components/Error/Error.mjs';
+import ErrorComponent from '../components/Error/Error.js';
 import ButtonComponent from '../components/Button/Button.ts';
 import LoaderComponent from '../components/Loader/Loader.js';
 

@@ -1,7 +1,12 @@
-import ButtonComponent from '../Button/Button.ts';
+import ButtonComponent from '../Button/Button';
 import { noop } from '../../modules/Utils.js';
 
 export default class MenuComponent {
+
+    _el;
+    _titles;
+    _actionOnButton;
+
     constructor({ el = document.body, titles = {}, actionOnButton = noop } = {}) {
         this._el = el;
         this._titles = titles;

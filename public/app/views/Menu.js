@@ -1,7 +1,7 @@
 import BaseView from './Base.ts';
 import userState from '../modules/User.ts';
 import bus from '../modules/EventBus.js';
-import MenuComponent from '../components/Menu/Menu.mjs';
+import MenuComponent from '../components/Menu/Menu.ts';
 import SectionComponent from '../components/Section/Section.ts';
 import LoaderComponent from '../components/Loader/Loader.js';
 

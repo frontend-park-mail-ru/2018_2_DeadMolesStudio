@@ -3,7 +3,7 @@ import BaseView from './Base';
 import ButtonComponent from '../components/Button/Button.ts';
 import LoaderComponent from '../components/Loader/Loader.js';
 import SectionComponent from '../components/Section/Section.ts';
-import ScoreboardComponent from '../components/Scoreboard/Scoreboard.mjs';
+import ScoreboardComponent from '../components/Scoreboard/Scoreboard.js';
 
 import bus from '../modules/EventBus.js';
 

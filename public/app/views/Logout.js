@@ -1,7 +1,7 @@
 import BaseView from './Base.ts';
 import bus from '../modules/EventBus.js';
 import LoaderComponent from '../components/Loader/Loader.js';
-import ErrorComponent from '../components/Error/Error.mjs';
+import ErrorComponent from '../components/Error/Error.js';
 
 export default class LogoutView extends BaseView {
     render() {
