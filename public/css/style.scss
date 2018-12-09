@@ -2,13 +2,14 @@
 @import "../app/components/Menu/Menu.scss";
 @import "../app/components/Section/Section.scss";
 @import "../app/components/Profile/Profile.scss";
+@import "../app/components/Form/Form.scss";
 @import "../app/components/Link/Link.scss";
 @import "../app/components/Scoreboard/Scoreboard.scss";
 @import "../app/components/ChatMini/ChatMini.scss";
 @import "../app/components/Loader/Loader.scss";
-@import "../app/game/GameScene/GameInfoComponent/GameInfoComponent";
-@import "../app/game/GameScene/css/GameScene";
-@import "../app/game/GameScene/FinishGameComponent/FinishGameComponent";
+@import "../app/game/GameScene/GameInfoComponent/GameInfoComponent.scss";
+@import "../app/game/GameScene/css/GameScene.scss";
+@import "../app/game/GameScene/FinishGameComponent/FinishGameComponent.scss";
 
 :root {
     --fashion-blue: #c3c3e0;
@@ -99,23 +100,6 @@ section {
         overflow-y: scroll;
         margin-bottom: 2rem;
     }
-}
-
-.bordered_input {
-    border: 1px solid black;
-
-    width: 8rem;
-
-    margin: 0.3rem;
-    padding: 0.5rem;
-
-    box-shadow: none;
-    outline: none;
-}
-
-.bordered_input:focus {
-    box-shadow: none;
-    outline: none;
 }
 
 .login_form {

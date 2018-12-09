@@ -1,0 +1,17 @@
+.bordered_input {
+  border: 1px solid black;
+
+  width: 8rem;
+
+  margin: 0.3rem;
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+
+  box-shadow: none;
+  outline: none;
+}
+
+.bordered_input:focus {
+  box-shadow: none;
+  outline: none;
+}

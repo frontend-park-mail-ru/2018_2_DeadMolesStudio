@@ -18,6 +18,7 @@ import GameView from './views/GameView.ts';
 import PreGameView from './views/PreGame.js';
 import ChatView from './views/ChatView.js';
 import preLoad from './modules/PreLoad.js';
+import '../css/style.scss';
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });

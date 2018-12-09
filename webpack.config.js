@@ -1,19 +1,27 @@
-var path = require('path');
+const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const dist = path.resolve(__dirname, 'public/dist');
+const src = path.resolve(__dirname, 'public');
 
 module.exports = {
     mode: 'development',
     entry: [
-        './public/app/index.js',
-        // './public/css/style.scss',
+        path.resolve(src, 'app/index.js'),
     ],
-    devtool: 'inline-source-map',
+
     output: {
-        path: path.resolve(__dirname, 'public/dist'),
+        path: dist,
         filename: 'bundle.[hash].js',
+    },
+
+    devtool: 'inline-source-map',
+
+    resolve: {
+        extensions: ['.ts', ' ', '.scss'],
     },
 
     plugins: [
@@ -22,60 +30,14 @@ module.exports = {
             template: './public/template.html',
             inject: 'body',
         }),
-        // new ExtractTextPlugin({
-        //     filename: './public/css/style.bundle.css',
-        // }),
+        new MiniCssExtractPlugin({
+            path: dist,
+            filename: './bundle.style.[hash].css',
+        }),
     ],
-    resolve: {
-        extensions: ['.ts', ' '],
-    },
+
     module: {
         rules: [
-            // {
-            //     test: /\.css$/,
-            //     exclude: /node_modules/,
-            //     use: [
-            //         {
-            //             loader: 'style-css',
-            //         }, {
-            //             loader: 'css-loader',
-            //             options: {
-            //                 importLoaders: 1,
-            //             },
-            //         },
-            //     ],
-            // },
-
-            {
-                test: /\.scss$/,
-                exclude: /node_modules/,
-                include: path.resolve(__dirname, 'public/css'),
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: 'style-loader',
-                        }, {
-                            loader: 'css-loader',
-                            options: {
-                                sourceMap: true,
-                            },
-                        }, {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: true,
-                            },
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
-                                sourceMap: true,
-                            },
-                        },
-                    ],
-                }),
-            },
-
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,
@@ -87,7 +49,32 @@ module.exports = {
                 options: {
                     pretty: true,
                 },
+            }, {
+                test: /\.scss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            url: false,
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
             },
         ],
     },
+
 };
+
+//                         // {
+//                         //     loader: 'postcss-loader',
+//                         //     options: {
+//                         //         plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
+//                         //         sourceMap: true,
+//                         //     },
+
