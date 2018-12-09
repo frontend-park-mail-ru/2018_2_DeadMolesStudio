@@ -1,7 +1,7 @@
 import GameCore from './GameCore';
 import EVENTS from './Events';
-import bus from '../../modules/EventBus.js';
-import { randInt } from '../../modules/Utils.js';
+import bus from '../../modules/EventBus';
+import { randInt } from '../../modules/Utils';
 
 
 // percentsX считаю в процентах слева направо

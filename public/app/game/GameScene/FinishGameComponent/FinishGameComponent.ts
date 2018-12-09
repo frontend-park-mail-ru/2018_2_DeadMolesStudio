@@ -1,5 +1,5 @@
 import ButtonComponent from '../../../components/Button/Button'
-import bus from '../../../modules/EventBus.js';
+import bus from '../../../modules/EventBus';
 import EVENTS from '../../Core/Events';
 
 export default class FinishGameComponent {

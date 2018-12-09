@@ -1,6 +1,6 @@
 import GameCore from './GameCore';
 import EVENTS from './Events';
-import bus from '../../modules/EventBus.js';
+import bus from '../../modules/EventBus';
 import GameService from '../../services/GameService';
 
 // percentsX считаю в процентах слева направо

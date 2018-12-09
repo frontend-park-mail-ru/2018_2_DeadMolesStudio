@@ -1,17 +1,33 @@
-import BaseView from './Base.ts';
-import WS from '../modules/WebSocket.js';
-import ChatComponent from '../components/ChatComponent/ChatComponent.ts';
-import bus from '../modules/EventBus.js';
+import BaseView from './Base';
+import WS from '../modules/WebSocket';
+import bus from '../modules/EventBus';
 import UserService from '../services/UserService.js';
-import ListComponent from '../components/ListComponent/ListComponent.ts';
+
+import ChatComponent from '../components/ChatComponent/ChatComponent';
+import ListComponent from '../components/ListComponent/ListComponent';
 
 
 export default class MiniChatView extends BaseView {
+
+    el;
+    ws;
+    users;
+    userId;
+    userNickName;
+    chatComponent;
+    listComponent;
+    content;
+
     constructor({ el }) {
         super(el);
         this.el = el;
         this.ws = new WS();
         this.users = {};
+
+        this.chatComponent = null;
+        this.listComponent = null;
+        this.content = null;
+
         bus.on('ws:message', this.handleMessage.bind(this) );
         bus.on('chat-comp:send-message', this.sendMessage.bind(this) );
         window.addEventListener('message', (event) => {

@@ -1,4 +1,4 @@
-import bus from './EventBus.js';
+import bus from './EventBus';
 
 const preLoad = (resources) => {
     let loaded = 0;

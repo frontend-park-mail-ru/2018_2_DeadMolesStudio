@@ -1,14 +1,17 @@
 import BaseView from './Base';
 
-import ButtonComponent from '../components/Button/Button.ts';
-import LoaderComponent from '../components/Loader/Loader.ts';
-import SectionComponent from '../components/Section/Section.ts';
-import ScoreboardComponent from '../components/Scoreboard/Scoreboard.ts';
+import ButtonComponent from '../components/Button/Button';
+import LoaderComponent from '../components/Loader/Loader';
+import SectionComponent from '../components/Section/Section';
+import ScoreboardComponent from '../components/Scoreboard/Scoreboard';
 
-import bus from '../modules/EventBus.js';
+import bus from '../modules/EventBus';
 
 
 export default class ScoreboardView extends BaseView {
+
+    dataScoreboard;
+
     constructor(el) {
         super(el);
 

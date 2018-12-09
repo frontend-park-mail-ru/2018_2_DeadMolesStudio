@@ -1,5 +1,5 @@
 import EVENTS from './Events';
-import bus from '../../modules/EventBus.js';
+import bus from '../../modules/EventBus';
 
 const KEYS = {
     JUMP: [' ', '__touch', 'ArrowUp', 'W', 'w', 'Ц', 'ц'],

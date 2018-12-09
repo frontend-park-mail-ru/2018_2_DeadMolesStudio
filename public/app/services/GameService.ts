@@ -1,5 +1,5 @@
-import WS from '../modules/WebSocket.js';
-import bus from '../modules/EventBus.js';
+import WS from '../modules/WebSocket';
+import bus from '../modules/EventBus';
 
 export default class GameService {
 

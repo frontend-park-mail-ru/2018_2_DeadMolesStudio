@@ -1,13 +1,18 @@
-import BaseView from './Base.ts';
-import bus from '../modules/EventBus.js';
+import BaseView from './Base';
 
-import Profile from '../components/Profile/Profile.ts';
-import SectionComponent from '../components/Section/Section.ts';
-import ErrorComponent from '../components/Error/Error.ts';
-import ButtonComponent from '../components/Button/Button.ts';
-import LoaderComponent from '../components/Loader/Loader.ts';
+import bus from '../modules/EventBus';
+
+import ProfileComponent from '../components/Profile/Profile';
+import SectionComponent from '../components/Section/Section';
+import ErrorComponent from '../components/Error/Error';
+import ButtonComponent from '../components/Button/Button';
+import LoaderComponent from '../components/Loader/Loader';
 
 export default class ProfileView extends BaseView {
+
+    user;
+    error;
+
     constructor(el) {
         super(el);
 
@@ -88,7 +93,7 @@ export default class ProfileView extends BaseView {
 
     renderProfile(parent) {
         const profileData = this.user;
-        const profile = new Profile({
+        const profile = new ProfileComponent({
             el: parent,
             data: profileData,
         });

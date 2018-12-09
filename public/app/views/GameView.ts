@@ -3,7 +3,7 @@ import ButtonComponent from '../components/Button/Button';
 import SectionComponent from '../components/Section/Section';
 import GAME_MODES from '../game/GameModes';
 import Game from '../game/Game';
-import bus from '../modules/EventBus.js';
+import bus from '../modules/EventBus';
 import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
 import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
 import EVENTS from '../game/Core/Events';

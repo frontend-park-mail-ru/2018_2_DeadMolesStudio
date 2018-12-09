@@ -3,9 +3,12 @@
 * @module modules
 */
 import backDomain from '../projectSettings.js';
-import bus from './EventBus.js';
+import bus from './EventBus';
 
 export default class WS {
+
+    ws;
+
     constructor() {
         const address = backDomain.replace('https', 'wss') + '/chat/ws';
         console.log(address);

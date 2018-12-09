@@ -1,8 +1,7 @@
-import BaseView from './Base.ts';
-import SectionComponent from "../components/Section/Section.ts";
-import ButtonComponent from "../components/Button/Button.ts";
-import bus from "../modules/EventBus.js";
-import {exitFullscreen} from "../modules/fullscreenAPI/fullscreen.js";
+import BaseView from './Base';
+
+import SectionComponent from '../components/Section/Section';
+import ButtonComponent from '../components/Button/Button';
 
 export default class PreGameView extends BaseView{
     render() {

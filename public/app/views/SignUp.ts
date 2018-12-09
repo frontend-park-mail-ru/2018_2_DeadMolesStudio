@@ -1,12 +1,16 @@
-import BaseView from './Base.ts';
+import BaseView from './Base';
 
-import SectionComponent from '../components/Section/Section.ts';
+import SectionComponent from '../components/Section/Section';
 import FormComponent from '../components/Form/Form.js';
-import LinkComponent from '../components/Link/Link.ts';
+import LinkComponent from '../components/Link/Link';
 
-import bus from '../modules/EventBus.js';
+import bus from '../modules/EventBus';
 
 export default class SignUpView extends BaseView {
+
+    form;
+    error;
+
     constructor(el) {
         super(el);
 

@@ -1,5 +1,5 @@
 import ButtonComponent from '../Button/Button';
-import { noop } from '../../modules/Utils.js';
+import { noop } from '../../modules/Utils';
 
 export default class MenuComponent {
 

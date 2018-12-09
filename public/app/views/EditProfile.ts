@@ -1,13 +1,18 @@
-import ErrorComponent from '../components/Error/Error.ts';
-import BaseView from './Base.ts';
-import bus from '../modules/EventBus.js';
-import SectionComponent from '../components/Section/Section.ts';
+import ErrorComponent from '../components/Error/Error';
+import BaseView from './Base';
+import bus from '../modules/EventBus';
+import SectionComponent from '../components/Section/Section';
 import FormComponent from '../components/Form/Form.js';
-import ButtonComponent from '../components/Button/Button.ts';
-import LoaderComponent from '../components/Loader/Loader.ts';
+import ButtonComponent from '../components/Button/Button';
+import LoaderComponent from '../components/Loader/Loader';
 
 
 export default class EditProfileView extends BaseView {
+
+    form;
+    user;
+    error;
+
     constructor(el) {
         super(el);
 

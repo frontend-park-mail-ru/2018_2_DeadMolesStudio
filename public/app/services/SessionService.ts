@@ -1,5 +1,5 @@
 import AjaxFetchModule from '../modules/AjaxFetch.js';
-import userState from '../modules/User.ts';
+import userState from '../modules/User';
 import backDomain from '../projectSettings.js';
 
 export default class SessionService {

@@ -1,13 +1,18 @@
-import BaseView from './Base.ts';
-import userState from '../modules/User.ts';
-import bus from '../modules/EventBus.js';
-import MenuComponent from '../components/Menu/Menu.ts';
-import SectionComponent from '../components/Section/Section.ts';
-import LoaderComponent from '../components/Loader/Loader.ts';
+import BaseView from './Base';
+import userState from '../modules/User';
+import bus from '../modules/EventBus';
+import MenuComponent from '../components/Menu/Menu';
+import SectionComponent from '../components/Section/Section';
+import LoaderComponent from '../components/Loader/Loader';
 
 export default class MenuView extends BaseView {
+
+    loader;
+
     constructor(el) {
         super(el);
+
+        this.loader = null;
         bus.on('user-state-set', this.render.bind(this) );
     }
 

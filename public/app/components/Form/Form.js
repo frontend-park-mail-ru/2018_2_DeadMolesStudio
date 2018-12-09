@@ -1,5 +1,5 @@
 import formTmpl from './form.tmpl.pug';
-import { noop } from '../../modules/Utils.js';
+import { noop } from '../../modules/Utils.ts';
 
 export default class FormComponent {
     // _el;

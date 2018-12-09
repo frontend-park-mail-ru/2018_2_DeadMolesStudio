@@ -1,8 +1,7 @@
-import BaseView from './Base.ts';
-
-import SectionComponent from '../components/Section/Section.ts';
-import About from '../components/About/About.ts';
-import ButtonComponent from '../components/Button/Button.ts';
+import BaseView from './Base';
+import SectionComponent from '../components/Section/Section';
+import About from '../components/About/About';
+import ButtonComponent from '../components/Button/Button';
 
 export default class AboutView extends BaseView {
     render() {

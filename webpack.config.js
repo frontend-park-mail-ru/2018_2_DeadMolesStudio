@@ -10,7 +10,7 @@ const src = path.resolve(__dirname, 'public');
 module.exports = {
     mode: 'development',
     entry: [
-        path.resolve(src, 'app/index.js'),
+        path.resolve(src, 'app/index.ts'),
     ],
 
     output: {

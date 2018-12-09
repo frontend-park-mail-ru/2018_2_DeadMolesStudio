@@ -1,5 +1,5 @@
 import ButtonComponent from '../Button/Button';
-import bus from '../../modules/EventBus.js';
+import bus from '../../modules/EventBus';
 
 export default class ScoreboardComponent {
 
