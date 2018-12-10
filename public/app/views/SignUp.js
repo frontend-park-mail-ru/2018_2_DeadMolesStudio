@@ -31,13 +31,13 @@ export default class SignUpView extends BaseView {
 
         this.renderForm(signupSectionContent);
 
-        const loginLink = new LinkComponent({
-            el: signupSection.sectionContent,
-            text: 'У меня уже есть аккаунт',
-            href: '/login',
-            className: 'sub_link',
-        });
-        loginLink.render();
+        // const loginLink = new LinkComponent({
+        //     el: signupSection.sectionContent,
+        //     text: 'У меня уже есть аккаунт',
+        //     href: '/login',
+        //     className: 'sub_link',
+        // });
+        // loginLink.render();
     }
 
     fetchSignUp(formData) {
@@ -45,11 +45,17 @@ export default class SignUpView extends BaseView {
     }
 
     renderForm(parent) {
+        const extraBtn = {
+            text: 'Login',
+            href: '/login',
+        };
+
         this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
-            header: 'Зарегистрироваться!',
+            header: 'SignUp',
             name: 'signup',
+            btn: extraBtn,
         });
         this.form.render();
 
@@ -71,33 +77,33 @@ export default class SignUpView extends BaseView {
             {
                 name: 'nickname',
                 type: 'text',
-                placeholder: 'Логин',
-                className: 'bordered_input',
+                placeholder: 'Nickname',
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'email',
                 type: 'email',
                 placeholder: 'Email',
-                className: 'bordered_input',
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'password',
                 type: 'password',
-                placeholder: 'Пароль',
-                className: 'bordered_input',
+                placeholder: 'Password',
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'password_repeat',
                 type: 'password',
-                placeholder: 'Повторите пароль',
-                className: 'bordered_input',
+                placeholder: 'Repeat password',
+                className: 'input-block__inputs-item',
             },
-            {
-                name: 'submit',
-                type: 'submit',
-                className: 'cute-btn cute-btn--w10rem',
-                value: 'Зарегистрироваться',
-            },
+            // {
+            //     name: 'submit',
+            //     type: 'submit',
+            //     className: 'cute-btn cute-btn--w10rem',
+            //     value: 'Зарегистрироваться',
+            // },
         ];
     }
 }

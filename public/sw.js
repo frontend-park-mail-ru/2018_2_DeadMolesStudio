@@ -8,6 +8,7 @@ this.addEventListener('install', (event) => {
             .then(cache => cache.addAll([
                 '/',
                 '/about',
+                '/pregame',
                 '/play',
                 './public/app/chat/chat.js',
                 ...cacheFiles,

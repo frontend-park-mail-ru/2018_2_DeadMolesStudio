@@ -31,13 +31,13 @@ export default class LoginView extends BaseView {
 
         this.renderForm(loginSectionContent);
 
-        const signUpLink = new LinkComponent({
-            el: loginSection.sectionContent,
-            text: 'Зарегистрироваться',
-            href: '/signup',
-            className: 'sub_link',
-        });
-        signUpLink.render();
+        // const signUpLink = new LinkComponent({
+        //     el: loginSectionContent,
+        //     text: 'Регистрация',
+        //     href: '/signup',
+        //     className: 'input-block__btn-extra',
+        // });
+        // signUpLink.render();
     }
 
     fetchLogin(formData) {
@@ -45,11 +45,17 @@ export default class LoginView extends BaseView {
     }
 
     renderForm(parent) {
+        const extraBtn = {
+            text: 'SignUp',
+            href: '/signup',
+        };
+
         this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
-            header: 'Войти!',
+            header: 'Login',
             name: 'login',
+            btn: extraBtn,
         });
 
         this.form.render();
@@ -72,20 +78,14 @@ export default class LoginView extends BaseView {
             {
                 name: 'email',
                 type: 'email',
-                placeholder: 'Почта',
-                className: 'bordered_input',
+                placeholder: 'Email',
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'password',
                 type: 'password',
-                placeholder: 'Пароль',
-                className: 'bordered_input',
-            },
-            {
-                name: 'submit',
-                type: 'submit',
-                className: 'cute-btn cute-btn--w10rem',
-                value: 'Войти',
+                placeholder: 'Password',
+                className: 'input-block__inputs-item',
             },
         ];
     }
