@@ -2,15 +2,17 @@
 * @class WS
 * @module modules
 */
-import backDomain from '../projectSettings.js';
+import backDomain from '../projectSettings';
 import bus from './EventBus';
 
 export default class WS {
 
     ws;
+    path;
 
-    constructor() {
-        const address = backDomain.replace('https', 'wss') + '/chat/ws';
+    constructor(path = '/chat/ws') {
+        const address = backDomain.replace('https', 'wss') + path;
+        this.path = path;
         console.log(address);
         this.ws = new WebSocket(address);
 
@@ -20,6 +22,7 @@ export default class WS {
             this.ws.onmessage = this.handleMessage.bind(this);
 
             this.ws.onclose = () => {
+                bus.emit('ws:closed');
                 console.log('WebSocket closed');
             };
         };
@@ -31,12 +34,24 @@ export default class WS {
 
         try {
             const message = JSON.parse(messageText);
-            if (message.status) {
-                bus.emit(`ws:message${message.status}`, message);
-            } else {
-                // console.log(`ws.send(${message})`);
-                bus.emit('ws:message', message);
+            switch (this.path) {
+               case '/chat/ws':
+                   if (message.status) {
+                       bus.emit(`ws:message${message.status}`, message);
+                   } else {
+                       // console.log(`ws.send(${message})`);
+                       bus.emit('ws:message', message);
+                   }
+                   break;
+                case '/game/ws':
+                    if (message.status) {
+                        bus.emit(`ws:${message.status}`, message);
+                    } else {
+                        // console.log(`ws.send(${message})`);
+                        bus.emit('ws:message', message);
+                    }
             }
+
         } catch (err) {
             console.error('Error in handleMessage: ', err);
         }

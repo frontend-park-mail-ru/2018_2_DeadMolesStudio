@@ -29,7 +29,9 @@ export default class PreGameView extends BaseView{
         const preGameEl = section.sectionContent.querySelector('.pre-game');
         const backButton = new ButtonComponent({ el: preGameEl, className: 'cute-btn pre-game__back-button' });
         backButton.render();
-        const playButton = new ButtonComponent({ el: preGameEl, text: 'Начать игру', href: 'play' });
-        playButton.render();
+        const singlePlayerButton = new ButtonComponent({ el: preGameEl, text: 'Одиночная игра', href: 'play' });
+        singlePlayerButton.render();
+        const multiPlayerButton = new ButtonComponent({ el: preGameEl, text: 'Сетевая игра', href: 'multiplayer' });
+        multiPlayerButton.render();
     }
 }

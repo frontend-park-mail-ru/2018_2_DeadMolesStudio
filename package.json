@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run find_files && webpack",
     "start": "node index.js",
-    "clear": "del-cli public/dist, public/index.html",
+    "clear": "del-cli public/dist public/index.html",
     "local": "MOCKS=1 npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "now --public && now alias",

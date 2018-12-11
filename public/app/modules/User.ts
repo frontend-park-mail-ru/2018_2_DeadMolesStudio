@@ -33,6 +33,10 @@ class User {
     getUser() {
         return this.user;
     }
+
+    getNickname() {
+        return this.isAuth() ? this.user.nickname : 'Me'
+    }
 }
 
 export default new User();

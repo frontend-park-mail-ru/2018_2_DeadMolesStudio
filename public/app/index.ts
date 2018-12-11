@@ -19,6 +19,7 @@ import PreGameView from './views/PreGame';
 import ChatView from './views/ChatView';
 import preLoad from './modules/PreLoad';
 import '../css/style.scss';
+import MultiplayerView from "./views/MultiplayerView";
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -53,7 +54,8 @@ const startApp = () => {
         .register('/scoreboard', ScoreboardView)
         .register('/play', GameView)
         .register('/screenchat', ChatView)
-        .register('/pregame', PreGameView);
+        .register('/pregame', PreGameView)
+        .register('/multiplayer', MultiplayerView);
 
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');

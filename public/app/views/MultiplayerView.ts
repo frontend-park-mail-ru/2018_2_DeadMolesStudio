@@ -8,7 +8,7 @@ import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fulls
 import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
 import EVENTS from '../game/Core/Events';
 
-export default class GameView extends BaseView {
+export default class MultiplayerView extends BaseView {
 
     canvas;
     game;
@@ -93,9 +93,9 @@ export default class GameView extends BaseView {
     }
 
     createGame() {
-        const mode = GAME_MODES.OFFLINE;
+        const mode = GAME_MODES.ONLINE_MULTI;
         this.game = new Game(mode, this.canvas);
-        this.game.start();
+        // this.game.connect(null);
     }
 
     destroy() {

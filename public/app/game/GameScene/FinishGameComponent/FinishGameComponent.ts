@@ -15,8 +15,8 @@ export default class FinishGameComponent {
         this.text = null;
         this.score = null;
         this.block = null;
-
-        bus.on('show-game-result', this.setInfo.bind(this) );
+        this.setInfo = this.setInfo.bind(this);
+        bus.on('show-game-result', this.setInfo );
     }
 
     setInfo({ text, score }) {
@@ -28,7 +28,7 @@ export default class FinishGameComponent {
     destroy() {
         bus.off('show-game-result', this.setInfo );
         this.el.innerHTML = '';
-        this.render = () => null;
+        // this.render = () => null;
     }
 
     render() {
@@ -46,8 +46,8 @@ export default class FinishGameComponent {
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                this.destroy();
                 bus.emit(EVENTS.FINISH_GAME, this.score);
+                this.destroy();
             },
         });
         backButton.render();

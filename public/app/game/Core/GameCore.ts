@@ -25,6 +25,7 @@ export default class GameCore {
     }
 
     start(json) {
+        console.log('GameCore.start()');
         bus.on(EVENTS.CONTROLS_PRESSED, this.onControlsPressed);
         bus.on(EVENTS.START_GAME, this.onGameStarted);
         bus.on(EVENTS.FINISH_GAME, this.onGameFinished);

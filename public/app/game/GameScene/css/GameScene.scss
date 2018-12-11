@@ -11,7 +11,7 @@
 }
 
 .game-canvas__background {
-    background-image: url('../img/magaz.png');
+    background-image: url('/app/game/GameScene/img/magaz.png');
     /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
     background-size: cover;
     filter: blur(15px) grayscale(0.3);
@@ -70,7 +70,7 @@
 
     .game-canvas__background {
         /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
-        background-image: url('../img/magaz.png');
+        background-image: url('/app/game/GameScene/img/magaz.png');
         background-size: cover;
         filter: blur(3px) grayscale(0.1);
 
