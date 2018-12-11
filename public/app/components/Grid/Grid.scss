@@ -1,0 +1,39 @@
+%item-base {
+  height: 100vh;
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  grid-auto-rows: auto;
+  grid-auto-columns: auto;
+}
+
+.mainHeader{
+  grid-area: hd;
+  text-align: center;
+}
+
+.backButton {
+  grid-area: bc;
+}
+
+.content {
+  grid-area: c;
+}
+.chat {
+  grid-area: cht;
+}
+
+.grid{
+  &_login {
+    @extend %item-base;
+    grid-template-columns: 10% auto;
+    grid-template-rows: 10vh auto auto 10vh;
+    grid-template-areas:
+            "bc . "
+            "hd hd"
+            "c c"
+            "cht .";
+  }
+}
+
+

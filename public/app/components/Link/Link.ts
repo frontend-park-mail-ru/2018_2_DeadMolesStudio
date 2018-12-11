@@ -42,7 +42,7 @@ export default class LinkComponent {
             this.on(entry);
         });
         this._listenersToAdd = [];
-        
+
     }
 
     on({ event = 'click', callback = noop, capture = false }) {

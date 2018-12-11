@@ -24,11 +24,6 @@ export default class View {
     }
 
     show() {
-        // this._el.hidden = false;
-        // if (!this._created) {
-        //     this._created = true;
-        //     this.render();
-        // }
         this._el.hidden = false;
         this.render();
     }

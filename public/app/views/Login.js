@@ -1,12 +1,13 @@
-import BaseView from './Base.ts';
+import ButtonComponent from '../components/Button/Button.ts';
+import GridComponent from '../components/Grid/Grid.ts';
+import BaseView2 from './Base2.ts';
 
-import SectionComponent from '../components/Section/Section.ts';
+// import SectionComponent from '../components/Section/Section.ts';
 import FormComponent from '../components/Form/Form.js';
-import LinkComponent from '../components/Link/Link.ts';
 
 import bus from '../modules/EventBus.js';
 
-export default class LoginView extends BaseView {
+export default class LoginView extends BaseView2 {
     constructor(el) {
         super(el);
 
@@ -23,21 +24,20 @@ export default class LoginView extends BaseView {
 
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
+        const mainBlock = this._el.querySelector('.container');
 
-        const loginSection = new SectionComponent({ el: content, name: 'login' });
-        loginSection.render();
-        const loginSectionContent = loginSection.sectionContent;
+        const grid = new GridComponent({
+            el: mainBlock,
+            name: 'login',
+            structure: this.structureView,
+        });
+        grid.render();
 
-        this.renderForm(loginSectionContent);
+        this.renderForm(grid.getItem('content') );
+        this.renderTitleGame(grid.getItem('mainHeader') );
 
-        // const signUpLink = new LinkComponent({
-        //     el: loginSectionContent,
-        //     text: 'Регистрация',
-        //     href: '/signup',
-        //     className: 'input-block__btn-extra',
-        // });
-        // signUpLink.render();
+        const menuButton = new ButtonComponent({ el: grid.getItem('backButton') });
+        menuButton.render();
     }
 
     fetchLogin(formData) {
@@ -71,6 +71,15 @@ export default class LoginView extends BaseView {
                 this.fetchLogin(formData);
             },
         });
+    }
+
+    get structureView() {
+        return [
+            'mainHeader',
+            'backButton',
+            'content',
+            'chat',
+        ];
     }
 
     get inputs() {
