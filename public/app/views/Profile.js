@@ -1,13 +1,15 @@
-import BaseView from './Base.ts';
+import BackButtonComponent from '../components/BackButton/BackButton.ts';
+import GridComponent from '../components/Grid/Grid.ts';
+import BaseView2 from './Base2.ts';
 import bus from '../modules/EventBus.js';
 
 import Profile from '../components/Profile/Profile.ts';
-import SectionComponent from '../components/Section/Section.ts';
+// import SectionComponent from '../components/Section/Section.ts';
 import ErrorComponent from '../components/Error/Error.ts';
 import ButtonComponent from '../components/Button/Button.ts';
 import LoaderComponent from '../components/Loader/Loader.ts';
 
-export default class ProfileView extends BaseView {
+export default class ProfileView extends BaseView2 {
     constructor(el) {
         super(el);
 
@@ -45,26 +47,52 @@ export default class ProfileView extends BaseView {
 
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
 
-        const profileSection = new SectionComponent({ el: content, name: 'profile' });
-        profileSection.render();
-        const profileSectionContent = profileSection.sectionContent;
+        const mainBlock = this._el.querySelector('.container');
+        const grid = new GridComponent({
+            el: mainBlock,
+            name: 'casual',
+            structure: this.structureView,
+        });
+        grid.render();
 
-        const changingBlock = document.createElement('div');
-        profileSectionContent.appendChild(changingBlock);
+        this.renderTitleGame(grid.getItem('mainHeader') );
 
-        const menuButton = new ButtonComponent({ el: profileSectionContent });
+        const menuButton = new BackButtonComponent({
+            el: grid.getItem('backButton'),
+        });
         menuButton.render();
 
+        // this.renderProfile(grid.getItem('content') );
+
+        // const content = this._el.querySelector('.content');
+        //
+        // const profileSection = new SectionComponent({ el: content, name: 'profile' });
+        // profileSection.render();
+        // const profileSectionContent = profileSection.sectionContent;
+        //
+        // const changingBlock = document.createElement('div');
+        // profileSectionContent.appendChild(changingBlock);
+
+        // const menuButton = new ButtonComponent({ el: profileSectionContent });
+        // menuButton.render();
+
         if (!this.user && !this.error) {
-            this.renderLoading(changingBlock);
+            this.renderLoading(grid.getItem('content') );
         } else if (this.error) {
-            this.renderError(profileSectionContent);
+            this.renderError(grid.getItem('content') );
             this.error = null;
         } else {
-            this.renderProfile(changingBlock);
+            this.renderProfile(grid.getItem('content') );
         }
+    }
+
+    get structureView() {
+        return [
+            'mainHeader',
+            'backButton',
+            'content',
+        ];
     }
 
     renderLoading(parent) {
@@ -95,11 +123,11 @@ export default class ProfileView extends BaseView {
 
         profile.render();
 
-        const editProfileButton = new ButtonComponent({
-            el: parent,
-            href: '/profile/settings',
-            text: 'Редактировать',
-        });
-        editProfileButton.render();
+        // const editProfileButton = new ButtonComponent({
+        //     el: parent,
+        //     href: '/profile/settings',
+        //     text: 'Редактировать',
+        // });
+        // editProfileButton.render();
     }
 }

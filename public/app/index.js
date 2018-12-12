@@ -3,6 +3,7 @@ import ChatMiniComponent from './components/ChatMini/ChatMini.ts';
 import swInstall from '../sw-installer.js';
 import Router from './modules/Router.js';
 import bus from './modules/EventBus.js';
+import userState from './modules/User.ts';
 import ScoreboardService from './services/ScoreboardService.js';
 import SessionService from './services/SessionService.js';
 import UserService from './services/UserService.js';
@@ -175,6 +176,17 @@ const startApp = () => {
             bus.emit('user:update-err', data.err);
         }
     });
+
+    const user = {
+        nickname: 'ketnipz',
+        email: 'ksyunya.ku@gmail.com',
+        record: 0,
+        win: 0,
+        draws: 0,
+        loss: 0,
+    };
+
+    userState.setUser(user);
 
 
     router.start();

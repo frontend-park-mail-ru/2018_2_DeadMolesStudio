@@ -1,6 +1,98 @@
-.user-avatar-block {
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+.user-avatar {
+    height: 7rem;
+    width: 7rem;
+    border-radius: 0.5rem;
     object-fit: cover;
+    border: 2px solid var(--fashion-pink);
+    margin-bottom: 0.5rem;
 }
+
+.wrap-block_theme_profile {
+    background: var(--fashion-ketnipz);
+    border-radius: 1.3rem;
+}
+
+.main-block {
+    &_theme_profile {
+        padding: 3rem 2rem 1rem 2rem;
+    }
+
+    &__header_theme_profile {
+        margin-top: -24%;
+        width: 100%;
+
+        @media (max-width: 490px) and (orientation: portrait) {
+            margin-top: -43%;
+        }
+    }
+}
+
+.profile-block {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+
+    &__user-inf {
+        text-align: left;
+        margin-right: 0.9rem;
+        @media (max-width: 490px) and (orientation: portrait) {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+    }
+
+    &__user-game {
+        text-align: left;
+        @media (max-width: 490px) and (orientation: portrait) {
+            text-align: center;
+        }
+    }
+
+    &__profile-item {
+
+    }
+
+    &__profile-item_theme_nickname {
+        color: #f4788b;
+        font-size: 1.3rem;
+    }
+
+    &__profile-avatar {
+        display: inline-block;
+        height: 7rem;
+        width: 7rem;
+        margin-bottom: 0.7rem;
+        position: relative;
+    }
+
+    @media (max-width: 490px) and (orientation: portrait) {
+        width: 170px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__title {
+        font-size: 1.4rem;
+        text-align: center;
+        color: red;
+        margin-bottom: 0.2rem;
+        margin-top: -0.7rem;
+    }
+
+    &__settings-btn {
+        width: 2rem;
+        height: 2rem;
+        border-bottom: 0;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        border-radius: 50%;
+        right: -0.9rem;
+        bottom: -0.9rem;
+        background-color: #eecfcd;
+        background-image: url('/img/pencil-btn.png');
+        background-size: 2rem;
+    }
+}
+

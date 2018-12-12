@@ -3,7 +3,6 @@ import BackButtonComponent from '../components/BackButton/BackButton.ts';
 import GridComponent from '../components/Grid/Grid.ts';
 import BaseView2 from './Base2.ts';
 
-// import SectionComponent from '../components/Section/Section.ts';
 import FormComponent from '../components/Form/Form.js';
 
 import bus from '../modules/EventBus.js';
@@ -29,7 +28,7 @@ export default class LoginView extends BaseView2 {
 
         const grid = new GridComponent({
             el: mainBlock,
-            name: 'login',
+            name: 'casual',
             structure: this.structureView,
         });
         grid.render();

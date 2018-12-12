@@ -1,4 +1,4 @@
-%item-base {
+%grid-base {
   height: 100vh;
   display: grid;
   justify-content: space-between;
@@ -24,8 +24,8 @@
 }
 
 .grid{
-  &_login {
-    @extend %item-base;
+  &_casual {
+    @extend %grid-base;
     grid-template-columns: 10% auto;
     grid-template-rows: 10vh auto auto;
     grid-template-areas:
