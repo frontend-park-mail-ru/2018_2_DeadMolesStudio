@@ -61,4 +61,8 @@ export default class WS {
         // console.log(`ws.send(${messageJSON})`);
         this.ws.send(messageJSON);
     }
+
+    close() {
+        this.ws.close();
+    }
 }

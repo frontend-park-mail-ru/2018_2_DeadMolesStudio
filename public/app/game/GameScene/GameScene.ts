@@ -222,8 +222,10 @@ export default class GameScene {
 
                 this.collectedFiguresPool[idx].x = (collected.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
                 this.collectedFiguresPool[idx].y = (100 - (collected.percentsY + productHeight / 2)) / 100 * ctx.canvas.height;
+                this.collectedFiguresPool[idx].fillStyle = collected.playerNum === this.state.playerNum ? 'green' : 'red';
                 this.collectedFiguresPool[idx].type = PRODUCTS.COLLECTED(collected.points);
-                // console.log('before', this.collectedFiguresPool[idx]);
+
+                    // console.log('before', this.collectedFiguresPool[idx]);
 
                 setTimeout(() => {
                     // console.log('in timeout:', this.collectedFiguresPool[idx]);
@@ -263,11 +265,14 @@ export default class GameScene {
     }
 
     stop() {
+        console.log('gamescene.stop()');
         if (this.requestFrameId) {
             window.cancelAnimationFrame(this.requestFrameId);
             this.requestFrameId = null;
         }
-        this.gameInfo.destroy();
+        if (this.gameInfo) {
+            this.gameInfo.destroy();
+        }
         this.scene.clear();
     }
 }

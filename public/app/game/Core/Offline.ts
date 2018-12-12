@@ -96,7 +96,7 @@ export default class OfflineGame extends GameCore {
             clearTimeout(this.endTimerID);
             cancelAnimationFrame(this.gameloopRequestId);
             this.stopController();
-            bus.emit('show-game-result', { text: 'Финиш!', score: this.state.player1.score });
+            bus.emit('show-game-result', { text: 'Time is over!', score: this.state.player1.score });
         }, this.gameTime * 1000);
         this.secsIntervalID = setInterval( () => {
             this.gameTime -= 1;

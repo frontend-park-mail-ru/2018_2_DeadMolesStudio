@@ -2,6 +2,7 @@ export default class LoaderComponent {
 
     _el;
     _parent;
+
     constructor(el) {
         this._parent = el;
         this._el = document.createElement('div');

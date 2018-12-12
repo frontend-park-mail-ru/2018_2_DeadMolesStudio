@@ -43,13 +43,13 @@ export default class GameCore {
 
     destroy() {
         clearInterval(this.controllersLoopIntervalId);
+        this.controller.destroy();
+        this.scene.stop();
+
         bus.off(EVENTS.START_GAME, this.onGameStarted);
         bus.off(EVENTS.FINISH_GAME, this.onGameFinished);
         bus.off(EVENTS.CONTROLS_PRESSED, this.onControlsPressed);
         bus.off(EVENTS.GAME_STATE_CHANGED, this.onGameStateChanged);
-
-        this.controller.destroy();
-        this.scene.stop();
     }
 
     stopController() {

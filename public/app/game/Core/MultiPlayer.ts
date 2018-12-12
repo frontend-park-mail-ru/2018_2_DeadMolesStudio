@@ -22,30 +22,31 @@ export default class MultiPlayerGame extends GameCore {
     gameTime;
 
     constructor(controller, scene) {
-        console.log('MultiPlayerGame()');
         super(controller, scene);
+        console.log('MultiPlayerGame()');
         this.state = {};
         this.lastFrame = 0;
         this.gameloopRequestId = null;
         this.gameService = new GameService();
         this.gameloop = this.gameloop.bind(this);
-        this.connect(null);
-
         this.handleState = this.handleState.bind(this);
+
         this.handleDisconnect = this.handleDisconnect.bind(this);
         this.handleTimeOver = this.handleTimeOver.bind(this);
         this.handleGameOver = this.handleGameOver.bind(this);
         this.handleClosedWS = this.handleClosedWS.bind(this);
+
+        this.connect(null);
     }
 
     connect(json) {
         this.gameService.connectWS();
-        bus.on('ws:started', this.start.bind(this) );
+        bus.on('ws:started', this.start);
     }
 
-    start(json) {
-        console.log('multi.start()');
+    start = (json) => {
         super.start(json);
+        console.log('multi.start()');
         bus.on('ws:state', this.handleState);
         bus.on('ws:disconnected', this.handleDisconnect);
         bus.on('ws:time_over', this.handleTimeOver);
@@ -87,25 +88,20 @@ export default class MultiPlayerGame extends GameCore {
         this.state.opponentName = this.opponentName;
         this.state.leftTime = this.gameTime;
         this.state.products = [];
+        this.state.playerNum = this.playerNum;
         bus.emit(EVENTS.START_GAME, this.state);
 
         this.endTimerID = setTimeout( () => {
             clearInterval(this.secsIntervalID);
-            clearTimeout(this.endTimerID);
-            cancelAnimationFrame(this.gameloopRequestId);
-            this.stopController();
-            // TODO вот тут возможно стоит ждать финиша от сервера а не самим выводить резалт
-            // bus.emit(EVENTS.FINISH_GAME, this.state.score);
         }, this.gameTime * 1000);
 
         this.secsIntervalID = setInterval( () => {
             this.gameTime -= 1;
             this.state.leftTime = this.gameTime;
         }, 1000);
-    }
+    };
 
     handleState(json) {
-        console.log('handleState', json);
         const { playerName, opponentName } = this;
         const me = json.payload[this.playerName];
         const opponent = json.payload[this.opponentName];
@@ -127,41 +123,47 @@ export default class MultiPlayerGame extends GameCore {
         this.state[opponentName].targetList = opponent.targetList;
         this.state[opponentName].score = opponent.score;
 
-        this.state.collectedProducts = collected;
+        this.state.collected = collected;
         this.state.products = products;
     }
 
     handleDisconnect(json) {
-        bus.emit('show-game-result', { text: 'Противник покинул игру(', score: this.state.player1.score });
+        bus.emit('show-game-result', { text: 'You won! The opponent left the game. ', score: this.state[this.playerName].score });
         bus.off('ws:closed', this.handleClosedWS );
-
-        // bus.emit('multiplayer:finish-disconnect', this.state);
     }
 
     handleTimeOver(json) {
-        bus.emit('show-game-result', { text: 'Финиш!', score: this.state.player1.score });
+        const myScore = this.state[this.playerName].score;
+        const opponentScore = this.state[this.opponentName].score;
+        const text = myScore > 0 && myScore > opponentScore ? 'You won!' : 'You lose :(';
+        bus.emit('show-game-result', { text: `Time is over. ${text}`, score: this.state[this.playerName].score });
         bus.off('ws:closed', this.handleClosedWS );
-
-        // bus.emit('multiplayer:finish-timeover', this.state);
     }
 
     handleGameOver(json) {
-        bus.emit('show-game-result', { text: 'Финиш!', score: this.state.player1.score });
+        const myScore = this.state[this.playerName].score;
+        const opponentScore = this.state[this.opponentName].score;
+        const text = myScore > 0 && myScore > opponentScore ? 'You won!' : 'You lose :(';
+        bus.emit('show-game-result', { text: `Game over. ${text}`, score: this.state[this.playerName].score });
         bus.off('ws:closed', this.handleClosedWS );
-
-        // bus.emit('multiplayer:finish-gameover', this.state);
     }
 
     handleClosedWS() {
-        bus.emit('show-game-result', { text: 'Соединение прервано(', score: this.state.player1.score });
-
-        // bus.emit('multiplayer:finish-closed-ws', this.state);
+        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score });
     }
 
     destroy() {
-        clearTimeout(this.endTimerID);
-        cancelAnimationFrame(this.gameloopRequestId);
+        bus.off('ws:started', this.start);
+        bus.off('ws:state', this.handleState);
+        bus.off('ws:disconnected', this.handleDisconnect);
+        bus.off('ws:time_over', this.handleTimeOver);
+        bus.off('ws:game_over', this.handleGameOver);
+        bus.off('ws:closed', this.handleClosedWS);
+
         this.gameService.destroy();
+        clearTimeout(this.endTimerID);
+        clearInterval(this.secsIntervalID);
+        cancelAnimationFrame(this.gameloopRequestId);
         super.destroy();
     }
 
@@ -188,7 +190,7 @@ export default class MultiPlayerGame extends GameCore {
         if (this.pressed('JUMP', event) ) {
             actions += 2;
         }
-
+        if (actions === 101 || actions === 0) return;
         this.gameService.sendActions({ actions: +actions.toString(2) });
     }
 
@@ -202,9 +204,7 @@ export default class MultiPlayerGame extends GameCore {
     }
 
     onGameFinished(scores) {
-        cancelAnimationFrame(this.gameloopRequestId);
         bus.emit(EVENTS.CLOSE_GAME, scores);
-        this.gameService.destroy();
     }
 
     onGameStateChanged(event) {

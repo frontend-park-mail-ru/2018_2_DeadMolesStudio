@@ -8,6 +8,7 @@
     top: 1%;
     left: 1%;
     opacity: 0.85;
+    z-index: 20;
 }
 
 .game-canvas__background {
@@ -49,7 +50,7 @@
 
 @media only screen and (orientation:portrait){
 
-    .game-scene, .pre-game, .game-scene__game-finish-component, .chat-block, .chat-mini-bth {
+    .game-scene, .pre-game, .game-scene__game-finish-component, .game-loader, .chat-block, .chat-mini-bth {
 
         -webkit-transform: rotate(90deg);
 
@@ -117,8 +118,6 @@
         transform: rotate(0deg);
 
     }
-
-
 
 }
 

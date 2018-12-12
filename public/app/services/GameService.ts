@@ -7,18 +7,24 @@ export default class GameService {
     ws;
     
     constructor() {
-        console.log('GameService()');
+        this.onConnected = this.onConnected.bind(this);
+        this.onState = this.onState.bind(this);
+        this.onStart = this.onStart.bind(this);
+        this.onDisconnected = this.onDisconnected.bind(this);
+        this.onTimeOver = this.onTimeOver.bind(this);
+        this.onGameOver = this.onGameOver.bind(this);
+        this.onClosed = this.onClosed.bind(this);
     }
 
     connectWS() {
         this.ws = new WS('/game/ws');
-        bus.on('ws:connected', this.onConnected.bind(this) );
-        bus.on('ws:state', this.onState.bind(this) );
-        bus.on('ws:started', this.onStart.bind(this) );
-        bus.on('ws:disconnected', this.onDisconnected.bind(this) );
-        bus.on('ws:time_over', this.onTimeOver.bind(this) );
-        bus.on('ws:game_over', this.onGameOver.bind(this) );
-        bus.on('ws:closed', this.onClosed.bind(this) );
+        bus.on('ws:connected', this.onConnected);
+        bus.on('ws:state', this.onState);
+        bus.on('ws:started', this.onStart);
+        bus.on('ws:disconnected', this.onDisconnected);
+        bus.on('ws:time_over', this.onTimeOver);
+        bus.on('ws:game_over', this.onGameOver);
+        bus.on('ws:closed', this.onClosed);
     }
 
     onConnected(json) {
@@ -70,11 +76,12 @@ export default class GameService {
 
     destroy() {
         // TODO возможно надо закрыть WebSocket
-        bus.off('ws:connected', this.onConnected.bind(this) );
-        bus.off('ws:state', this.onState.bind(this) );
-        bus.off('ws:started', this.onStart.bind(this) );
-        bus.off('ws:disconnected', this.onDisconnected.bind(this) );
-        bus.off('ws:time_over', this.onTimeOver.bind(this) );
-        bus.off('ws:game_over', this.onGameOver.bind(this) );
+        this.ws.close();
+        bus.off('ws:connected', this.onConnected);
+        bus.off('ws:state', this.onState);
+        bus.off('ws:started', this.onStart);
+        bus.off('ws:disconnected', this.onDisconnected);
+        bus.off('ws:time_over', this.onTimeOver);
+        bus.off('ws:game_over', this.onGameOver);
     }
 }
