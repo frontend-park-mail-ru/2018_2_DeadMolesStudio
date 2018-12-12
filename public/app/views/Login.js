@@ -1,4 +1,5 @@
-import ButtonComponent from '../components/Button/Button.ts';
+import BackButtonComponent from '../components/BackButton/BackButton.ts';
+// import ButtonComponent from '../components/Button/Button.ts';
 import GridComponent from '../components/Grid/Grid.ts';
 import BaseView2 from './Base2.ts';
 
@@ -36,7 +37,9 @@ export default class LoginView extends BaseView2 {
         this.renderForm(grid.getItem('content') );
         this.renderTitleGame(grid.getItem('mainHeader') );
 
-        const menuButton = new ButtonComponent({ el: grid.getItem('backButton') });
+        const menuButton = new BackButtonComponent({
+            el: grid.getItem('backButton'),
+        });
         menuButton.render();
     }
 
@@ -78,7 +81,6 @@ export default class LoginView extends BaseView2 {
             'mainHeader',
             'backButton',
             'content',
-            'chat',
         ];
     }
 

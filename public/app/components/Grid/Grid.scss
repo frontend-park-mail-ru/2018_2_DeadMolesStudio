@@ -27,12 +27,11 @@
   &_login {
     @extend %item-base;
     grid-template-columns: 10% auto;
-    grid-template-rows: 10vh auto auto 10vh;
+    grid-template-rows: 10vh auto auto;
     grid-template-areas:
             "bc . "
             "hd hd"
-            "c c"
-            "cht .";
+            "c c";
   }
 }
 

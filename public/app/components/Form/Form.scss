@@ -1,6 +1,7 @@
 .wrap-block {
   text-align: center;
   padding: 0.4rem;
+  margin-bottom: 1rem;
 
   &_theme_form {
     background: var(--fashion-ketnipz);
@@ -8,16 +9,17 @@
   }
 }
 
-.form_block {
+.form-block {
   text-align: center;
   padding: 1rem;
+  padding-bottom: 0.3rem;
   margin: 1rem;
   background: var(--fashion-ketnipz);
   border-radius: 0.8rem;
   border: 4px double var(--fashion-pink);
 
   &__header {
-    margin-top: -24%;
+    margin-top: -20%;
   }
 
   &__inputs {
@@ -26,7 +28,7 @@
 
 }
 
-.header {
+.header-form {
   color: var(--fashion-pink);
   display: inline-block;
 
@@ -44,15 +46,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 1rem 0;
+    margin: 0.6rem 0 0.2rem 0;
   }
 
   &__inputs-item {
     border: 0px solid black;
     background: rgba(139, 140, 199, 0.5);
     color: #444444;
+    font-size: 0.9rem;
 
-    width: 9rem;
+    width: 10rem;
+    height: 1.2rem;
 
     margin: 0.3rem;
     padding: 0.5rem;
@@ -68,9 +72,10 @@
   }
 
   &__inputs-error {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     color: red;
     margin-bottom: 0.2rem;
+    height: 0.8rem;
   }
 
   &__buttons {
@@ -83,6 +88,10 @@
 
   &__btn-submit {
     color: red;
+  }
+
+  &__btn-submit:focus {
+    outline: none;
   }
 
   &__btn-extra {

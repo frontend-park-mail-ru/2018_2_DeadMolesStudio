@@ -2,6 +2,7 @@
 @import "../app/components/Menu/Menu.scss";
 @import "../app/components/Grid/Grid.scss";
 @import "../app/components/Section/Section.scss";
+@import "../app/components/BackButton/BackButton.scss";
 @import "../app/components/Profile/Profile.scss";
 @import "../app/components/Form/Form.scss";
 @import "../app/components/Link/Link.scss";
@@ -33,11 +34,12 @@ body {
 }
 
 
-//.container {
-//    display: block;
-//    height: 100vh;
+.container {
+    display: block;
+    height: 100vh;
+    overflow-y: scroll;
+}
 
-//}
 
 .content {
     height: 100%;

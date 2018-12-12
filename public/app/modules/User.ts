@@ -22,6 +22,7 @@ class User {
 
     deleteUser() {
         this.user = null;
+        this.exist = false;
     }
 
     setUser(data) {

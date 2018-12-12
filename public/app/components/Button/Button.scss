@@ -20,21 +20,37 @@
 
 .basic-btn {
     font-size: 1.2rem;
-    width: 4.5rem;
-    padding: 0.2rem 0.4rem;
+    width: 5rem;
+    padding: 0.3rem 0.4rem;
     justify-content: space-around;
     box-sizing: border-box;
     display: flex;
+    margin: 0.4rem;
 
     text-decoration: none;
     border-radius: 0.5rem;
     color: var(--button-shadow);
+    transition: all 0.3s ease;
     border: 0;
     border-bottom: 4px solid var(--button-shadow);
     background-color: var(--fashion-pink);
 
     &:hover {
         transform: scale(1.03);
+        box-sizing: border-box;
+    }
+
+    &_w5rem {
+        width: 5rem;
+    }
+
+    &_theme_back {
+        color: var(--fashion-ketnipz);
+        padding: 0.4rem;
+        content: url(/img/backbutton.svg);
+        height: 1rem;
+        object-fit: cover;
+
     }
 }
 
