@@ -90,25 +90,21 @@ export default class SignUpView extends BaseView2 {
                 name: 'nickname',
                 type: 'text',
                 placeholder: 'Nickname',
-                className: 'input-block__inputs-item',
             },
             {
                 name: 'email',
                 type: 'email',
                 placeholder: 'Email',
-                className: 'input-block__inputs-item',
             },
             {
                 name: 'password',
                 type: 'password',
                 placeholder: 'Password',
-                className: 'input-block__inputs-item',
             },
             {
                 name: 'password_repeat',
                 type: 'password',
                 placeholder: 'Repeat password',
-                className: 'input-block__inputs-item',
             },
         ];
     }

@@ -89,13 +89,11 @@ export default class LoginView extends BaseView2 {
                 name: 'email',
                 type: 'email',
                 placeholder: 'Email',
-                className: 'input-block__inputs-item',
             },
             {
                 name: 'password',
                 type: 'password',
                 placeholder: 'Password',
-                className: 'input-block__inputs-item',
             },
         ];
     }

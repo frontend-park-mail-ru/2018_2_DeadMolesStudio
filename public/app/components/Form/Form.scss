@@ -69,6 +69,20 @@
     outline: none;
   }
 
+  &__inputs-item_cursor {
+    cursor: pointer;
+    width: 7rem;
+  }
+
+  &__inputs-img {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
   &__inputs-item:focus {
     box-shadow: none;
     outline: none;

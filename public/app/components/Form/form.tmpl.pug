@@ -6,13 +6,20 @@ div.wrap-block.wrap-block_theme_form
         form.input-block
             div.input-block__inputs
                 each i in inputs
-                    input(name = i.name, type = i.type, placeholder = i.placeholder, class = i.className, value = i.value, accept = i.accept)
+                    case i.name
+                        when 'avatar'
+                            input(id = i.name, name = i.name, type = i.type, placeholder = i.placeholder, class = 'input-block__inputs-img', value = i.value, accept = i.accept)
+                            label(for = i.name, class = 'input-block__inputs-item input-block__inputs-item_cursor') Choose a file
+                        default
+                            input(name = i.name, type = i.type, placeholder = i.placeholder, class = 'input-block__inputs-item', value = i.value)
                     div.input-block__inputs-error
-            div.input-block__buttons
-                div.button-wrap
-                    input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = submit.className, value = submit.value, accept = submit.accept)
-                div.button-wrap.find-link
-                    a(class = 'basic-btn input-block__btn-extra' href = btn.href) #{btn.text}
+
+            if btn
+                div.input-block__buttons
+                    div.button-wrap
+                        input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn input-block__btn-submit', value = submit.value, accept = submit.accept)
+                    div.button-wrap.find-link
+                        a(class = 'basic-btn input-block__btn-extra' href = btn.href) #{btn.text}
 
 
 

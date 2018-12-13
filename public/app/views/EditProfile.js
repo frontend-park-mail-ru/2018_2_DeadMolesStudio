@@ -89,17 +89,13 @@ export default class EditProfileView extends BaseView2 {
     }
 
     renderForm(parent) {
-        const extraBtn = {
-            text: 'SignUp',
-            href: '/signup',
-        };
         this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
             header: 'Edit',
             name: 'edit',
             multipart: true,
-            btn: extraBtn,
+            btn: false,
         });
         this.form.render();
 
@@ -152,25 +148,21 @@ export default class EditProfileView extends BaseView2 {
                 type: 'email',
                 placeholder: this.user.email,
                 value: this.user.email,
-                className: 'input-block__inputs-item',
             },
             {
                 name: 'password',
                 type: 'password',
-                placeholder: 'Пароль',
-                className: 'input-block__inputs-item',
+                placeholder: 'Password',
             },
             {
                 name: 'password_repeat',
                 type: 'password',
-                placeholder: 'Повторите пароль',
-                className: 'input-block__inputs-item',
+                placeholder: 'Repeat password',
             },
             {
                 name: 'avatar',
                 type: 'file',
                 accept: 'image/jpeg,image/png',
-                className: 'input-block__inputs-item',
             },
         ];
     }

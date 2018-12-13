@@ -47,6 +47,20 @@ export default class FormComponent {
             this._innerElem.setAttribute('enctype', 'multipart/form-data');
         }
 
+        const inputFile = this._innerElem.querySelector('.input-block__inputs-img');
+        const labelFile = document.querySelector('.input-block__inputs-item_cursor');
+        inputFile.addEventListener('change', (e) => {
+            let fileName = e.target.value.split('\\').pop();
+
+            if (fileName.length > 9) {
+                fileName = `${fileName.substr(0, 8)}...`;
+            }
+
+            if (fileName) {
+                labelFile.innerHTML = fileName.substr(0, 11);
+            }
+        });
+
         // const link = this._innerElem.querySelector('.find-link');
         // const signUpLink = new LinkComponent({
         //     el: link,
