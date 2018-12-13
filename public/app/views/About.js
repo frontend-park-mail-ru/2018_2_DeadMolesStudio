@@ -1,22 +1,38 @@
-import BaseView from './Base.ts';
-
-import SectionComponent from '../components/Section/Section.ts';
+import BackButtonComponent from '../components/BackButton/BackButton.ts';
+import GridComponent from '../components/Grid/Grid.ts';
+import BaseView2 from './Base2.ts';
 import About from '../components/About/About.ts';
-import ButtonComponent from '../components/Button/Button.ts';
 
-export default class AboutView extends BaseView {
+
+export default class AboutView extends BaseView2 {
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
 
-        const aboutSection = new SectionComponent({ el: content, name: 'about' });
-        aboutSection.render();
-        const aboutSectionContent = aboutSection.sectionContent;
+        const mainBlock = this._el.querySelector('.container');
 
-        const about = new About({ el: aboutSectionContent });
-        about.render();
+        const grid = new GridComponent({
+            el: mainBlock,
+            name: 'casual',
+            structure: this.structureView,
+        });
+        grid.render();
 
-        const menuButton = new ButtonComponent({ el: aboutSectionContent });
+        this.renderTitleGame(grid.getItem('mainHeader') );
+
+        const menuButton = new BackButtonComponent({
+            el: grid.getItem('backButton'),
+        });
         menuButton.render();
+
+        const about = new About({ el: grid.getItem('content') });
+        about.render();
+    }
+
+    get structureView() {
+        return [
+            'mainHeader',
+            'backButton',
+            'content',
+        ];
     }
 }

@@ -4,9 +4,7 @@ import BaseView2 from './Base2.ts';
 import bus from '../modules/EventBus.js';
 
 import Profile from '../components/Profile/Profile.ts';
-// import SectionComponent from '../components/Section/Section.ts';
 import ErrorComponent from '../components/Error/Error.ts';
-import ButtonComponent from '../components/Button/Button.ts';
 import LoaderComponent from '../components/Loader/Loader.ts';
 
 export default class ProfileView extends BaseView2 {
@@ -63,20 +61,6 @@ export default class ProfileView extends BaseView2 {
         });
         menuButton.render();
 
-        // this.renderProfile(grid.getItem('content') );
-
-        // const content = this._el.querySelector('.content');
-        //
-        // const profileSection = new SectionComponent({ el: content, name: 'profile' });
-        // profileSection.render();
-        // const profileSectionContent = profileSection.sectionContent;
-        //
-        // const changingBlock = document.createElement('div');
-        // profileSectionContent.appendChild(changingBlock);
-
-        // const menuButton = new ButtonComponent({ el: profileSectionContent });
-        // menuButton.render();
-
         if (!this.user && !this.error) {
             this.renderLoading(grid.getItem('content') );
         } else if (this.error) {
@@ -122,12 +106,5 @@ export default class ProfileView extends BaseView2 {
         });
 
         profile.render();
-
-        // const editProfileButton = new ButtonComponent({
-        //     el: parent,
-        //     href: '/profile/settings',
-        //     text: 'Редактировать',
-        // });
-        // editProfileButton.render();
     }
 }

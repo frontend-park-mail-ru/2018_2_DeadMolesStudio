@@ -5,3 +5,72 @@
 	display: flex;
 	flex-direction: column;
 }
+
+.main-block__header_theme_about {
+	margin-top: -23%;
+	width: 100%;
+	@media (max-width: 439px) and (orientation: portrait) {
+		margin-top: -40%;
+	}
+}
+
+.main-block_theme_about {
+	padding: 3rem 2rem 0rem 2rem;
+}
+
+.about-block {
+	margin-top: 1rem;
+	color: red;
+	width: 20rem;
+	display: flex;
+	flex-direction: column;
+
+	@media (max-width: 439px) and (orientation: portrait) {
+		width: 11rem;
+	}
+
+	&__text {
+		color: #5e5e7d;
+	}
+
+	&__text-item {
+		color: #5e5e7d;
+		margin-bottom: 1rem;
+	}
+
+	&__control {
+		text-align: center;
+	}
+
+	&__control-header {
+		font-size: 1.5rem;
+	}
+
+	&__control-item {
+		margin: 0.7rem;
+		text-align: center;
+	}
+
+	&__item-header {
+		color: blue;
+		font-size: 1.1rem;
+		margin-bottom: 0.4rem;
+	}
+
+	&__item-text {
+		color: green;
+		margin: 0.5rem;
+	}
+
+	&__control-wrap {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+
+	&__control-img {
+		width: 6rem;
+		height: 4rem;
+		object-fit: cover;
+	}
+}

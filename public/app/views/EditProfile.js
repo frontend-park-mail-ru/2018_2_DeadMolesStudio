@@ -1,13 +1,18 @@
 import ErrorComponent from '../components/Error/Error.ts';
-import BaseView from './Base.ts';
 import bus from '../modules/EventBus.js';
-import SectionComponent from '../components/Section/Section.ts';
+
 import FormComponent from '../components/Form/Form.js';
-import ButtonComponent from '../components/Button/Button.ts';
+
 import LoaderComponent from '../components/Loader/Loader.ts';
+import BackButtonComponent from '../components/BackButton/BackButton.ts';
+
+import GridComponent from '../components/Grid/Grid.ts';
+import BaseView2 from './Base2.ts';
 
 
-export default class EditProfileView extends BaseView {
+
+
+export default class EditProfileView extends BaseView2 {
     constructor(el) {
         super(el);
 
@@ -55,40 +60,46 @@ export default class EditProfileView extends BaseView {
 
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
 
-        const editProfileSection = new SectionComponent({ el: content, name: 'edit_profile' });
-        editProfileSection.render();
-        const editSectionContent = editProfileSection.sectionContent;
+        const mainBlock = this._el.querySelector('.container');
 
-        const changingBlock = document.createElement('div');
-        editSectionContent.appendChild(changingBlock);
-
-        const profileButton = new ButtonComponent({
-            el: editSectionContent,
-            href: '/profile',
-            text: 'Назад',
+        const grid = new GridComponent({
+            el: mainBlock,
+            name: 'casual',
+            structure: this.structureView,
         });
-        profileButton.render();
+        grid.render();
+
+        this.renderTitleGame(grid.getItem('mainHeader') );
+
+        const menuButton = new BackButtonComponent({
+            el: grid.getItem('backButton'),
+            href: '/profile',
+        });
+        menuButton.render();
 
         if (!this.user && !this.error) {
-            this.renderLoading(changingBlock);
+            this.renderLoading(grid.getItem('content') );
         } else if (this.error) {
-            this.renderError(editSectionContent);
+            this.renderError(grid.getItem('content') );
             this.error = null;
         } else {
-            this.renderForm(changingBlock);
+            this.renderForm(grid.getItem('content') );
         }
     }
 
     renderForm(parent) {
+        const extraBtn = {
+            text: 'SignUp',
+            href: '/signup',
+        };
         this.form = new FormComponent({
             el: parent,
             inputs: this.inputs,
-            header: 'Настройки профиля',
-            // TODO указать правильный name
-            name: 'signup',
+            header: 'Edit',
+            name: 'edit',
             multipart: true,
+            btn: extraBtn,
         });
         this.form.render();
 
@@ -119,43 +130,47 @@ export default class EditProfileView extends BaseView {
         errorBlock.render();
     }
 
+    get structureView() {
+        return [
+            'mainHeader',
+            'backButton',
+            'content',
+        ];
+    }
+
     get inputs() {
         return [
             {
                 name: 'nickname',
                 type: 'text',
                 placeholder: this.user.nickname,
-                className: 'bordered_input',
+                value: this.user.nickname,
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'email',
                 type: 'email',
                 placeholder: this.user.email,
-                className: 'bordered_input',
+                value: this.user.email,
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'password',
                 type: 'password',
                 placeholder: 'Пароль',
-                className: 'bordered_input',
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'password_repeat',
                 type: 'password',
                 placeholder: 'Повторите пароль',
-                className: 'bordered_input',
+                className: 'input-block__inputs-item',
             },
             {
                 name: 'avatar',
                 type: 'file',
-                // accept: 'image/jpeg,image/png',
-                className: 'bordered_input',
-            },
-            {
-                name: 'submit',
-                type: 'submit',
-                className: 'cute-btn',
-                value: 'Сохранить',
+                accept: 'image/jpeg,image/png',
+                className: 'input-block__inputs-item',
             },
         ];
     }

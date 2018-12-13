@@ -1,12 +1,14 @@
-import BaseView from './Base.ts';
+import BackButtonComponent from '../components/BackButton/BackButton.ts';
+import GridComponent from '../components/Grid/Grid.ts';
+import BaseView2 from './Base2.ts';
 
-import SectionComponent from '../components/Section/Section.ts';
+
 import FormComponent from '../components/Form/Form.js';
-import LinkComponent from '../components/Link/Link.ts';
+
 
 import bus from '../modules/EventBus.js';
 
-export default class SignUpView extends BaseView {
+export default class SignUpView extends BaseView2 {
     constructor(el) {
         super(el);
 
@@ -23,21 +25,23 @@ export default class SignUpView extends BaseView {
 
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
 
-        const signupSection = new SectionComponent({ el: content, name: 'signup' });
-        signupSection.render();
-        const signupSectionContent = signupSection.sectionContent;
+        const mainBlock = this._el.querySelector('.container');
 
-        this.renderForm(signupSectionContent);
+        const grid = new GridComponent({
+            el: mainBlock,
+            name: 'casual',
+            structure: this.structureView,
+        });
+        grid.render();
 
-        // const loginLink = new LinkComponent({
-        //     el: signupSection.sectionContent,
-        //     text: 'У меня уже есть аккаунт',
-        //     href: '/login',
-        //     className: 'sub_link',
-        // });
-        // loginLink.render();
+        this.renderForm(grid.getItem('content') );
+        this.renderTitleGame(grid.getItem('mainHeader') );
+
+        const menuButton = new BackButtonComponent({
+            el: grid.getItem('backButton'),
+        });
+        menuButton.render();
     }
 
     fetchSignUp(formData) {
@@ -72,6 +76,14 @@ export default class SignUpView extends BaseView {
         });
     }
 
+    get structureView() {
+        return [
+            'mainHeader',
+            'backButton',
+            'content',
+        ];
+    }
+
     get inputs() {
         return [
             {
@@ -98,12 +110,6 @@ export default class SignUpView extends BaseView {
                 placeholder: 'Repeat password',
                 className: 'input-block__inputs-item',
             },
-            // {
-            //     name: 'submit',
-            //     type: 'submit',
-            //     className: 'cute-btn cute-btn--w10rem',
-            //     value: 'Зарегистрироваться',
-            // },
         ];
     }
 }

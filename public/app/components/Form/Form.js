@@ -32,13 +32,7 @@ export default class FormComponent {
             value: this._header,
         };
 
-        // const btn = {
-        //     href: '/signup',
-        //     text: 'SignUp',
-        // }; a.input-block__btn-extra SignUp
-
         const options = {
-            name: this._name,
             header: this._header,
             inputs: this._inputs,
             submit: submit,
