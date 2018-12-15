@@ -35,6 +35,7 @@ export default class MultiPlayerGame extends GameCore {
         this.handleTimeOver = this.handleTimeOver.bind(this);
         this.handleGameOver = this.handleGameOver.bind(this);
         this.handleClosedWS = this.handleClosedWS.bind(this);
+        this.handlePlaying = this.handlePlaying.bind(this);
 
         this.connect(null);
     }
@@ -46,12 +47,13 @@ export default class MultiPlayerGame extends GameCore {
 
     start = (json) => {
         super.start(json);
-        console.log('multi.start()');
         bus.on('ws:state', this.handleState);
         bus.on('ws:disconnected', this.handleDisconnect);
         bus.on('ws:time_over', this.handleTimeOver);
         bus.on('ws:game_over', this.handleGameOver);
         bus.on('ws:closed', this.handleClosedWS);
+        bus.on('ws:playing', this.handlePlaying);
+
 
         const { opponentID, playerNum, stateConst } = json.payload;
         this.opponentID = opponentID;
@@ -152,6 +154,10 @@ export default class MultiPlayerGame extends GameCore {
         bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score });
     }
 
+    handlePlaying() {
+
+    }
+
     destroy() {
         bus.off('ws:started', this.start);
         bus.off('ws:state', this.handleState);
@@ -159,6 +165,7 @@ export default class MultiPlayerGame extends GameCore {
         bus.off('ws:time_over', this.handleTimeOver);
         bus.off('ws:game_over', this.handleGameOver);
         bus.off('ws:closed', this.handleClosedWS);
+        bus.off('ws:playing', this.handlePlaying);
 
         this.gameService.destroy();
         clearTimeout(this.endTimerID);

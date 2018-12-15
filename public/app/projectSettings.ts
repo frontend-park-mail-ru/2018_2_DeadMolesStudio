@@ -1,2 +1,2 @@
-const backDomain: string = 'https://playketnipz.ru';
+const backDomain: string = 'https://playketnipz.ru/api';
 export default backDomain;

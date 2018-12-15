@@ -8,22 +8,41 @@ import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fulls
 import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
 import EVENTS from '../game/Core/Events';
 import GameLoaderComponent from '../components/GameLoader/GameLoader';
+import ErrorComponent from '../components/Error/Error';
 
-export default class MultiplayerView extends BaseView {
+export default class MultiPlayerView extends BaseView {
 
     canvas;
     game;
+    gameSection;
 
     constructor(el) {
         super(el);
         this.canvas = null;
+        this.game = null;
+        this.gameSection = null;
+
         this.onClose = this.onClose.bind(this);
+        this.onPlaying = this.onPlaying.bind(this);
         bus.on(EVENTS.CLOSE_GAME, this.onClose);
     }
 
     onClose(scores) {
         this.destroy();
         bus.emit('showmenu');
+    }
+
+    onPlaying() {
+        const err = new ErrorComponent({
+            el: this.gameSection.sectionContent,
+            path: '/',
+            error: 'You are already in the game with this account.\nYou can play in single player mode.',
+            callback: () => {
+                exitFullscreen();
+                bus.emit(EVENTS.CLOSE_GAME);
+            },
+        });
+        err.render();
     }
 
     show() {
@@ -37,25 +56,27 @@ export default class MultiplayerView extends BaseView {
         const title = this._el.querySelector('.game_title');
         content.removeChild(title);
 
-        const gameSection = new SectionComponent({ el: content, name: 'game' });
-        gameSection.render();
+        this.gameSection = new SectionComponent({ el: content, name: 'game' });
+        this.gameSection.render();
 
-        const gameLoader = new GameLoaderComponent(gameSection.sectionContent);
+        const gameLoader = new GameLoaderComponent(this.gameSection.sectionContent);
         gameLoader.render();
 
         const onGameStarted = () => {
             gameLoader.hide();
             bus.off('ws:started', onGameStarted);
+            bus.off('ws:playing', this.onPlaying);
         };
         bus.on('ws:started', onGameStarted);
+        bus.on('ws:playing', this.onPlaying);
 
-        gameSection.sectionContent.insertAdjacentHTML('beforeend', `
+        this.gameSection.sectionContent.insertAdjacentHTML('beforeend', `
             <div class="game-scene">
                 <div class="game-canvas__background"></div>
                 <canvas class="js-canvas game-view__canvas game-canvas" width="600" height="400"></canvas>
             </div>
         `);
-        const finishComponent = new FinishGameComponent({ el: gameSection.sectionContent });
+        const finishComponent = new FinishGameComponent({ el: this.gameSection.sectionContent });
 
         const scene = this._el.querySelector('.game-scene');
         this.canvas = this._el.querySelector('.js-canvas');
@@ -80,14 +101,6 @@ export default class MultiplayerView extends BaseView {
             launchFullscreen(documentEl);
         }
 
-        const onContextMenu = (e) => {
-            e.preventDefault();
-            console.log('onContextMenu', e);
-            return false;
-        };
-
-        window.addEventListener('contextmenu', onContextMenu);
-
         this.createGame();
         const backButton = new ButtonComponent({ el: scene, className: 'cute-btn app-router-ignore game-scene__back-button' });
         backButton.on({
@@ -95,7 +108,6 @@ export default class MultiplayerView extends BaseView {
             callback: (event) => {
                 event.preventDefault();
                 exitFullscreen();
-                window.removeEventListener('contextmenu', onContextMenu);
                 bus.emit(EVENTS.CLOSE_GAME);
             },
         });

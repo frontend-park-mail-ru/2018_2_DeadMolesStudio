@@ -2,6 +2,7 @@ import BaseView from './Base';
 
 import SectionComponent from '../components/Section/Section';
 import ButtonComponent from '../components/Button/Button';
+import UserState from '../modules/User';
 
 export default class PreGameView extends BaseView{
     render() {
@@ -31,7 +32,10 @@ export default class PreGameView extends BaseView{
         backButton.render();
         const singlePlayerButton = new ButtonComponent({ el: preGameEl, text: 'Одиночная игра', href: 'play' });
         singlePlayerButton.render();
-        const multiPlayerButton = new ButtonComponent({ el: preGameEl, text: 'Сетевая игра', href: 'multiplayer' });
-        multiPlayerButton.render();
+
+        if (UserState.isAuth()) {
+            const multiPlayerButton = new ButtonComponent({ el: preGameEl, text: 'Сетевая игра', href: 'multiplayer' });
+            multiPlayerButton.render();
+        }
     }
 }

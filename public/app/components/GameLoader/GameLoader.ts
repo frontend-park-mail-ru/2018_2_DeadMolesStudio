@@ -4,11 +4,13 @@ export default class GameLoaderComponent {
 
     _el;
     _parent;
+    _rendered;
 
     constructor(el) {
         this._parent = el;
         this._el = document.createElement('div');
         this._el.className = 'game-loader';
+        this._rendered = false;
     }
 
     render() {
@@ -19,11 +21,14 @@ export default class GameLoaderComponent {
         description.innerText = 'Search for an opponent';
         this._el.appendChild(description);
         this._parent.appendChild(this._el);
+        this._rendered = true;
     }
 
     hide() {
-        this._el.hidden = true;
-        this._parent.removeChild(this._el);
+        if (this._rendered) {
+            this._el.hidden = true;
+            this._parent.removeChild(this._el);
+        }
     }
 
     show() {

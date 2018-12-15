@@ -222,12 +222,24 @@ export default class GameScene {
 
                 this.collectedFiguresPool[idx].x = (collected.percentsX - productWidth / 2) / 100 * ctx.canvas.width;
                 this.collectedFiguresPool[idx].y = (100 - (collected.percentsY + productHeight / 2)) / 100 * ctx.canvas.height;
-                this.collectedFiguresPool[idx].fillStyle = collected.playerNum === this.state.playerNum ? 'green' : 'red';
+
+                if (collected.playerNum === this.state.playerNum) {
+                    if (collected.points > 0) {
+                        this.collectedFiguresPool[idx].fillStyle = 'green';
+                        window.navigator.vibrate(0);
+                        window.navigator.vibrate(150);
+                    } else {
+                        this.collectedFiguresPool[idx].fillStyle = 'red';
+                        window.navigator.vibrate(0);
+                        window.navigator.vibrate(40);
+                    }
+                } else {
+                    this.collectedFiguresPool[idx].fillStyle = 'gray';
+                }
+
                 this.collectedFiguresPool[idx].type = PRODUCTS.COLLECTED(collected.points);
 
-                    // console.log('before', this.collectedFiguresPool[idx]);
-
-                setTimeout(() => {
+                setTimeout( () => {
                     // console.log('in timeout:', this.collectedFiguresPool[idx]);
                     this.collectedFiguresPool[idx].x = -100;
                     this.collectedFiguresPool[idx].y = -100;
@@ -265,7 +277,6 @@ export default class GameScene {
     }
 
     stop() {
-        console.log('gamescene.stop()');
         if (this.requestFrameId) {
             window.cancelAnimationFrame(this.requestFrameId);
             this.requestFrameId = null;

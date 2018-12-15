@@ -19,7 +19,7 @@ import PreGameView from './views/PreGame';
 import ChatView from './views/ChatView';
 import preLoad from './modules/PreLoad';
 import '../css/style.scss';
-import MultiplayerView from "./views/MultiplayerView";
+import MultiPlayerView from './views/MultiplayerView';
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -55,7 +55,7 @@ const startApp = () => {
         .register('/play', GameView)
         .register('/screenchat', ChatView)
         .register('/pregame', PreGameView)
-        .register('/multiplayer', MultiplayerView);
+        .register('/multiplayer', MultiPlayerView);
 
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
@@ -65,7 +65,9 @@ const startApp = () => {
     const gameResources = [
         'app/game/GameScene/img/ketnipz.png',
         'app/game/GameScene/img/ketnipz_jump.png',
-        'app/game/GameScene/img/magaz.png',
+        'app/game/GameScene/img/ketnipz_enemy.png',
+        'app/game/GameScene/img/ketnipz_enemy_jump.png',
+        'app/game/GameScene/img/magaz_blur_gray.png',
     ];
     preLoad(gameResources);
 

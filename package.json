@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "now --public && now alias",
     "rmd": "now rm AbstractKetnipz",
-    "find_files": "node fileFinder.js"
+    "find_files": "node fileFinder.js",
+    "cbr": "npm run clear && npm run build && npm start"
   },
   "keywords": [],
   "author": "Kirill Gadzhiev",
