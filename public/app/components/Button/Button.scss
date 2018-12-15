@@ -40,8 +40,8 @@
         box-sizing: border-box;
     }
 
-    &_w5rem {
-        width: 5rem;
+    &_w8rem {
+        width: 8rem;
     }
 
     &_theme_back {
@@ -51,6 +51,26 @@
         height: 1rem;
         object-fit: cover;
 
+    }
+
+    &_theme_delete {
+        width: 2rem;
+        height: 1.8rem;
+        padding: 0 0.3rem;
+        border-bottom: 0;
+
+    }
+
+    &_theme_arrow {
+        font-size: 1.4rem;
+        width: 2rem;
+        padding: 0 0.4rem 0.2rem 0.4rem;
+        margin: 0.4rem 0.5rem;
+        border-bottom: 0;
+    }
+
+    &_theme_arrow_disabled {
+        opacity: 0.4;
     }
 }
 

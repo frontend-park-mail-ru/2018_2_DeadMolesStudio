@@ -18,6 +18,12 @@
 
 .content {
   grid-area: c;
+  height: 100%;
+
+  display: flex;
+  //justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .chat {
   grid-area: cht;

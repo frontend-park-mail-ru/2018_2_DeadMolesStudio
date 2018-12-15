@@ -48,18 +48,30 @@ export default class FormComponent {
         }
 
         const inputFile = this._innerElem.querySelector('.input-block__inputs-img');
-        const labelFile = document.querySelector('.input-block__inputs-item_cursor');
-        inputFile.addEventListener('change', (e) => {
-            let fileName = e.target.value.split('\\').pop();
+        if (inputFile) {
+            const labelFile = document.querySelector('.input-block__inputs-item_cursor');
+            inputFile.addEventListener('change', (e) => {
+                let fileName = e.target.value.split('\\').pop();
 
-            if (fileName.length > 9) {
-                fileName = `${fileName.substr(0, 8)}...`;
-            }
+                if (fileName.length > 9) {
+                    fileName = `${fileName.substr(0, 8)}...`;
+                }
 
-            if (fileName) {
-                labelFile.innerHTML = fileName.substr(0, 11);
-            }
-        });
+                if (fileName) {
+                    labelFile.innerHTML = fileName.substr(0, 11);
+                }
+            });
+
+            const btnDelete = this._innerElem.querySelector('.basic-btn_theme_delete');
+            btnDelete.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (inputFile) {
+                    inputFile.value = '';
+                    labelFile.innerHTML = 'Choose a file';
+                }
+            });
+        }
+
 
         // const link = this._innerElem.querySelector('.find-link');
         // const signUpLink = new LinkComponent({

@@ -1,14 +1,14 @@
-import BaseView from './Base';
+import BackButtonComponent from '../components/BackButton/BackButton.ts';
+import GridComponent from '../components/Grid/Grid.ts';
+import BaseView2 from './Base2.ts';
 
-import ButtonComponent from '../components/Button/Button.ts';
 import LoaderComponent from '../components/Loader/Loader.ts';
-import SectionComponent from '../components/Section/Section.ts';
 import ScoreboardComponent from '../components/Scoreboard/Scoreboard.ts';
 
 import bus from '../modules/EventBus.js';
 
 
-export default class ScoreboardView extends BaseView {
+export default class ScoreboardView extends BaseView2 {
     constructor(el) {
         super(el);
 
@@ -19,23 +19,28 @@ export default class ScoreboardView extends BaseView {
 
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
 
-        const scoreboardSection = new SectionComponent({ el: content, name: 'scoreboard' });
-        scoreboardSection.render();
-        const scoreboardSectionContent = scoreboardSection.sectionContent;
+        const mainBlock = this._el.querySelector('.container');
 
-        const changingBlock = document.createElement('div');
-        scoreboardSectionContent.appendChild(changingBlock);
+        const grid = new GridComponent({
+            el: mainBlock,
+            name: 'casual',
+            structure: this.structureView,
+        });
+        grid.render();
+
+        this.renderTitleGame(grid.getItem('mainHeader') );
+
+        const menuButton = new BackButtonComponent({
+            el: grid.getItem('backButton'),
+        });
+        menuButton.render();
 
         if (!this.dataScoreboard) {
-            this.renderLoading(changingBlock);
+            this.renderLoading(grid.getItem('content') );
         } else {
-            this.renderScoreboard(changingBlock);
+            this.renderScoreboard(grid.getItem('content') );
         }
-
-        const menuButton = new ButtonComponent({ el: scoreboardSectionContent });
-        menuButton.render();
     }
 
 
@@ -66,5 +71,13 @@ export default class ScoreboardView extends BaseView {
             total: total,
         });
         scoreboard.render();
+    }
+
+    get structureView() {
+        return [
+            'mainHeader',
+            'backButton',
+            'content',
+        ];
     }
 }

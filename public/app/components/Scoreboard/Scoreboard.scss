@@ -1,3 +1,92 @@
+.main-block__header_theme_scoreboard {
+    margin-top: -24%;
+    width: 100%;
+
+    @media (max-width: 480px) and (orientation: portrait) {
+        margin-top: -31%;
+    }
+}
+
+.main-block_theme_scoreboard {
+    padding: 3rem 2rem 0 2rem;
+
+    @media (max-width: 480px) and (orientation: portrait) {
+        padding: 3rem 1rem 0 1rem;
+    }
+}
+
+.scoreboard-block {
+    margin-top: 0.3rem;
+    color: red;
+    width: 18rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+
+    @media (max-width: 480px) and (orientation: portrait) {
+        width: 14rem;
+    }
+
+    &__head {
+        display: inline-block;
+        font-size: 1.2rem;
+        border-bottom: 2px solid var(--fashion-pink);
+        margin-bottom: 0.4rem;
+
+        @media (max-width: 480px) and (orientation: portrait) {
+            font-size: 1rem;
+        }
+    }
+
+    &__item {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin: 0.2rem;
+    }
+
+    &__item_theme_user {
+        color: red;
+    }
+
+    &__item-position {
+        flex: 1;
+    }
+
+    &__item-name {
+        flex: 6;
+    }
+
+    &__item-score {
+        flex: 2;
+    }
+
+    &__list {
+        color: var(--fashion-brown);
+    }
+
+    &__pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+
+    &__page {
+        text-align: center;
+        font-size: 1.5rem;
+        color: var(--fashion-pink);
+        border: 1px solid var(--fashion-pink);
+        padding: 0.1rem 0.7rem;
+        justify-content: space-around;
+        border-radius: 0.5rem;
+    }
+
+}
+
+
+
 .scoreboard {
     width: 100%;
     font-family: sans-serif;

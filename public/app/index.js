@@ -178,7 +178,7 @@ const startApp = () => {
     });
 
     const user = {
-        nickname: 'ketnipz',
+        nickname: '12345ketnipzKetno',
         email: 'ksyunya.ku@gmail.com',
         record: 0,
         win: 0,

@@ -1,11 +1,3 @@
-.rules {
-	width: 50%;
-	align-items: center;
-	
-	display: flex;
-	flex-direction: column;
-}
-
 .main-block__header_theme_about {
 	margin-top: -23%;
 	width: 100%;
@@ -69,8 +61,8 @@
 	}
 
 	&__control-img {
-		width: 6rem;
-		height: 4rem;
+		width: 8rem;
+		height: 5rem;
 		object-fit: cover;
 	}
 }

@@ -33,7 +33,7 @@ export default class AboutComponent {
                                     <p class="about-block__item-text">Tap to jump</p>
                                 </div>
                                 <div class="about-block__control-item">
-                                    <p class="about-block__item-header">desctop</p>
+                                    <p class="about-block__item-header">desktop</p>
                                     <img src="../img/button-play.png" alt="" class="about-block__control-img">
                                     <p class="about-block__item-text">And WASD</p>
                                 </div>

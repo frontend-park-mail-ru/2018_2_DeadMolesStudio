@@ -73,10 +73,18 @@ export default class Router {
         this.root.addEventListener('click', (event) => {
             // TODO: создать CSS-класс для ссылок, отвечающих за переходы между вью,
             // TODO: и проверять на его наличие, а не просто навешивать на все ссылки
+            if (event.target.classList.contains('app-router-use') ) {
+                event.preventDefault();
+                const link = event.target;
+
+                this.go(link.pathname);
+                return;
+            }
+
             if (!(event.target instanceof HTMLAnchorElement) ) {
                 return;
             }
-            if (event.target.classList.contains('app-router-ignore')) {
+            if (event.target.classList.contains('app-router-ignore') ) {
                 return;
             }
 

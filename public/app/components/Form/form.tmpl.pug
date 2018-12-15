@@ -8,8 +8,10 @@ div.wrap-block.wrap-block_theme_form
                 each i in inputs
                     case i.name
                         when 'avatar'
-                            input(id = i.name, name = i.name, type = i.type, placeholder = i.placeholder, class = 'input-block__inputs-img', value = i.value, accept = i.accept)
-                            label(for = i.name, class = 'input-block__inputs-item input-block__inputs-item_cursor') Choose a file
+                            div.input-block__inputs-avatar
+                                input(id = i.name, name = i.name, type = i.type, placeholder = i.placeholder, class = 'input-block__inputs-img', value = i.value, accept = i.accept)
+                                label(for = i.name, class = 'input-block__inputs-item input-block__inputs-item_cursor') Choose a file
+                                a(class = 'basic-btn basic-btn_theme_delete app-router-ignore' href = '') x
                         default
                             input(name = i.name, type = i.type, placeholder = i.placeholder, class = 'input-block__inputs-item', value = i.value)
                     div.input-block__inputs-error
@@ -20,6 +22,10 @@ div.wrap-block.wrap-block_theme_form
                         input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn input-block__btn-submit', value = submit.value, accept = submit.accept)
                     div.button-wrap.find-link
                         a(class = 'basic-btn input-block__btn-extra' href = btn.href) #{btn.text}
+            else
+                div.input-block__buttons.input-block__buttons_one
+                    div.button-wrap
+                        input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn basic-btn_w8rem input-block__btn-submit', value = submit.value, accept = submit.accept)
 
 
 

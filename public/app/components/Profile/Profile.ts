@@ -95,6 +95,16 @@ export default class ProfileComponent {
             );
         }
 
+        if (user.nickname.length <= 10) {
+            const nickname = this._el.querySelector('.profile-block__profile-item_theme_nickname');
+            nickname.classList.add('profile-block__profile-item_font_big');
+        }
+
+        if (user.email.length >= 18) {
+            const nickname = this._el.querySelector('.profile-block__profile-item_theme_email');
+            nickname.classList.add('profile-block__profile-item_font_small');
+        }
+
         const userGameBlock = this._el.querySelector('.profile-block__user-game');
         const userGame = {
             'Record: ': record,
