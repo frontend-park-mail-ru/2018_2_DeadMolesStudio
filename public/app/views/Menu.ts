@@ -1,12 +1,17 @@
-import BaseView2 from './Base2.ts';
-import userState from '../modules/User.ts';
-import bus from '../modules/EventBus.js';
-import MenuComponent from '../components/Menu/Menu.ts';
-import LoaderComponent from '../components/Loader/Loader.ts';
+import BaseView2 from './Base2';
+import userState from '../modules/User';
+import bus from '../modules/EventBus';
+import MenuComponent from '../components/Menu/Menu';
+import LoaderComponent from '../components/Loader/Loader';
 
 export default class MenuView extends BaseView2 {
+
+    loader;
+
     constructor(el) {
         super(el);
+
+        this.loader = null;
         bus.on('user-state-set', this.render.bind(this) );
     }
 
@@ -30,7 +35,6 @@ export default class MenuView extends BaseView2 {
     renderMenu(parent) {
         const menu = new MenuComponent({
             el: parent,
-            titles: this.titles,
             user: userState.getUser(),
             auth: userState.isAuth(),
         });

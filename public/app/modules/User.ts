@@ -1,4 +1,4 @@
-import bus from './EventBus.js';
+import bus from './EventBus';
 
 class User {
 
@@ -33,6 +33,10 @@ class User {
 
     getUser() {
         return this.user;
+    }
+
+    getNickname() {
+        return this.isAuth() ? this.user.nickname : 'Me'
     }
 }
 

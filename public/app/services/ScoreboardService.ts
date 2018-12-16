@@ -1,5 +1,5 @@
 import AjaxFetchModule from '../modules/AjaxFetch.js';
-import backDomain from '../projectSettings.js';
+import backDomain from '../projectSettings';
 
 export default class ScoreboardService {
     /**

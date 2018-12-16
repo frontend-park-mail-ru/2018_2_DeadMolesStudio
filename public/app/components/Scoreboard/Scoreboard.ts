@@ -1,6 +1,7 @@
 import ButtonComponent from '../Button/Button';
-import bus from '../../modules/EventBus.js';
+import bus from '../../modules/EventBus';
 import userState from '../../modules/User';
+
 
 export default class ScoreboardComponent {
 

@@ -1,6 +1,6 @@
 import ButtonComponent from '../Button/Button';
 import GridComponent from "../Grid/Grid";
-import backDomain from '../../projectSettings.js';
+import backDomain from '../../projectSettings';
 
 
 export default class MenuComponent {

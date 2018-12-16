@@ -1,25 +1,25 @@
-import ButtonComponent from './components/Button/Button.ts';
-import ChatMiniComponent from './components/ChatMini/ChatMini.ts';
+import ButtonComponent from './components/Button/Button';
+import ChatMiniComponent from './components/ChatMini/ChatMini';
 import swInstall from '../sw-installer.js';
-import Router from './modules/Router.js';
-import bus from './modules/EventBus.js';
-import userState from './modules/User.ts';
-import ScoreboardService from './services/ScoreboardService.js';
-import SessionService from './services/SessionService.js';
-import UserService from './services/UserService.js';
-import ScoreboardView from './views/Scoreboard.js';
-import MenuView from './views/Menu.js';
-import LoginView from './views/Login.js';
-import LogoutView from './views/Logout.js';
-import AboutView from './views/About.js';
-import ProfileView from './views/Profile.js';
-import EditProfileView from './views/EditProfile.js';
-import SignUpView from './views/SignUp.js';
-import GameView from './views/GameView.ts';
-import PreGameView from './views/PreGame.js';
-import ChatView from './views/ChatView.js';
-import preLoad from './modules/PreLoad.js';
+import Router from './modules/Router';
+import bus from './modules/EventBus';
+import ScoreboardService from './services/ScoreboardService';
+import SessionService from './services/SessionService';
+import UserService from './services/UserService';
+import ScoreboardView from './views/Scoreboard';
+import MenuView from './views/Menu';
+import LoginView from './views/Login';
+import LogoutView from './views/Logout';
+import AboutView from './views/About';
+import ProfileView from './views/Profile';
+import EditProfileView from './views/EditProfile';
+import SignUpView from './views/SignUp';
+import GameView from './views/GameView';
+import PreGameView from './views/PreGame';
+import ChatView from './views/ChatView';
+import preLoad from './modules/PreLoad';
 import '../css/style.scss';
+import MultiPlayerView from './views/MultiplayerView';
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -54,7 +54,8 @@ const startApp = () => {
         .register('/scoreboard', ScoreboardView)
         .register('/play', GameView)
         .register('/screenchat', ChatView)
-        .register('/pregame', PreGameView);
+        .register('/pregame', PreGameView)
+        .register('/multiplayer', MultiPlayerView);
 
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
@@ -64,7 +65,9 @@ const startApp = () => {
     const gameResources = [
         'app/game/GameScene/img/ketnipz.png',
         'app/game/GameScene/img/ketnipz_jump.png',
-        'app/game/GameScene/img/magaz.png',
+        'app/game/GameScene/img/ketnipz_enemy.png',
+        'app/game/GameScene/img/ketnipz_enemy_jump.png',
+        'app/game/GameScene/img/magaz_blur_gray.png',
     ];
     preLoad(gameResources);
 
@@ -176,17 +179,6 @@ const startApp = () => {
             bus.emit('user:update-err', data.err);
         }
     });
-
-    const user = {
-        nickname: '12345ketnipzKetno',
-        email: 'ksyunya.ku@gmail.com',
-        record: 0,
-        win: 0,
-        draws: 0,
-        loss: 0,
-    };
-
-    userState.setUser(user);
 
 
     router.start();

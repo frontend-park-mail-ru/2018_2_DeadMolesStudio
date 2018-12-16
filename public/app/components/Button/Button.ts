@@ -1,7 +1,9 @@
 import {
     createElementFromHTML,
     noop,
-} from '../../modules/Utils.js';
+} from '../../modules/Utils';
+
+// declare function TypeCallback(...args: any[]): void;
 
 export default class ButtonComponent {
 
@@ -45,7 +47,10 @@ export default class ButtonComponent {
     }
 
 
-    on({ event = 'click', callback = noop, capture = false }) {
+    on({ event = 'click', callback, capture = false }) {
+        if (!callback) {
+            callback = noop;
+        }
         if (this._innerElem !== null) {
             this._innerElem.addEventListener(event, callback, capture);
         } else {

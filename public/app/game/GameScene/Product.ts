@@ -20,6 +20,7 @@ export default class GameProductFigure extends Figure {
         this.type = 0;
         this.text = PRODUCTS[this.type];
         this.textSize = '40';
+        this.fillStyle = 'black';
     }
 
     /**
@@ -28,7 +29,7 @@ export default class GameProductFigure extends Figure {
     draw() {
         const { ctx } = this;
         ctx.font = `${this.textSize}pt Arial`;
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = this.fillStyle;
         this.text = PRODUCTS[this.type];
 
         ctx.fillText(this.text, this.x, this.y);

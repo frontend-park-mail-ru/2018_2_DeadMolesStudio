@@ -1,13 +1,16 @@
-import BackButtonComponent from '../components/BackButton/BackButton.ts';
-import GridComponent from '../components/Grid/Grid.ts';
-import BaseView2 from './Base2.ts';
-import bus from '../modules/EventBus.js';
-
-import Profile from '../components/Profile/Profile.ts';
-import ErrorComponent from '../components/Error/Error.ts';
-import LoaderComponent from '../components/Loader/Loader.ts';
+import BackButtonComponent from '../components/BackButton/BackButton';
+import GridComponent from '../components/Grid/Grid';
+import BaseView2 from './Base2';
+import bus from '../modules/EventBus';
+import ProfileComponent from '../components/Profile/Profile';
+import ErrorComponent from '../components/Error/Error';
+import LoaderComponent from '../components/Loader/Loader';
 
 export default class ProfileView extends BaseView2 {
+
+    user;
+    error;
+
     constructor(el) {
         super(el);
 
@@ -100,7 +103,7 @@ export default class ProfileView extends BaseView2 {
 
     renderProfile(parent) {
         const profileData = this.user;
-        const profile = new Profile({
+        const profile = new ProfileComponent({
             el: parent,
             data: profileData,
         });

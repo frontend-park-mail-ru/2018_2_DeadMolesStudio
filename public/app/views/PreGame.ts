@@ -1,8 +1,8 @@
-import BaseView from './Base.ts';
-import SectionComponent from "../components/Section/Section.ts";
-import ButtonComponent from "../components/Button/Button.ts";
-import bus from "../modules/EventBus.js";
-import {exitFullscreen} from "../modules/fullscreenAPI/fullscreen.js";
+import BaseView from './Base';
+
+import SectionComponent from '../components/Section/Section';
+import ButtonComponent from '../components/Button/Button';
+import UserState from '../modules/User';
 
 export default class PreGameView extends BaseView{
     render() {
@@ -30,7 +30,12 @@ export default class PreGameView extends BaseView{
         const preGameEl = section.sectionContent.querySelector('.pre-game');
         const backButton = new ButtonComponent({ el: preGameEl, className: 'cute-btn pre-game__back-button' });
         backButton.render();
-        const playButton = new ButtonComponent({ el: preGameEl, text: 'Начать игру', href: 'play' });
-        playButton.render();
+        const singlePlayerButton = new ButtonComponent({ el: preGameEl, text: 'Одиночная игра', href: 'play' });
+        singlePlayerButton.render();
+
+        if (UserState.isAuth()) {
+            const multiPlayerButton = new ButtonComponent({ el: preGameEl, text: 'Сетевая игра', href: 'multiplayer' });
+            multiPlayerButton.render();
+        }
     }
 }

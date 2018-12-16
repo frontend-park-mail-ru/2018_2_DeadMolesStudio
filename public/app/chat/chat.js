@@ -1,4 +1,4 @@
-import MiniChatView from '../views/MiniChatView.js';
+import MiniChatView from '../views/MiniChatView.ts';
 
 const startChat = () => {
     // console.log('startChat()');

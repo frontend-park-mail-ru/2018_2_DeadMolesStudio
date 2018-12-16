@@ -31,6 +31,7 @@ export default class GameInfoComponent {
     }
 
     destroy() {
+        this.infoElem.innerHTML = '';
         this.parentElem.removeChild(this.infoElem);
     }
 }

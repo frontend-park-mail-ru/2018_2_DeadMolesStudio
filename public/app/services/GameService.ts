@@ -1,22 +1,30 @@
-import WS from '../modules/WebSocket.js';
-import bus from '../modules/EventBus.js';
+import WS from '../modules/WebSocket';
+import bus from '../modules/EventBus';
+import UserService from "./UserService";
 
 export default class GameService {
 
     ws;
     
     constructor() {
-        console.log('GameService()');
+        this.onConnected = this.onConnected.bind(this);
+        this.onState = this.onState.bind(this);
+        this.onStart = this.onStart.bind(this);
+        this.onDisconnected = this.onDisconnected.bind(this);
+        this.onTimeOver = this.onTimeOver.bind(this);
+        this.onGameOver = this.onGameOver.bind(this);
+        this.onClosed = this.onClosed.bind(this);
     }
 
     connectWS() {
-        this.ws = new WS();
-        bus.on('ws:connected', this.onConnected.bind(this) );
-        bus.on('ws:state', this.onState.bind(this) );
-        bus.on('ws:started', this.onStart.bind(this) );
-        bus.on('ws:disconnected', this.onDisconnected.bind(this) );
-        bus.on('ws:time_over', this.onTimeOver.bind(this) );
-        bus.on('ws:game_over', this.onGameOver.bind(this) );
+        this.ws = new WS('/game/ws');
+        bus.on('ws:connected', this.onConnected);
+        bus.on('ws:state', this.onState);
+        bus.on('ws:started', this.onStart);
+        bus.on('ws:disconnected', this.onDisconnected);
+        bus.on('ws:time_over', this.onTimeOver);
+        bus.on('ws:game_over', this.onGameOver);
+        bus.on('ws:closed', this.onClosed);
     }
 
     onConnected(json) {
@@ -24,7 +32,20 @@ export default class GameService {
     }
 
     onStart(json) {
-
+        console.log(json);
+        let nickname = '';
+        const f = async () => {
+            const data = await UserService.getUserByID(json.payload.opponentId);
+            if (data.ok) {
+                nickname = data.user.nickname;
+            } else {
+                nickname = 'Opponent';
+            }
+            console.log('gameService, data:', data);
+            console.log('json:', json);
+            bus.emit('ws:opponent_received', nickname);
+        };
+        f().catch( err => console.error(err));
     }
 
 
@@ -44,6 +65,10 @@ export default class GameService {
         this.destroy();
     }
 
+    onClosed() {
+        this.destroy();
+    }
+
     sendActions(actions) {
         const json = JSON.stringify(actions);
         this.ws.send(json);
@@ -51,11 +76,12 @@ export default class GameService {
 
     destroy() {
         // TODO возможно надо закрыть WebSocket
-        bus.off('ws:connected', this.onConnected.bind(this) );
-        bus.off('ws:state', this.onState.bind(this) );
-        bus.off('ws:started', this.onStart.bind(this) );
-        bus.off('ws:disconnected', this.onDisconnected.bind(this) );
-        bus.off('ws:time_over', this.onTimeOver.bind(this) );
-        bus.off('ws:game_over', this.onGameOver.bind(this) );
+        this.ws.close();
+        bus.off('ws:connected', this.onConnected);
+        bus.off('ws:state', this.onState);
+        bus.off('ws:started', this.onStart);
+        bus.off('ws:disconnected', this.onDisconnected);
+        bus.off('ws:time_over', this.onTimeOver);
+        bus.off('ws:game_over', this.onGameOver);
     }
 }

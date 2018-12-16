@@ -1,13 +1,15 @@
-import BackButtonComponent from '../components/BackButton/BackButton.ts';
-// import ButtonComponent from '../components/Button/Button.ts';
-import GridComponent from '../components/Grid/Grid.ts';
-import BaseView2 from './Base2.ts';
-
+import BackButtonComponent from '../components/BackButton/BackButton';
+import GridComponent from '../components/Grid/Grid';
+import BaseView2 from './Base2';
 import FormComponent from '../components/Form/Form.js';
+import bus from '../modules/EventBus';
 
-import bus from '../modules/EventBus.js';
 
 export default class LoginView extends BaseView2 {
+
+    form;
+    error;
+
     constructor(el) {
         super(el);
 

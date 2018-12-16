@@ -1,5 +1,5 @@
-import backDomain from '../../projectSettings.js';
 import ButtonComponent from '../Button/Button';
+import backDomain from '../../projectSettings';
 
 
 export default class ProfileComponent {

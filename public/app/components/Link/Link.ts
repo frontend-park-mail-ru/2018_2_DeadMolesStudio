@@ -1,7 +1,7 @@
 import {
     createElementFromHTML,
     noop,
-} from '../../modules/Utils.js';
+} from '../../modules/Utils';
 
 export default class LinkComponent {
 

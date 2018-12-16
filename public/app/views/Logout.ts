@@ -1,9 +1,12 @@
-import BaseView from './Base.ts';
-import bus from '../modules/EventBus.js';
-import LoaderComponent from '../components/Loader/Loader.ts';
-import ErrorComponent from '../components/Error/Error.ts';
+import BaseView from './Base';
+import bus from '../modules/EventBus';
+import LoaderComponent from '../components/Loader/Loader';
+import ErrorComponent from '../components/Error/Error';
 
 export default class LogoutView extends BaseView {
+
+    _el;
+
     render() {
         super.render();
         const content = this._el.querySelector('.content');

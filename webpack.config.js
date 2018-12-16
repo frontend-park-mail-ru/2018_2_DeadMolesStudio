@@ -10,7 +10,7 @@ const src = path.resolve(__dirname, 'public');
 module.exports = {
     mode: 'development',
     entry: [
-        path.resolve(src, 'app/index.js'),
+        path.resolve(src, 'app/index.ts'),
     ],
 
     output: {
@@ -49,7 +49,8 @@ module.exports = {
                 options: {
                     pretty: true,
                 },
-            }, {
+            },
+            {
                 test: /\.scss$/,
                 use: [
                     {
@@ -63,6 +64,13 @@ module.exports = {
                     },
                     {
                         loader: 'sass-loader',
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
+                            sourceMap: true,
+                        },
                     },
                 ],
             },

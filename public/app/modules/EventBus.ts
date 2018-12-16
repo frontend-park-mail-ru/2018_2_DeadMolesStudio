@@ -1,4 +1,7 @@
 class EventBus {
+
+    listeners;
+
     constructor() {
         this.listeners = {};
     }
@@ -18,7 +21,7 @@ class EventBus {
         return this;
     }
 
-    emit(event, data) {
+    emit(event, data?: any) {
         if (this.listeners[event]) {
             this.listeners[event].forEach(listener => listener(data) );
         }

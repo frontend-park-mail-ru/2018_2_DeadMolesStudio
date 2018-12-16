@@ -1,14 +1,15 @@
-import BackButtonComponent from '../components/BackButton/BackButton.ts';
-import GridComponent from '../components/Grid/Grid.ts';
-import BaseView2 from './Base2.ts';
-
-import LoaderComponent from '../components/Loader/Loader.ts';
-import ScoreboardComponent from '../components/Scoreboard/Scoreboard.ts';
-
-import bus from '../modules/EventBus.js';
+import BackButtonComponent from '../components/BackButton/BackButton';
+import GridComponent from '../components/Grid/Grid';
+import BaseView2 from './Base2';
+import LoaderComponent from '../components/Loader/Loader';
+import ScoreboardComponent from '../components/Scoreboard/Scoreboard';
+import bus from '../modules/EventBus';
 
 
 export default class ScoreboardView extends BaseView2 {
+
+    dataScoreboard;
+
     constructor(el) {
         super(el);
 

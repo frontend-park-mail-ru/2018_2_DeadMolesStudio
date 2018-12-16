@@ -1,7 +1,7 @@
 import ButtonComponent from '../Button/Button';
 import stateUser from '../../modules/User';
 
-import bus from '../../modules/EventBus.js';
+import bus from '../../modules/EventBus';
 
 export default class ChatMiniComponent {
 

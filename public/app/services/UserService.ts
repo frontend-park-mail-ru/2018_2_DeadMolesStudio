@@ -1,6 +1,6 @@
-import backDomain from '../projectSettings.js';
+import backDomain from '../projectSettings';
 import AjaxFetchModule from '../modules/AjaxFetch.js';
-import userState from '../modules/User.ts';
+import userState from '../modules/User';
 
 export default class UserService {
     /**
@@ -174,14 +174,22 @@ export default class UserService {
         const passwordRepeat = formData.password_repeat.value;
         const userAvatar = formData.avatar;
 
-        const req = {};
+        const req = {
+            email: '',
+            nickname: '',
+            password: '',
+        };
+
+        let count = 0;
 
         if (email !== user.email && email) {
             req.email = email;
+            count += 1;
         }
 
         if (nickname !== user.nickname && nickname) {
             req.nickname = nickname;
+            count += 1;
         }
 
         if (password) {
@@ -192,9 +200,10 @@ export default class UserService {
                 return data;
             }
             req.password = password;
+            count += 1;
         }
 
-        if (Object.keys(req).length !== 0) {
+        if (count !== 0) {
             const response = await this.fetchUpdateUpUser(req);
 
             if (response.status === 403) {

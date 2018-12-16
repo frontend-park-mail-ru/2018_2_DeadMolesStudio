@@ -3,6 +3,10 @@
 * @module modules
 */
 export default class Router {
+
+    root;
+    routes;
+
     constructor(root) {
         this.root = root;
         this.routes = {};
@@ -71,8 +75,9 @@ export default class Router {
 
     start() {
         this.root.addEventListener('click', (event) => {
-            // TODO: создать CSS-класс для ссылок, отвечающих за переходы между вью,
-            // TODO: и проверять на его наличие, а не просто навешивать на все ссылки
+            // .app-router-use для принудительного роутинга
+            // .app-router-ignore для игнорирования роутинга
+
             if (event.target.classList.contains('app-router-use') ) {
                 event.preventDefault();
                 const link = event.target;

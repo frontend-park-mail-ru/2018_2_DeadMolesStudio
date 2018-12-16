@@ -1,18 +1,18 @@
-import ErrorComponent from '../components/Error/Error.ts';
-import bus from '../modules/EventBus.js';
-
+import ErrorComponent from '../components/Error/Error';
+import bus from '../modules/EventBus';
 import FormComponent from '../components/Form/Form.js';
-
-import LoaderComponent from '../components/Loader/Loader.ts';
-import BackButtonComponent from '../components/BackButton/BackButton.ts';
-
-import GridComponent from '../components/Grid/Grid.ts';
-import BaseView2 from './Base2.ts';
-
-
+import LoaderComponent from '../components/Loader/Loader';
+import BackButtonComponent from '../components/BackButton/BackButton';
+import GridComponent from '../components/Grid/Grid';
+import BaseView2 from './Base2';
 
 
 export default class EditProfileView extends BaseView2 {
+
+    form;
+    user;
+    error;
+
     constructor(el) {
         super(el);
 

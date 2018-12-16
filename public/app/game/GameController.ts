@@ -11,29 +11,33 @@ export default class GameController {
 
     constructor(canvas) {
         this.canvas = canvas;
-        this.sensitivity = 1;
+        this.sensitivity = 0.3;
 
         this.keys = {};
         this.previous = {};
 
         this.onPress = this.keyHandler.bind(this, 'press');
         this.onUp = this.keyHandler.bind(this, 'up');
+
+        this.onDeviceMotion = this.onDeviceMotion.bind(this);
+        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onTouchEnd = this.onTouchEnd.bind(this);
     }
 
     start() {
         document.addEventListener('keydown', this.onPress);
         document.addEventListener('keyup', this.onUp);
 
-        window.addEventListener('devicemotion', this.onDeviceMotion.bind(this), true);
-        window.addEventListener('touchstart', this.onTouchStart.bind(this) );
-        window.addEventListener('touchend', this.onTouchEnd.bind(this) );
+        window.addEventListener('devicemotion', this.onDeviceMotion, true);
+        window.addEventListener('touchstart', this.onTouchStart);
+        window.addEventListener('touchend', this.onTouchEnd);
     }
     destroy() {
         document.removeEventListener('keydown', this.onPress);
         document.removeEventListener('keyup', this.onUp);
-        window.removeEventListener('devicemotion', this.onDeviceMotion.bind(this), true);
-        window.removeEventListener('touchstart', this.onTouchStart.bind(this) );
-        window.removeEventListener('touchend', this.onTouchEnd.bind(this) );
+        window.removeEventListener('devicemotion', this.onDeviceMotion, true);
+        window.removeEventListener('touchstart', this.onTouchStart);
+        window.removeEventListener('touchend', this.onTouchEnd);
     }
 
     onTouchStart() {
@@ -45,10 +49,17 @@ export default class GameController {
     }
 
     onDeviceMotion(e) {
-        // e.acceleration
         const angleY = e.accelerationIncludingGravity.y;
-        this.keys['__right_incline'] = angleY > this.sensitivity;
-        this.keys['__left_incline'] = angleY < -this.sensitivity;
+        const angleX = e.accelerationIncludingGravity.x;
+        // e.acceleration
+
+        if (angleX > 0) {
+            this.keys['__right_incline'] = angleY > this.sensitivity;
+            this.keys['__left_incline'] = angleY < -this.sensitivity;
+        } else {
+            this.keys['__right_incline'] = angleY < this.sensitivity;
+            this.keys['__left_incline'] = angleY > -this.sensitivity;
+        }
     }
 
     // нажата ли клавиша

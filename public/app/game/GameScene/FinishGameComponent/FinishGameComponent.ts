@@ -1,5 +1,5 @@
 import ButtonComponent from '../../../components/Button/Button'
-import bus from '../../../modules/EventBus.js';
+import bus from '../../../modules/EventBus';
 import EVENTS from '../../Core/Events';
 
 export default class FinishGameComponent {
@@ -15,8 +15,8 @@ export default class FinishGameComponent {
         this.text = null;
         this.score = null;
         this.block = null;
-
-        bus.on('show-game-result', this.setInfo.bind(this) );
+        this.setInfo = this.setInfo.bind(this);
+        bus.on('show-game-result', this.setInfo );
     }
 
     setInfo({ text, score }) {
@@ -28,7 +28,7 @@ export default class FinishGameComponent {
     destroy() {
         bus.off('show-game-result', this.setInfo );
         this.el.innerHTML = '';
-        this.render = () => null;
+        // this.render = () => null;
     }
 
     render() {
@@ -36,7 +36,7 @@ export default class FinishGameComponent {
         this.block = document.createElement('div');
         this.block.className = 'game-scene__game-finish-component app-router-ignore';
 
-        this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p> <p>Вы набрали: ${this.score} очков</p></div>`;
+        this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p> <p>You scored ${this.score} points</p></div>`;
 
         const backButton = new ButtonComponent({
             el: this.block,
@@ -46,8 +46,8 @@ export default class FinishGameComponent {
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                this.destroy();
                 bus.emit(EVENTS.FINISH_GAME, this.score);
+                this.destroy();
             },
         });
         backButton.render();

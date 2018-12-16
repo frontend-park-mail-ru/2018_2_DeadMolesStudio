@@ -1,5 +1,5 @@
 import EVENTS from './Events';
-import bus from '../../modules/EventBus.js';
+import bus from '../../modules/EventBus';
 
 const KEYS = {
     JUMP: [' ', '__touch', 'ArrowUp', 'W', 'w', 'Ц', 'ц'],
@@ -25,6 +25,7 @@ export default class GameCore {
     }
 
     start(json) {
+        console.log('GameCore.start()');
         bus.on(EVENTS.CONTROLS_PRESSED, this.onControlsPressed);
         bus.on(EVENTS.START_GAME, this.onGameStarted);
         bus.on(EVENTS.FINISH_GAME, this.onGameFinished);
@@ -42,13 +43,18 @@ export default class GameCore {
 
     destroy() {
         clearInterval(this.controllersLoopIntervalId);
+
+        try {
+            this.controller.destroy();
+            this.scene.stop();
+        } catch {
+            console.error('game destroy error');
+        }
+
         bus.off(EVENTS.START_GAME, this.onGameStarted);
         bus.off(EVENTS.FINISH_GAME, this.onGameFinished);
         bus.off(EVENTS.CONTROLS_PRESSED, this.onControlsPressed);
         bus.off(EVENTS.GAME_STATE_CHANGED, this.onGameStateChanged);
-
-        this.controller.destroy();
-        this.scene.stop();
     }
 
     stopController() {

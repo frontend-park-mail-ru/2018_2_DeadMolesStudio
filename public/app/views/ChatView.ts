@@ -1,10 +1,11 @@
-import ButtonComponent from "../components/Button/Button.ts";
-
-import BaseView from './Base.ts';
-
-import SectionComponent from '../components/Section/Section.ts';
+import ButtonComponent from '../components/Button/Button';
+import BaseView from './Base';
+import SectionComponent from '../components/Section/Section';
 
 export default class ChatView extends BaseView {
+
+    iframe;
+
     render() {
         super.render();
         const content = this._el.querySelector('.content');
@@ -19,7 +20,7 @@ export default class ChatView extends BaseView {
         this.iframe.setAttribute('src', 'app/chat/chat.html');
         chatSectionContent.appendChild(this.iframe);
 
-        const button = document.querySelector('.chat-mini-bth');
+        const button = document.querySelector('.chat-mini-bth') as HTMLElement;
         const style = button.style.display;
         button.style.display = 'none';
 

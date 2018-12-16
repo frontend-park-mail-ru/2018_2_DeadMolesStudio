@@ -1,6 +1,8 @@
 .game-scene, .game-canvas, .game-canvas__background {
     height: 100vh;
     width: 100vw;
+    user-select: none;
+    overflow: hidden;
 }
 
 .game-scene__back-button {
@@ -8,13 +10,15 @@
     top: 1%;
     left: 1%;
     opacity: 0.85;
+    z-index: 20;
+    user-select: none;
 }
 
 .game-canvas__background {
-    background-image: url('../img/magaz.png');
+    background-image: url('/app/game/GameScene/img/magaz_blur_gray.png');
     /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
     background-size: cover;
-    filter: blur(15px) grayscale(0.3);
+    //filter: blur(15px) grayscale(0.3);
 
     position: fixed; /* поставь fixed и будет на весь экран) */
     width: 120%;
@@ -49,7 +53,7 @@
 
 @media only screen and (orientation:portrait){
 
-    .game-scene, .pre-game, .game-scene__game-finish-component, .chat-block, .chat-mini-bth {
+    .game-scene, .pre-game, .game-scene__game-finish-component, .game-loader, .chat-block, .chat-mini-bth {
 
         -webkit-transform: rotate(90deg);
 
@@ -70,9 +74,9 @@
 
     .game-canvas__background {
         /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
-        background-image: url('../img/magaz.png');
+        background-image: url('/app/game/GameScene/img/magaz_blur_gray.png');
         background-size: cover;
-        filter: blur(3px) grayscale(0.1);
+        //filter: blur(3px) grayscale(0.1);
 
         position: fixed; /* поставь fixed и будет на весь экран) */
         width: 120%;
@@ -117,8 +121,6 @@
         transform: rotate(0deg);
 
     }
-
-
 
 }
 
