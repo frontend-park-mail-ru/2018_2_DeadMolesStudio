@@ -50,7 +50,7 @@
     }
 
     &__profile-item {
-
+        color: var(--input-font);
     }
 
     &__profile-item_font_small {
@@ -83,7 +83,7 @@
     &__title {
         font-size: 1.4rem;
         text-align: center;
-        color: red;
+        color: var(--fashion-red);
         margin-bottom: 0.2rem;
         margin-top: -0.7rem;
     }

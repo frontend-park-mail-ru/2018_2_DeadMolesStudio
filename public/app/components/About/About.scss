@@ -12,7 +12,7 @@
 
 .about-block {
 	margin-top: 1rem;
-	color: red;
+	color: var(--fashion-red);
 	width: 20rem;
 	display: flex;
 	flex-direction: column;
@@ -22,11 +22,11 @@
 	}
 
 	&__text {
-		color: #5e5e7d;
+		color: var(--input-font);
 	}
 
 	&__text-item {
-		color: #5e5e7d;
+		//color: #5e5e7d;
 		margin-bottom: 1rem;
 	}
 
@@ -50,7 +50,7 @@
 	}
 
 	&__item-text {
-		color: green;
+		color: #587e85;
 		margin: 0.5rem;
 	}
 

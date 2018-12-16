@@ -2,6 +2,7 @@
   text-align: center;
   padding: 0.4rem;
   margin-bottom: 1rem;
+  margin-top: 1rem;
 
   &_theme_form {
     background: var(--fashion-ketnipz);
@@ -54,8 +55,8 @@
 
   &__inputs-item {
     border: 0px solid black;
-    background: rgba(139, 140, 199, 0.5);
-    color: #444444;
+    background: rgba(251, 237, 236, 0.7);
+    color: var(--input-font);
     font-size: 0.9rem;
 
     width: 10rem;
@@ -117,7 +118,8 @@
   }
 
   &__btn-submit {
-    color: red;
+    color: var(--fashion-ketnipz);
+    background-color: var(--fashion-red);
   }
 
   &__btn-submit:focus {
@@ -126,6 +128,7 @@
 
   &__btn-extra {
     opacity: 0.8;
+    background: var(--fashion-blue);
   }
 
   &__btn-extra:hover {

@@ -15,10 +15,13 @@
 @import "../app/game/GameScene/FinishGameComponent/FinishGameComponent.scss";
 
 :root {
-    --fashion-blue: #c3c3e0;
+    //--fashion-blue: #c3c3e0;
+    --fashion-blue: #eaf7fb;
     --fashion-ketnipz: #f3dfdf;
     --fashion-pink: #f4acb7;
     --fashion-brown: #9d8189;
+    --fashion-red: #ff6574;
+    --input-font: #565252;
     --button-shadow: #eecfcd;
 }
 
@@ -52,11 +55,13 @@ body {
 
         @media (max-width: 420px) and (orientation: portrait) {
             width: 60vw;
-            margin-top: 3rem;
+            //margin-top: 3rem;
         }
     }
 
-
+    &__img_margin {
+        margin-top: 3rem;
+    }
 }
 
 //.content {

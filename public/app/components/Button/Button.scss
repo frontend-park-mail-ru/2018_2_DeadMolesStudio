@@ -30,11 +30,12 @@
 
     text-decoration: none;
     border-radius: 0.5rem;
-    color: var(--button-shadow);
+    //color: var(--button-shadow);
+    color: var(--fashion-pink);
     transition: all 0.3s ease;
     border: 0;
     border-bottom: 4px solid var(--button-shadow);
-    background-color: var(--fashion-pink);
+    background-color: var(--fashion-ketnipz);
 
     &:hover {
         transform: scale(1.03);
@@ -59,6 +60,7 @@
         height: 1.8rem;
         padding: 0 0.3rem;
         border-bottom: 0;
+        background-color: var(--fashion-blue);
 
     }
 
@@ -68,6 +70,8 @@
         padding: 0 0.4rem 0.2rem 0.4rem;
         margin: 0.4rem 0.5rem;
         border-bottom: 0;
+        background-color: var(--fashion-pink);
+        color: var(--fashion-ketnipz);
     }
 
     &_theme_arrow_disabled {
@@ -86,7 +90,7 @@
         width: 3.3rem;
         height: 3rem;
         padding: 0;
-        background: var(--fashion-pink) url(/img/settings-btn.png) center no-repeat;
+        background: var(--fashion-ketnipz) url(/img/settings-btn.png) center no-repeat;
         background-size: 2rem;
     }
 
@@ -104,11 +108,14 @@
     }
 
     &_theme_logout {
-        background: var(--fashion-pink) url(/img/logout-btn.png) center no-repeat;
+        background: var(--fashion-blue) url(/img/logout-btn.png) center no-repeat;
         width: 2rem;
         height: 2rem;
         border-bottom: 0;
         background-size: 1.2rem;
+        border: 1px solid var(--fashion-pink);
+
+
 
         @media (max-width: 380px) and (orientation: portrait) {
             margin: 0.2rem;
@@ -117,7 +124,6 @@
 
     &_theme_leaders {
         width: 7.5rem;
-        color: var(--fashion-ketnipz);
         height: 2.5rem;
         border-radius: 0.8rem;
         margin-top: 0.6rem;
