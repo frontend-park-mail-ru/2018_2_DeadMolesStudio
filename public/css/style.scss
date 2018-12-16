@@ -41,6 +41,23 @@ body {
     overflow-y: scroll;
 }
 
+.main-head {
+
+    &__img {
+        width: 25vw;
+
+        @media (max-width: 820px) and (orientation: landscape) {
+            width: 22vw;
+        }
+
+        @media (max-width: 420px) and (orientation: portrait) {
+            width: 60vw;
+            margin-top: 3rem;
+        }
+    }
+
+
+}
 
 //.content {
 //    height: 100%;

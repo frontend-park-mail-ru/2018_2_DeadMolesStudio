@@ -13,12 +13,18 @@ export default class BaseView2 extends View {
     }
 
     renderTitleGame(parent) {
-        const gameTitleLink = new LinkComponent({
-            el: parent,
-            text: 'Abstract Ketnipz',
-            href: '/',
-            className: 'game_title__link',
-        });
-        gameTitleLink.render();
+        parent.insertAdjacentHTML('beforeend', `
+            <div class="main-head">
+                <img src="../img/main-header.png" alt="" class="main-head__img">
+            </div>
+        `);
+
+        // const gameTitleLink = new LinkComponent({
+        //     el: parent,
+        //     text: 'Abstract Ketnipz',
+        //     href: '/',
+        //     className: 'game_title__link',
+        // });
+        // gameTitleLink.render();
     }
 }

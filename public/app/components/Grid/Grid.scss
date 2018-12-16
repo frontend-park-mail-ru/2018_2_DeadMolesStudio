@@ -1,7 +1,7 @@
 %grid-base {
   height: 100vh;
   display: grid;
-  justify-content: space-between;
+  justify-items: center;
   align-items: center;
   grid-auto-rows: auto;
   grid-auto-columns: auto;
@@ -16,12 +16,30 @@
   grid-area: bc;
 }
 
+.infoButton {
+  grid-area: i;
+
+}
+
+.settingsButton {
+  grid-area: st;
+  margin-left: 0.7rem;
+
+  @media (max-width: 380px) and (orientation: portrait) {
+    margin-left: 0.2rem;
+  }
+}
+
+.userBlock {
+  grid-area: u;
+  justify-self: right;
+}
+
 .content {
   grid-area: c;
   height: 100%;
 
   display: flex;
-  //justify-content: center;
   align-items: center;
   flex-direction: column;
 }
@@ -32,13 +50,32 @@
 .grid{
   &_casual {
     @extend %grid-base;
-    grid-template-columns: 10% auto;
-    grid-template-rows: 10vh auto auto;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content min-content auto;
     grid-template-areas:
             "bc . "
             "hd hd"
             "c c";
   }
+
+  &_menu {
+    @extend %grid-base;
+    background: url(/img/main-menu.png) center no-repeat;
+    background-size: 100vw 100vh;
+    grid-template-columns: min-content min-content auto;
+    grid-template-rows: min-content min-content auto;
+    grid-template-areas:
+            "st i u"
+            "hd hd hd"
+            "c c c";
+
+    @media (max-width: 480px) and (orientation: portrait) {
+      background-image: none;
+    }
+
+  }
+
+
 }
 
 
