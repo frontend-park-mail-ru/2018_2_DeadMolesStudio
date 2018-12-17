@@ -71,6 +71,32 @@ const startApp = () => {
     ];
     preLoad(gameResources);
 
+    // const music = document.getElementById('music');
+    // music.addEventListener('loadeddata', () => {
+    //     // music.play();
+    //     console.log('load', music);
+    // },);
+    //
+    // music.addEventListener('play', () => {
+    //    console.log('music plays');
+    // });
+
+    // const play = () => {
+    //     const audio = new Audio();
+    //     audio.src = '../music/ketnipz-main.mp3';
+    //     audio.load();
+    //     audio.play();
+    //     console.log('plaay');
+    // };
+    //
+    // const playMusic = () => {
+    //     play();
+    //     document.removeEventListener('mousemove', playMusic);
+    // };
+    //
+    // document.addEventListener('mousemove', playMusic);
+
+
     bus.on('loggedout', () => {
         router.go('/login');
     });

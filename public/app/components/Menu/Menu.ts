@@ -132,7 +132,7 @@ export default class MenuComponent {
         }
 
         parent.insertAdjacentHTML('afterbegin', `
-            <div class="menu-user">
+            <div class="menu-user menu-user_media">
                 <img src=${pathAvatar} alt="ava" class="menu-user__avatar">
                 <div class="menu-user__inf">
                     <a href="/profile" class="menu-user__name">${this._user.nickname}</a>

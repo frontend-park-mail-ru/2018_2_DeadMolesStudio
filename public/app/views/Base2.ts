@@ -14,8 +14,8 @@ export default class BaseView2 extends View {
 
     renderTitleGame(parent) {
         parent.insertAdjacentHTML('afterbegin', `
-            <a class="main-head" href="/">
-                <img src="../img/main-header.png" alt="" class="main-head__img">
+            <a class="main-head app-router-use" href="/">
+                <img src="../img/main-header.png" alt="" class="main-head__img app-router-use">
             </a>
         `);
 

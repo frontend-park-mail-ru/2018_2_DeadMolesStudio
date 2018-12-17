@@ -1,7 +1,7 @@
 import BackButtonComponent from '../components/BackButton/BackButton';
 import GridComponent from '../components/Grid/Grid';
 import BaseView2 from './Base2';
-import FormComponent from '../components/Form/Form';
+import FormComponent from '../components/Form/Form.js';
 import bus from '../modules/EventBus';
 
 

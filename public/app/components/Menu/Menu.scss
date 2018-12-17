@@ -27,15 +27,17 @@
     margin-top: 0.5rem;
     margin-right: 1rem;
 
-    @media (max-width: 380px) and (orientation: portrait) {
-        padding: 0.2rem 0.4rem;
-    }
+    &_media {
+        @media (max-width: 380px) and (orientation: portrait) {
+            padding: 0.2rem 0.4rem;
+        }
 
-    @media (max-width: 380px) and (orientation: portrait) {
-        margin-right: 0.4rem;
-        margin-top: 0;
+        @media (max-width: 380px) and (orientation: portrait) {
+            margin-right: 0.4rem;
+            margin-top: 0;
+        }
     }
-
+    
     &_margin {
         margin-bottom: 0.5rem;
     }
