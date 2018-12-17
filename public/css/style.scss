@@ -42,6 +42,11 @@ body {
     display: block;
     height: 100vh;
     overflow-y: scroll;
+
+    &_no-scroll {
+        overflow-y: hidden !important;
+        position: relative;
+    }
 }
 
 .main-head {

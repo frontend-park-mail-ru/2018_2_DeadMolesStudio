@@ -19,9 +19,11 @@
 
 @media only screen and (orientation:portrait) {
     .game-scene__game-finish-component {
+        transform: translate(-50%, -50%) rotate(90deg);
         position: absolute;
         /*margin-top: 40%;*/
-        left: 10%;
+        left: 50%;
+        top: 50%;
         width: 50vh;
         height: 50vw;
         z-index: 50;

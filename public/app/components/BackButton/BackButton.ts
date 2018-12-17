@@ -1,3 +1,5 @@
+import {noop} from "../../modules/Utils";
+
 export default class BackButtonComponent {
     _el;
     _href;
@@ -18,5 +20,21 @@ export default class BackButtonComponent {
             </svg>
         </a>
         `);
+        this._innerElem = this._el.querySelector('.svg-link');
+    }
+
+    on({ event = 'click', callback, capture = false }) {
+        if (!callback) {
+            callback = noop;
+        }
+        if (this._innerElem !== null) {
+            this._innerElem.addEventListener(event, callback, capture);
+        }
+    }
+
+    off({ event = 'click', callback = noop, capture = false }) {
+        if (this._innerElem !== null) {
+            this._innerElem.removeEventListener(event, callback, capture);
+        }
     }
 }

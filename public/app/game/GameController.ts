@@ -11,7 +11,7 @@ export default class GameController {
 
     constructor(canvas) {
         this.canvas = canvas;
-        this.sensitivity = 0.3;
+        this.sensitivity = 0.5;
 
         this.keys = {};
         this.previous = {};
