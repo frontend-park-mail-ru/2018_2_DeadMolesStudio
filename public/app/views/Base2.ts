@@ -13,10 +13,10 @@ export default class BaseView2 extends View {
     }
 
     renderTitleGame(parent) {
-        parent.insertAdjacentHTML('beforeend', `
-            <div class="main-head">
+        parent.insertAdjacentHTML('afterbegin', `
+            <a class="main-head" href="/">
                 <img src="../img/main-header.png" alt="" class="main-head__img">
-            </div>
+            </a>
         `);
 
         // const gameTitleLink = new LinkComponent({

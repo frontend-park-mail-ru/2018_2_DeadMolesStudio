@@ -22,14 +22,14 @@ export default class MenuView extends BaseView2 {
 
         if (userState.isExist() ) {
             this.renderMenu(mainBlock);
+            const blockTitle = mainBlock.querySelector('.mainHeader');
+            this.renderTitleGame(blockTitle);
+            const title = blockTitle.querySelector('.main-head__img');
+            title.classList.add('main-head__img_margin');
         } else {
             this.renderLoading(mainBlock);
         }
 
-        const blockTitle = mainBlock.querySelector('.mainHeader');
-        this.renderTitleGame(blockTitle);
-        const title = blockTitle.querySelector('.main-head__img');
-        title.classList.add('main-head__img_margin');
     }
 
     renderMenu(parent) {

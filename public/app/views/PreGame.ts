@@ -1,17 +1,17 @@
-import BaseView from './Base';
+import BaseView2 from './Base2';
 
 import SectionComponent from '../components/Section/Section';
 import ButtonComponent from '../components/Button/Button';
 import UserState from '../modules/User';
 
-export default class PreGameView extends BaseView{
+export default class PreGameView extends BaseView2{
     render() {
         super.render();
-        const content = this._el.querySelector('.content');
+        const content = this._el.querySelector('.container');
         const section = new SectionComponent({ el: content, name: 'pregame' });
         section.render();
-        const title = this._el.querySelector('.game_title');
-        content.removeChild(title);
+        // const title = this._el.querySelector('.game_title');
+        // content.removeChild(title);
         section.sectionContent.insertAdjacentHTML('beforeend', `
             <div class="pre-game">
                 <div class="pre-game__rules">

@@ -69,7 +69,7 @@ export default class ProfileComponent {
         userBlock.insertAdjacentHTML(
             'beforeend', `
                 <div class="profile-block__profile-avatar">
-                    <img src=${pathAvatar} alt="аватар" class="user-avatar">
+                    <img src=${pathAvatar} alt="avatar" class="user-avatar">
                 </div>
                 `.trim()
         );

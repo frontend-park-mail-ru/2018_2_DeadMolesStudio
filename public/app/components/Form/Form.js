@@ -82,9 +82,10 @@ export default class FormComponent {
         // });
         // signUpLink.render();
 
-        // this._errorsList = document.createElement('ul');
+        this._errorsList = document.createElement('ul');
         // const submitButton = this._innerElem.elements.submit;
-        // this._innerElem.insertBefore(this._errorsList, submitButton);
+        // this._innerElem.insertBefore(this._errorsList);
+        this._innerElem.appendChild(this._errorsList);
     }
 
     on({ event = 'click', callback = noop, capture = false }) {
