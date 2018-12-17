@@ -161,7 +161,7 @@ export default class MenuComponent {
 
         playBtn.animate([
             { transform: 'scale(1)', filter: 'none' },
-            { transform: 'scale(1.02)', filter: 'saturate(1.2)' },
+            { transform: 'scale(1.04)', filter: 'saturate(1.3)' },
         ], {
             duration: 700,
             easing: 'ease-in-out',

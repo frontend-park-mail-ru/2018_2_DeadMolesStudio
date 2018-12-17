@@ -20,6 +20,7 @@ import ChatView from './views/ChatView';
 import preLoad from './modules/PreLoad';
 import '../css/style.scss';
 import MultiPlayerView from './views/MultiplayerView';
+import User from "./modules/User";
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -41,6 +42,9 @@ const renderChat = (parent) => {
 };
 
 const startApp = () => {
+    User.setUser({
+        nickname: 'mem',
+    });
     const rootElement = document.querySelector('#root');
     const router = new Router(rootElement);
     router
