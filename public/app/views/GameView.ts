@@ -106,5 +106,6 @@ export default class GameView extends BaseView2 {
 
     destroy() {
         this.game.destroy();
+        bus.emit('multiplayer:end');
     }
 }

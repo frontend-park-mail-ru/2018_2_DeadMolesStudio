@@ -98,6 +98,7 @@ const startApp = () => {
     // document.addEventListener('mousemove', playMusic);
 
 
+
     bus.on('loggedout', () => {
         router.go('/login');
     });
@@ -137,6 +138,11 @@ const startApp = () => {
     };
 
     getUser();
+
+    bus.on('multiplayer:end', () => {
+        User.deleteUser();
+        getUser();
+    });
 
 
     bus.on('fetch-user', async () => {

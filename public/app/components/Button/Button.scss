@@ -129,6 +129,35 @@
         margin-top: 0.6rem;
         font-size: 1.4rem;
     }
+
+    &_theme_pregame {
+        background-color: #e7f7fa;
+        width: 8rem;
+        height: 3rem;
+    }
+
+    &_theme_signup {
+        background-color: var(--fashion-red);
+        color: var(--fashion-ketnipz);
+        width: 8rem;
+        height: 3rem;
+        border-bottom: 0;
+    }
+
+    &_none {
+        display: none;
+    }
+
+    &_absolute {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    &_absolute:hover {
+        transform: translate(-50%, -50%);
+    }
 }
 
 .chat-mini-bth{

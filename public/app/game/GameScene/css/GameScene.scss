@@ -47,7 +47,9 @@ body {
 
 @media only screen and (orientation:portrait){
 
-  .game-scene, .pre-game {
+
+
+  .game-scene {
 
     transform: rotate(90deg);
     transform-origin: right top;
@@ -57,7 +59,7 @@ body {
 
   }
 
-    .game-scene, .game-canvas, .game-canvas__background, .pre-game {
+    .game-scene, .game-canvas, .game-canvas__background {
         height: 100vw;
         width: 100vh;
     }

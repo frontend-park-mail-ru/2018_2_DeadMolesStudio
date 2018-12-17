@@ -18,6 +18,18 @@
   margin-top: 0.5rem;
 }
 
+.preGameBlock1 {
+  grid-area: pg1;
+  justify-self: right;
+  margin-right: 1rem;
+}
+
+.preGameBlock2 {
+  grid-area: pg2;
+  justify-self: left;
+  margin-left: 1rem;
+}
+
 .infoButton {
   grid-area: i;
 
@@ -74,7 +86,25 @@
     @media (max-width: 480px) and (orientation: portrait) {
       background-image: none;
     }
+  }
 
+  &_pregame {
+    @extend %grid-base;
+    grid-template-columns: min-content auto auto;
+    grid-template-rows: min-content auto;
+    grid-template-areas:
+            "bc . ."
+            "pg1 pg1 pg2";
+
+    @media (max-width: 825px) and (orientation: landscape) {
+      grid-template-areas:
+              "bc pg1 pg2"
+              ". pg1 pg2";
+    }
+
+    @media (orientation: portrait) {
+      height: 100vw;
+    }
   }
 
 

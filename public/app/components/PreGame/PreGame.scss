@@ -1,0 +1,84 @@
+.pregame-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: var(--fashion-ketnipz);
+  border-radius: 1.3rem;
+  border: 3px solid var(--fashion-pink);
+  padding: 1rem;
+
+  @media (max-width: 570px) and (orientation: landscape) {
+    padding: 0.5rem 1rem;
+  }
+
+  @media (max-height: 570px) and (orientation: portrait) {
+    padding: 0.5rem 1rem;
+  }
+
+  &_not_auth {
+    filter: grayscale(1.1) blur(1px);
+  }
+
+  &__name {
+    color: var(--fashion-red);
+    font-size: 1.7rem;
+    margin: 0.5rem 1rem;
+
+    @media (max-width: 825px) and (orientation: landscape) {
+      font-size: 1.2rem;
+    }
+
+    @media (max-height: 825px) and (orientation: portrait) {
+      font-size: 1.2rem;
+    }
+
+  }
+
+  &__description {
+    color: var(--input-font);
+    width: 20vw;
+    text-align: center;
+    font-size: 1.1rem;
+    margin: 0.5rem 1rem;
+
+    @media (max-width: 825px) and (orientation: landscape) {
+      width: 30vw;
+      font-size: 0.8rem;
+      margin: 0.5rem 0.5rem;
+    }
+
+    @media (max-height: 825px) and (orientation: portrait) {
+      width: 30vh;
+      font-size: 0.8rem;
+      margin: 0.5rem 0.5rem;
+    }
+  }
+
+  &__img {
+    height: 10rem;
+    width: 10rem;
+    object-fit: cover;
+    margin: 0.5rem 1rem;
+
+    @media (max-width: 825px) and (orientation: landscape) {
+      height: 5rem;
+      width: 5rem;
+    }
+
+    @media (max-height: 825px) and (orientation: portrait) {
+      height: 5rem;
+      width: 5rem;
+    }
+  }
+
+  &__button {
+    margin: 0.5rem;
+    height: 3.5rem;
+  }
+
+}
+
+.wrap-multiplayer{
+  position:relative;
+}

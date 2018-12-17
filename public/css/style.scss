@@ -5,6 +5,7 @@
 @import "../app/components/BackButton/BackButton.scss";
 @import "../app/components/Profile/Profile.scss";
 @import "../app/components/Form/Form.scss";
+@import "../app/components/PreGame/PreGame.scss";
 @import "../app/components/Link/Link.scss";
 @import "../app/components/About/About.scss";
 @import "../app/components/Scoreboard/Scoreboard.scss";
@@ -47,6 +48,25 @@ body {
         overflow-y: hidden !important;
         position: relative;
     }
+
+    &_pregame {
+        display: block;
+        height: 100vh;
+        overflow-y: scroll;
+
+        @media (orientation:portrait) {
+            display: block;
+            height: 100vw;
+            width: 100vh;
+            overflow-y: scroll;
+            transform: rotate(90deg);
+            transform-origin: right top;
+            position: absolute;
+            top: 100%;
+            right: 0;
+        }
+
+    }
 }
 
 .main-head {
@@ -65,6 +85,11 @@ body {
 
     &__img_margin {
         margin-top: 3rem;
+
+        @media (max-width: 825px) and (orientation: landscape) {
+            margin-top: 0;
+        }
+
     }
 }
 
