@@ -1,13 +1,12 @@
 const fs = require('fs');
 const globby = require('globby');
 
-const dir = ['**/public/index.html',
-    '**/public/css/*.*',
+const dir = [
     '**/public/fonts/*.*',
-    '**/public/app/**/*.*',
     '**/public/img/**/*.*',
-    '**/public/app/game/**/*.*',
-    '!**/public/app/Service/*.*'];
+    '**/public/dist/*.*',
+    '**/public/app/game/**/*.png',
+    '**/public/app/game/**/*.jpg'];
 
 globby(dir)
     .then( (paths) => {

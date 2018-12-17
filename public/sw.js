@@ -8,8 +8,8 @@ this.addEventListener('install', (event) => {
             .then(cache => cache.addAll([
                 '/',
                 '/about',
+                '/pregame',
                 '/play',
-                './public/dist/bundle.js',
                 ...cacheFiles,
             ]) )
             .catch( (err) => {
@@ -23,8 +23,15 @@ this.addEventListener('fetch', (event) => {
         caches.match(event.request)
             .then( (cacheResponse) => {
                 if (navigator.onLine) {
+                    const url1 = event.request.url.replace('https://dmstudio.now.sh', '');
+                    const url2 = url1.replace('https://playketnipz.ru/', '');
+
+                    if (!/^(?!.*\..*$)(.*)$/.test(url2) && cacheResponse) {
+                        return cacheResponse;
+                    }
                     return fetch(event.request);
                 }
+
                 if (cacheResponse) {
                     return cacheResponse;
                 }

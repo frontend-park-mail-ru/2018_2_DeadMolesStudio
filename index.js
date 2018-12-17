@@ -13,7 +13,7 @@ const rootDir = `${__dirname}/public`;
 app.use(morgan('dev'));
 app.use(express.static(path.resolve(__dirname, '.', 'public')));
 
-app.use(fallback('index.html', { root: rootDir } ));
+app.use(fallback('./index.html', { root: rootDir } ));
 
 const port = process.env.PORT || 3000;
 

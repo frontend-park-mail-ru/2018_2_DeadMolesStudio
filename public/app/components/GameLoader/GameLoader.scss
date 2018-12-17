@@ -1,0 +1,17 @@
+.game-loader {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: var(--fashion-blue);
+  z-index: 3;
+
+  &__description {
+    font-family: 'FashionFont', 'Arial', sans-serif;
+    font-weight: bold;
+    font-size: 1.3rem;
+  }
+}

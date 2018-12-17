@@ -1,0 +1,179 @@
+@import "../app/components/Button/Button.scss";
+@import "../app/components/Menu/Menu.scss";
+@import "../app/components/Grid/Grid.scss";
+@import "../app/components/Section/Section.scss";
+@import "../app/components/BackButton/BackButton.scss";
+@import "../app/components/Profile/Profile.scss";
+@import "../app/components/Form/Form.scss";
+@import "../app/components/PreGame/PreGame.scss";
+@import "../app/components/Link/Link.scss";
+@import "../app/components/About/About.scss";
+@import "../app/components/Scoreboard/Scoreboard.scss";
+@import "../app/components/ChatMini/ChatMini.scss";
+@import "../app/components/Loader/Loader.scss";
+@import "../app/components/GameLoader/GameLoader.scss";
+@import "../app/game/GameScene/GameInfoComponent/GameInfoComponent.scss";
+@import "../app/game/GameScene/css/GameScene.scss";
+@import "../app/game/GameScene/FinishGameComponent/FinishGameComponent.scss";
+
+:root {
+    //--fashion-blue: #c3c3e0;
+    --fashion-blue: #eaf7fb;
+    --fashion-ketnipz: #f3dfdf;
+    --fashion-pink: #f4acb7;
+    --fashion-brown: #9d8189;
+    --fashion-red: #ff6574;
+    --input-font: #565252;
+    --button-shadow: #eecfcd;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'FashionFont', 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+body {
+    background-color: var(--fashion-blue);
+    overflow: hidden;
+}
+
+.container {
+    display: block;
+    height: 100vh;
+    overflow-y: scroll;
+
+    &_no-scroll {
+        overflow-y: hidden !important;
+        position: relative;
+    }
+
+    &_pregame {
+        display: block;
+        height: 100vh;
+        overflow-y: scroll;
+
+        @media (orientation:portrait) {
+            display: block;
+            height: 100vw;
+            width: 100vh;
+            overflow-y: scroll;
+            transform: rotate(90deg);
+            transform-origin: right top;
+            position: absolute;
+            top: 100%;
+            right: 0;
+        }
+
+    }
+}
+
+.main-head {
+
+    &__img {
+        width: 25vw;
+
+        @media (max-width: 820px) and (orientation: landscape) {
+            width: 22vw;
+        }
+
+        @media (max-width: 420px) and (orientation: portrait) {
+            width: 60vw;
+        }
+    }
+
+    &__img_margin {
+        margin-top: 3rem;
+
+        @media (max-width: 825px) and (orientation: landscape) {
+            margin-top: 0;
+        }
+
+    }
+}
+
+section {
+}
+
+.game_title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.game_title__link {
+    font-family: 'FashionFont', sans-serif;
+    font-size: 3rem;
+    color: var(--fashion-pink);
+    /*color: #444;*/
+
+    text-decoration: none;
+
+    text-shadow: var(--fashion-brown) 0 0 3px;
+
+    /*font-size: 2.5rem;*/
+    /*color: #b8bec5;*/
+}
+
+/*.menu__play-button {*/
+/*background: #317B22;*/
+/*border-bottom: 4px solid #2A4D14;*/
+/*}*/
+
+.sub_buttons {
+    display: flex;
+}
+
+.rules {
+    width: 60vw;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 23rem) {
+    .rules {
+        width: 60vw;
+        height: 50vh;
+        align-items: center;
+
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+        margin-bottom: 2rem;
+    }
+}
+
+.sub_link {
+    font-size: smaller;
+}
+
+.page-indicator {
+    border: 1px solid black;
+    width: 2rem;
+    margin: 0.3rem;
+    padding: 0.5rem;
+    display: inline-block;
+    text-align: center;
+
+}
+
+h1.game_title__h {
+    text-align: center;
+}
+
+@font-face {
+    font-family: 'FashionFont';
+    src: url('../fonts/Chalkboard.ttf');
+    /*src: url('webfont.eot?#iefix') format('embedded-opentype'), !* IE6-IE8 *!*/
+    /*url('webfont.woff2') format('woff2'),                  !* Новейшие браузеры *!*/
+    /*url('webfont.woff') format('woff'),                    !* Новые браузеры и IE9+ *!*/
+    /*url('webfont.ttf')  format('truetype'),                !* Старые Safari, Android, iOS *!*/
+    /*url('webfont.svg#svgFontName') format('svg');          !* Древние Safari, iOS, Android *!*/
+    font-weight: bold;
+    font-style: normal;
+}

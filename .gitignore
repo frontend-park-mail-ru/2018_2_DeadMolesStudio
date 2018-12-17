@@ -1,5 +1,11 @@
 .idea
-js/components/Form/form.tmpl.js
+app/components/Form/form.tmpl.js
+
+public/sw-files.js
+public/index.html
+
+
+public/dist
 
 # Created by https://www.gitignore.io/api/macos,node
 

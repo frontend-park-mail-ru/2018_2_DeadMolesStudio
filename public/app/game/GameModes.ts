@@ -1,0 +1,7 @@
+const GAME_MODES = {
+    ONLINE_SINGLE: 'ONLINE_SINGLE',
+    ONLINE_MULTI: 'ONLINE_MULTI',
+    OFFLINE: 'OFFLINE',
+};
+
+export default GAME_MODES;
