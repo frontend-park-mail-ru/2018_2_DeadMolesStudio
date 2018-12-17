@@ -42,9 +42,6 @@ const renderChat = (parent) => {
 };
 
 const startApp = () => {
-    User.setUser({
-        nickname: 'mem',
-    });
     const rootElement = document.querySelector('#root');
     const router = new Router(rootElement);
     router

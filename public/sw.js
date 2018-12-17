@@ -10,7 +10,7 @@ this.addEventListener('install', (event) => {
                 '/about',
                 '/pregame',
                 '/play',
-                './public/app/chat/chat.js',
+                './public/app/chat/chat.ts',
                 ...cacheFiles,
             ]) )
             .catch( (err) => {

@@ -15,6 +15,10 @@
     margin: 0;
 }
 
+body {
+    overflow: hidden;
+}
+
 .chat-field__chat-message {
     padding-left: 0.3rem;
     border-top: 1px solid #9d8189;

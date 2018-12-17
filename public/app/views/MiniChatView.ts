@@ -1,7 +1,7 @@
 import BaseView from './Base';
 import WS from '../modules/WebSocket';
 import bus from '../modules/EventBus';
-import UserService from '../services/UserService.js';
+import UserService from '../services/UserService';
 
 import ChatComponent from '../components/ChatComponent/ChatComponent';
 import ListComponent from '../components/ListComponent/ListComponent';
@@ -137,38 +137,6 @@ export default class MiniChatView extends BaseView {
                 }
                 this.chatComponent.appendMessage({ nickname, text });
             });
-            // for (let i = 0; i < messages.length; i++) {
-            //     const { author, message: text } = messages[i];
-            //     console.log('iter');
-            //     let nickname = 'Аноним';
-            //     if (author) {
-            //         if (this.users[author]) {
-            //             this.chatComponent.appendMessage({ nickname: this.users[author], text });
-            //             return;
-            //         }
-            //
-            //         let data = null;
-            //         const f = async () => {
-            //             data = await UserService.getUserByID(author);
-            //             if (data.ok) {
-            //                 nickname = data.user.nickname;
-            //                 console.log(data.user);
-            //                 this.chatComponent.appendMessage({ nickname, text });
-            //                 if (!this.users[author]) {
-            //                     this.users[author] = nickname;
-            //                 }
-            //                 return;
-            //             }
-            //             nickname = 'Аноним (не найдено)';
-            //             this.chatComponent.appendMessage({ nickname, text });
-            //         };
-            //         f();
-            //         // const data = UserService.fetchUserByID(author);
-            //
-            //         return;
-            //     }
-            //     this.chatComponent.appendMessage({ nickname, text });
-            // }
         }
     }
 

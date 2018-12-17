@@ -9,13 +9,14 @@ const src = path.resolve(__dirname, 'public');
 
 module.exports = {
     mode: 'development',
-    entry: [
-        path.resolve(src, 'app/index.ts'),
-    ],
+    entry: {
+        main: path.resolve(src, 'app/index.ts'),
+        chat: path.resolve(src, 'app/chat/chat.ts'),
+    },
 
     output: {
         path: dist,
-        filename: 'bundle.[hash].js',
+        filename: 'bundle.[name]-[hash].js',
     },
 
     devtool: 'inline-source-map',
@@ -26,13 +27,20 @@ module.exports = {
 
     plugins: [
         new HtmlWebpackPlugin({
+            chunks: ['main'],
             filename: '../index.html',
             template: './public/template.html',
             inject: 'body',
         }),
+        new HtmlWebpackPlugin({
+            chunks: ['chat'],
+            filename: '../app/chat/chat.html',
+            template: './public/app/chat/template.html',
+            inject: 'body',
+        }),
         new MiniCssExtractPlugin({
             path: dist,
-            filename: './bundle.style.[hash].css',
+            filename: 'bundle.style.[name]-[hash].css',
         }),
     ],
 
@@ -78,11 +86,3 @@ module.exports = {
     },
 
 };
-
-//                         // {
-//                         //     loader: 'postcss-loader',
-//                         //     options: {
-//                         //         plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
-//                         //         sourceMap: true,
-//                         //     },
-
