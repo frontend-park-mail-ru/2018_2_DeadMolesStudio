@@ -110,23 +110,27 @@ export default class MultiPlayerGame extends GameCore {
         const { collected, products } = json.payload;
 
 
-        this.state[playerName].percentsX = me.percentsX;
-        this.state[playerName].percentsY = me.percentsY;
+        this.state[playerName].percentsX = me.X;
+        this.state[playerName].percentsY = me.Y;
         this.state[playerName].targetList = me.targetList;
         this.state[playerName].score = me.score;
 
         const prevOpponentPercentsX = this.state[opponentName].percentsX;
-        const curOpponentPercentsX = opponent.percentsX;
+        const curOpponentPercentsX = opponent.X;
         if (prevOpponentPercentsX !== curOpponentPercentsX) {
             this.state[opponentName].direction = prevOpponentPercentsX < curOpponentPercentsX ? 'RIGHT' : 'LEFT';
         }
         this.state[opponentName].percentsX = curOpponentPercentsX;
-        this.state[opponentName].percentsY = opponent.percentsY;
+        this.state[opponentName].percentsY = opponent.Y;
         this.state[opponentName].targetList = opponent.targetList;
         this.state[opponentName].score = opponent.score;
 
         this.state.collected = collected;
-        this.state.products = products;
+        this.state.products = products.map(({ X, Y, type }) => ({
+            percentsX: X,
+            percentsY: Y,
+            type,
+        }));
     }
 
     handleDisconnect(json) {
