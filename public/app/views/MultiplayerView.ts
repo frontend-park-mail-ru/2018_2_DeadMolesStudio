@@ -122,5 +122,6 @@ export default class MultiPlayerView extends BaseView {
     destroy() {
         this.game.destroy();
         this.game = null;
+        bus.emit('multiplayer:end');
     }
 }

@@ -81,7 +81,9 @@ export default class GameView extends BaseView2 {
 
         const wrapBackButton = document.createElement('div');
         wrapBackButton.classList.add('game-scene__back-button-wrap');
-        const backButton = new BackButtonComponent({ el: wrapBackButton, });
+        const backButton = new BackButtonComponent({ el: wrapBackButton,});
+        backButton.render();
+
         backButton.on({
             event: 'click',
             callback: (event) => {
@@ -94,7 +96,6 @@ export default class GameView extends BaseView2 {
                 window.removeEventListener('contextmenu', onContextMenu);
             },
         });
-        backButton.render();
         scene.appendChild(wrapBackButton);
     }
 
@@ -106,6 +107,5 @@ export default class GameView extends BaseView2 {
 
     destroy() {
         this.game.destroy();
-        bus.emit('multiplayer:end');
     }
 }
