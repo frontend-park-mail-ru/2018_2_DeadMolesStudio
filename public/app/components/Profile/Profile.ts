@@ -111,7 +111,7 @@ export default class ProfileComponent {
             'Wins: ': win,
             'Draws: ': draws,
             'Loss: ': loss,
-            'WinRate: ': `${loss + win === 0 ? 100 : ( (win / (loss + win) ) * 100).toFixed(2)}%`,
+            'WinRate: ': `${loss + win === 0 ? 100 : ( (win / (loss + win) ) * 100).toFixed(0)}%`,
         };
 
         for (const [field, value] of Object.entries(userGame) ) {
