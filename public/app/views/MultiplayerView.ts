@@ -1,5 +1,4 @@
 import BaseView from './Base';
-import ButtonComponent from '../components/Button/Button';
 import SectionComponent from '../components/Section/Section';
 import GAME_MODES from '../game/GameModes';
 import Game from '../game/Game';
@@ -9,6 +8,7 @@ import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGam
 import EVENTS from '../game/Core/Events';
 import GameLoaderComponent from '../components/GameLoader/GameLoader';
 import ErrorComponent from '../components/Error/Error';
+import BackButtonComponent from "../components/BackButton/BackButton";
 
 export default class MultiPlayerView extends BaseView {
 
@@ -102,16 +102,20 @@ export default class MultiPlayerView extends BaseView {
         }
 
         this.createGame();
-        const backButton = new ButtonComponent({ el: scene, className: 'cute-btn app-router-ignore game-scene__back-button' });
+        const wrapBackButton = document.createElement('div');
+        wrapBackButton.classList.add('game-scene__back-button-wrap');
+        const backButton = new BackButtonComponent({ el: wrapBackButton });
+        backButton.render();
         backButton.on({
             event: 'click',
             callback: (event) => {
+                bus.emit('multiplayer:end');
                 event.preventDefault();
                 exitFullscreen();
                 bus.emit(EVENTS.CLOSE_GAME);
             },
         });
-        backButton.render();
+        scene.appendChild(wrapBackButton);
     }
 
     createGame() {
@@ -122,6 +126,5 @@ export default class MultiPlayerView extends BaseView {
     destroy() {
         this.game.destroy();
         this.game = null;
-        bus.emit('multiplayer:end');
     }
 }

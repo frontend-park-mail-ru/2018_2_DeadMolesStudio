@@ -32,7 +32,6 @@ export default class GameService {
     }
 
     onStart(json) {
-        console.log(json);
         let nickname = '';
         const f = async () => {
             const data = await UserService.getUserByID(json.payload.opponentId);
@@ -42,7 +41,6 @@ export default class GameService {
                 nickname = 'Opponent';
             }
             console.log('gameService, data:', data);
-            console.log('json:', json);
             bus.emit('ws:opponent_received', nickname);
         };
         f().catch( err => console.error(err));

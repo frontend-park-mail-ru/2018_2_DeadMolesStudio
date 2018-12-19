@@ -6,7 +6,7 @@ import GameInfoComponent from './GameInfoComponent/GameInfoComponent';
 import ImageFigure from './ImageFigure';
 import bus from '../../modules/EventBus';
 import User from '../../modules/User';
-
+import GameTimerComponent from './GameTimerComponent/GameTimerComponent';
 
 
 export default class GameScene {
@@ -22,7 +22,9 @@ export default class GameScene {
     me;
     opponent;
     truck;
-    gameInfo;
+    playerInfo;
+    gameTimer;
+    opponentInfo;
 
     poolSize;
     productFiguresPool;
@@ -49,6 +51,9 @@ export default class GameScene {
         this.me = null;
         this.truck = null;
         this.poolSize = poolSize;
+        this.opponentInfo = null;
+        this.playerInfo = null;
+        this.gameTimer = null;
 
         this.productFiguresPool = null;
         this.productPoolNext = null;
@@ -66,7 +71,6 @@ export default class GameScene {
         const { ctx, scene } = this;
         this.state = state;
 
-        console.log('INIT GAMESCENE:', state);
         if (this.state.opponentName) {
             this.opponentName = this.state.opponentName;
             this.isMultiplayer = true;
@@ -156,6 +160,9 @@ export default class GameScene {
         this.me.x = state[this.playerName].percentsX / 100 * ctx.canvas.width;
         this.me.direction = this.state[this.playerName].direction;
 
+        this.gameTimer.time = this.state.leftTime;
+        this.gameTimer.render();
+
         if (this.isMultiplayer) {
             this.opponent.jumping = this.state[this.opponentName].percentsY > 8.7;
 
@@ -165,17 +172,28 @@ export default class GameScene {
         }
 
         // TODO: тут подпихиваем обновленный список продуктов
-        let productList = '';
+        let playerProducts = '';
         this.state[this.playerName].targetList.forEach( (targetProduct) => {
-            productList += `${PRODUCTS[targetProduct]}`;
+            playerProducts += `${PRODUCTS[targetProduct]}`;
         });
 
-        this.gameInfo.setInfo({
+        this.playerInfo.setInfo({
             score: this.state[this.playerName].score,
-            time: this.state.leftTime,
-            productList: productList,
+            productList: playerProducts,
         });
-        this.gameInfo.render();
+        this.playerInfo.render();
+
+        if (this.isMultiplayer) {
+            let opponentsProducts = '';
+            this.state[this.opponentName].targetList.forEach( (targetProduct) => {
+                opponentsProducts += `${PRODUCTS[targetProduct]}`;
+            });
+            this.opponentInfo.setInfo({
+                score: this.state[this.opponentName].score,
+                productList: opponentsProducts,
+            });
+            this.opponentInfo.render();
+        }
 
         // выносим все элементы продуктов из пула за сцену
         this.productFiguresPool.forEach( (product) => {
@@ -259,19 +277,36 @@ export default class GameScene {
 
     start() {
         const gameSceneElement = document.querySelector('.game-scene');
-        const textSize = `${4 / 100 * this.ctx.canvas.height}px`;
+        const playerTextSize = `${35 / 1000 * this.ctx.canvas.height}px`;
+        const opponentTextSize = `${35 / 1000 * this.ctx.canvas.height}px`;
 
-        this.gameInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: textSize });
+        this.gameTimer = new GameTimerComponent({ parentElem: gameSceneElement, textSize: playerTextSize, time: this.state.leftTime });
+
+        this.playerInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: playerTextSize, left: '4.5rem' });
         let productList = '';
         this.state[this.playerName].targetList.forEach( (targetProduct) => {
             productList += `${PRODUCTS[targetProduct]}`;
         });
-        this.gameInfo.setInfo({
+
+        this.playerInfo.setInfo({
             score: this.state[this.playerName].score,
-            time: this.state.leftTime,
             productList: productList,
         });
-        this.gameInfo.render();
+        this.playerInfo.render();
+
+        if (this.isMultiplayer) {
+            this.opponentInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: opponentTextSize, right: '2%' });
+            let productList = '';
+            this.state[this.opponentName].targetList.forEach( (targetProduct) => {
+                productList += `${PRODUCTS[targetProduct]}`;
+            });
+            this.opponentInfo.setInfo({
+                score: this.state[this.opponentName].score,
+                productList: productList,
+            });
+            this.opponentInfo.render();
+        }
+
         this.lastFrameTime = performance.now();
         this.requestFrameId = requestAnimationFrame(this.renderScene);
     }
@@ -281,8 +316,14 @@ export default class GameScene {
             window.cancelAnimationFrame(this.requestFrameId);
             this.requestFrameId = null;
         }
-        if (this.gameInfo) {
-            this.gameInfo.destroy();
+        if (this.playerInfo) {
+            this.playerInfo.destroy();
+        }
+        if (this.opponentInfo) {
+            this.opponentInfo.destroy();
+        }
+        if (this.gameTimer) {
+            this.gameTimer.destroy();
         }
         this.scene.clear();
     }
