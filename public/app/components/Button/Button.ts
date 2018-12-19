@@ -1,7 +1,4 @@
-import {
-    createElementFromHTML,
-    noop,
-} from '../../modules/Utils';
+import {noop, createElementFromHTML} from 'modules/Utils';
 
 // declare function TypeCallback(...args: any[]): void;
 

@@ -1,7 +1,6 @@
-import ButtonComponent from '../Button/Button';
-import stateUser from '../../modules/User';
-
-import bus from '../../modules/EventBus';
+import ButtonComponent from 'components/Button/Button';
+import stateUser from 'modules/User';
+import bus from 'modules/EventBus';
 
 export default class ChatMiniComponent {
 
@@ -11,7 +10,6 @@ export default class ChatMiniComponent {
 
     chat;
     userButton;
-
     openButton;
     chatHead;
     nameBlock;

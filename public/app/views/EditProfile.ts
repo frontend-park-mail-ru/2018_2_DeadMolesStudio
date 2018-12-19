@@ -1,10 +1,10 @@
-import ErrorComponent from '../components/Error/Error';
-import bus from '../modules/EventBus';
-import FormComponent from '../components/Form/Form.js';
-import LoaderComponent from '../components/Loader/Loader';
-import BackButtonComponent from '../components/BackButton/BackButton';
-import GridComponent from '../components/Grid/Grid';
-import BaseView2 from './Base2';
+import ErrorComponent from 'components/Error/Error';
+import bus from 'modules/EventBus';
+import FormComponent from 'components/Form/Form.js';
+import LoaderComponent from 'components/Loader/Loader';
+import BackButtonComponent from 'components/BackButton/BackButton';
+import GridComponent from 'components/Grid/Grid';
+import BaseView2 from 'views/Base2';
 
 
 export default class EditProfileView extends BaseView2 {

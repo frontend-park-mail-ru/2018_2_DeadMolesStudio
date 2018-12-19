@@ -3,7 +3,7 @@
 * @module modules
 */
 import backDomain from '../projectSettings';
-import bus from './EventBus';
+import bus from 'modules/EventBus';
 
 export default class WS {
 

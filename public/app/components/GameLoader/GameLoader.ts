@@ -1,4 +1,4 @@
-import LoaderComponent from '../Loader/Loader';
+import LoaderComponent from 'components/Loader/Loader';
 
 export default class GameLoaderComponent {
 

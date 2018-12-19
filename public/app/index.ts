@@ -1,26 +1,26 @@
-import ButtonComponent from './components/Button/Button';
-import ChatMiniComponent from './components/ChatMini/ChatMini';
+import ButtonComponent from 'components/Button/Button';
+import ChatMiniComponent from 'components/ChatMini/ChatMini';
 import swInstall from '../sw-installer.js';
-import Router from './modules/Router';
-import bus from './modules/EventBus';
-import ScoreboardService from './services/ScoreboardService';
-import SessionService from './services/SessionService';
-import UserService from './services/UserService';
-import ScoreboardView from './views/Scoreboard';
-import MenuView from './views/Menu';
-import LoginView from './views/Login';
-import LogoutView from './views/Logout';
-import AboutView from './views/About';
-import ProfileView from './views/Profile';
-import EditProfileView from './views/EditProfile';
-import SignUpView from './views/SignUp';
-import GameView from './views/GameView';
-import PreGameView from './views/PreGame';
-import ChatView from './views/ChatView';
-import preLoad from './modules/PreLoad';
+import Router from 'modules/Router';
+import bus from 'modules/EventBus';
+import ScoreboardService from 'services/ScoreboardService';
+import SessionService from 'services/SessionService';
+import UserService from 'services/UserService';
+import ScoreboardView from 'views/Scoreboard';
+import MenuView from 'views/Menu';
+import LoginView from 'views/Login';
+import LogoutView from 'views/Logout';
+import AboutView from 'views/About';
+import ProfileView from 'views/Profile';
+import EditProfileView from 'views/EditProfile';
+import SignUpView from 'views/SignUp';
+import GameView from 'views/GameView';
+import PreGameView from 'views/PreGame';
+import ChatView from 'views/ChatView';
+import preLoad from 'modules/PreLoad';
 import '../css/style.scss';
-import MultiPlayerView from './views/MultiplayerView';
-import User from "./modules/User";
+import MultiPlayerView from 'views/MultiplayerView';
+import userState from 'modules/User';
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -140,7 +140,7 @@ const startApp = () => {
     getUser();
 
     bus.on('multiplayer:end', () => {
-        User.deleteUser();
+        userState.deleteUser();
         getUser();
     });
 

@@ -1,6 +1,5 @@
-import LinkComponent from '../Link/Link.ts';
+import { noop } from 'modules/Utils.ts';
 import formTmpl from './form.tmpl.pug';
-import { noop } from '../../modules/Utils.ts';
 
 export default class FormComponent {
     // _el;
@@ -10,6 +9,7 @@ export default class FormComponent {
     // _innerElem;
     // _errorsList;
     // _multipart;
+    // _btn;
 
     constructor({
         el = document.body, name = '', header = '', inputs = [], multipart = false, btn,

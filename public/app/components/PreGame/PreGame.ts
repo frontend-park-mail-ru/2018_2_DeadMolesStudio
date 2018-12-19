@@ -1,4 +1,5 @@
-import ButtonComponent from "../Button/Button";
+import ButtonComponent from 'components/Button/Button';
+// import kek from "./img/kek.jpeg";
 
 
 export default class PreGameComponent{
@@ -34,9 +35,9 @@ export default class PreGameComponent{
 
     get text() {
         if (this._type === 'Singleplayer') {
-            return 'In a singleplayer catch as many items from list as possible in 30 seconds';
+            return 'Catch as many items from list as possible in 30 sec';
         } else {
-            return 'In a multiplayer mode try and catch more items than your competitor';
+            return 'Try and catch more items than your angry enemy';
         }
     }
 

@@ -1,13 +1,11 @@
-import BaseView2 from './Base2';
-import ButtonComponent from '../components/Button/Button';
-import SectionComponent from '../components/Section/Section';
-import GAME_MODES from '../game/GameModes';
-import Game from '../game/Game';
-import bus from '../modules/EventBus';
-import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
-import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
-import EVENTS from '../game/Core/Events';
-import BackButtonComponent from "../components/BackButton/BackButton";
+import BaseView2 from 'views/Base2';
+import GAME_MODES from 'game/GameModes';
+import Game from 'game/Game';
+import bus from 'modules/EventBus';
+import launchFullscreen, { exitFullscreen } from 'modules/fullscreenAPI/fullscreen.js';
+import FinishGameComponent from 'game/GameScene/FinishGameComponent/FinishGameComponent';
+import EVENTS from 'game/Core/Events';
+import BackButtonComponent from "components/BackButton/BackButton";
 
 export default class GameView extends BaseView2 {
 

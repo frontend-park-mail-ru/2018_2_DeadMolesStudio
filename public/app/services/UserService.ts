@@ -1,6 +1,6 @@
 import backDomain from '../projectSettings';
-import AjaxFetchModule from '../modules/AjaxFetch.js';
-import userState from '../modules/User';
+import AjaxFetchModule from 'modules/AjaxFetch.js';
+import userState from 'modules/User';
 
 export default class UserService {
     /**

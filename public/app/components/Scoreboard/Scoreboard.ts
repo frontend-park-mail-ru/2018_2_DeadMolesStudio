@@ -1,6 +1,6 @@
-import ButtonComponent from '../Button/Button';
-import bus from '../../modules/EventBus';
-import userState from '../../modules/User';
+import ButtonComponent from 'components/Button/Button';
+import bus from 'modules/EventBus';
+import userState from 'modules/User';
 
 
 export default class ScoreboardComponent {
@@ -102,6 +102,7 @@ export default class ScoreboardComponent {
 
         prevButton.render();
         nextButton.render();
+        this.updateButtonState();
 
 
         prevButton.on({

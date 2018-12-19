@@ -4,7 +4,7 @@ const swInstall = () => {
             .then( () => {
                 console.log('sw установлен');
             })
-            .catch((err) => {
+            .catch( (err) => {
                 console.log('SW registration FAIL:', err);
             });
     }

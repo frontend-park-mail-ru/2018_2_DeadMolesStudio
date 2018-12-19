@@ -1,10 +1,10 @@
-import BaseView from './Base';
-import WS from '../modules/WebSocket';
-import bus from '../modules/EventBus';
-import UserService from '../services/UserService';
+import BaseView from 'views/Base';
+import WS from 'modules/WebSocket';
+import bus from 'modules/EventBus';
+import UserService from 'services/UserService';
 
-import ChatComponent from '../components/ChatComponent/ChatComponent';
-import ListComponent from '../components/ListComponent/ListComponent';
+import ChatComponent from 'components/ChatComponent/ChatComponent';
+import ListComponent from 'components/ListComponent/ListComponent';
 
 
 export default class MiniChatView extends BaseView {

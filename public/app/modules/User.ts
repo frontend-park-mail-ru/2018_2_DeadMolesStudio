@@ -1,4 +1,4 @@
-import bus from './EventBus';
+import bus from 'modules/EventBus';
 
 class User {
 

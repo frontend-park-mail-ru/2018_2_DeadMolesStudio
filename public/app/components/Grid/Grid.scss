@@ -10,6 +10,15 @@
 .mainHeader{
   grid-area: hd;
   text-align: center;
+
+  @media (max-width: 850px) and (orientation: landscape) {
+    display: none;
+  }
+}
+
+.mainHeaderMenu {
+  grid-area: hd;
+  text-align: center;
 }
 
 .backButton {
@@ -61,15 +70,16 @@
   grid-area: cht;
 }
 
-.grid{
+.grid {
   &_casual {
     @extend %grid-base;
     grid-template-columns: min-content auto;
     grid-template-rows: min-content min-content auto;
-    grid-template-areas:
-            "bc . "
-            "hd hd"
-            "c c";
+    grid-template-areas: "bc . " "hd hd" "c c";
+
+    @media (max-width: 850px) and (orientation: landscape) {
+      grid-template-areas: "bc ." "hd hd" "c c";
+    }
   }
 
   &_menu {
@@ -78,10 +88,7 @@
     background-size: 100vw 100vh;
     grid-template-columns: min-content min-content auto;
     grid-template-rows: min-content min-content auto;
-    grid-template-areas:
-            "st i u"
-            "hd hd hd"
-            "c c c";
+    grid-template-areas: "st i u" "hd hd hd" "c c c";
 
     @media (max-width: 480px) and (orientation: portrait) {
       background-image: none;
@@ -92,22 +99,19 @@
     @extend %grid-base;
     grid-template-columns: min-content auto auto;
     grid-template-rows: min-content auto;
-    grid-template-areas:
-            "bc . ."
-            "pg1 pg1 pg2";
+    grid-template-areas: "bc . ." "pg1 pg1 pg2";
 
-    @media (max-width: 825px) and (orientation: landscape) {
-      grid-template-areas:
-              "bc pg1 pg2"
-              ". pg1 pg2";
+    @media (max-width: 830px) and (orientation: landscape) {
+      grid-template-areas: "bc pg1 pg2" ". pg1 pg2";
     }
 
     @media (orientation: portrait) {
       height: 100vw;
+      grid-template-areas: "bc pg1 pg2" ". pg1 pg2";
     }
   }
-
-
 }
+
+
 
 

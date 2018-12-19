@@ -1,4 +1,4 @@
-import ButtonComponent from '../Button/Button';
+import ButtonComponent from 'components/Button/Button';
 import backDomain from '../../projectSettings';
 
 

@@ -1,14 +1,16 @@
-import BaseView from './Base';
-import SectionComponent from '../components/Section/Section';
-import GAME_MODES from '../game/GameModes';
-import Game from '../game/Game';
-import bus from '../modules/EventBus';
-import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
-import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
-import EVENTS from '../game/Core/Events';
-import GameLoaderComponent from '../components/GameLoader/GameLoader';
-import ErrorComponent from '../components/Error/Error';
-import BackButtonComponent from "../components/BackButton/BackButton";
+import BaseView from 'views/Base';
+import ButtonComponent from 'components/Button/Button';
+import SectionComponent from 'components/Section/Section';
+import GAME_MODES from 'game/GameModes';
+import Game from 'game/Game';
+import bus from 'modules/EventBus';
+import launchFullscreen, { exitFullscreen } from 'modules/fullscreenAPI/fullscreen.js';
+import FinishGameComponent from 'game/GameScene/FinishGameComponent/FinishGameComponent';
+import EVENTS from 'game/Core/Events';
+import GameLoaderComponent from 'components/GameLoader/GameLoader';
+import ErrorComponent from 'components/Error/Error';
+import BackButtonComponent from "components/BackButton/BackButton";
+
 
 export default class MultiPlayerView extends BaseView {
 

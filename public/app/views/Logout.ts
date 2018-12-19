@@ -1,7 +1,7 @@
-import BaseView from './Base';
-import bus from '../modules/EventBus';
-import LoaderComponent from '../components/Loader/Loader';
-import ErrorComponent from '../components/Error/Error';
+import BaseView from 'views/Base';
+import bus from 'modules/EventBus';
+import LoaderComponent from 'components/Loader/Loader';
+import ErrorComponent from 'components/Error/Error';
 
 export default class LogoutView extends BaseView {
 

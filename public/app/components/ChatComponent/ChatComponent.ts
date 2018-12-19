@@ -1,4 +1,4 @@
-import bus from '../../modules/EventBus';
+import bus from 'modules/EventBus';
 
 export default class ChatComponent {
 

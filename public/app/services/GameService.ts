@@ -1,6 +1,6 @@
-import WS from '../modules/WebSocket';
-import bus from '../modules/EventBus';
-import UserService from "./UserService";
+import WS from 'modules/WebSocket';
+import bus from 'modules/EventBus';
+import UserService from 'services/UserService';
 
 export default class GameService {
 

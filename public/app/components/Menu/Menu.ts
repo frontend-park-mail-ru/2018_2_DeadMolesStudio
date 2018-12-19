@@ -1,5 +1,5 @@
-import ButtonComponent from '../Button/Button';
-import GridComponent from "../Grid/Grid";
+import ButtonComponent from 'components/Button/Button';
+import GridComponent from "components/Grid/Grid";
 import backDomain from '../../projectSettings';
 
 
@@ -42,7 +42,7 @@ export default class MenuComponent {
 
     get structureView() {
         return [
-            'mainHeader',
+            'mainHeaderMenu',
             'infoButton',
             'settingsButton',
             'userBlock',
@@ -79,6 +79,8 @@ export default class MenuComponent {
 
             leadersButton.render();
         }
+
+
     }
 
     renderSettingsButton(parent) {
@@ -159,16 +161,20 @@ export default class MenuComponent {
     setPlayBtn(parent) {
         const playBtn = parent.querySelector('.basic-btn_theme_play');
 
-        playBtn.animate([
-            { transform: 'scale(1)', filter: 'none' },
-            { transform: 'scale(1.04)', filter: 'saturate(1.3)' },
-        ], {
-            duration: 700,
-            easing: 'ease-in-out',
-            delay: 30,
-            iterations: Infinity,
-            direction: 'alternate',
-            fill: 'forwards',
-        });
+        if (playBtn.animate) {
+            playBtn.animate([
+                { transform: 'scale(1)', filter: 'none' },
+                { transform: 'scale(1.04)', filter: 'saturate(1.3)' },
+            ], {
+                duration: 700,
+                easing: 'ease-in-out',
+                delay: 30,
+                iterations: Infinity,
+                direction: 'alternate',
+                fill: 'forwards',
+            });
+        }
+
+
     }
 }

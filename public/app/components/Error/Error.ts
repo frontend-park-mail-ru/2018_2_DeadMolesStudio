@@ -1,5 +1,5 @@
-import ButtonComponent from '../Button/Button';
-import {noop} from '../../modules/Utils';
+import ButtonComponent from 'components/Button/Button';
+import {noop} from 'modules/Utils';
 
 export default class ErrorComponent {
 
