@@ -51,7 +51,7 @@ export default class SignUpView extends BaseView2 {
 
     renderForm(parent) {
         const extraBtn = {
-            text: 'Login',
+            text: 'I have an account',
             href: '/login',
         };
 

@@ -1,5 +1,6 @@
 import ButtonComponent from 'components/Button/Button';
 import backDomain from '../../projectSettings';
+import * as avatatDefault from './img/ketnipz-default.jpg';
 
 
 export default class ProfileComponent {
@@ -57,28 +58,30 @@ export default class ProfileComponent {
             'email': email,
         };
 
-        let pathAvatar = null;
-
         if (avatar) {
-            pathAvatar = backDomain + avatar;
-        } else {
-            pathAvatar = '../../../img/ketnipz-default.jpg';
-        }
-
-
-        userBlock.insertAdjacentHTML(
-            'beforeend', `
+            const pathAvatar = backDomain + avatar;
+            userBlock.insertAdjacentHTML(
+                'beforeend', `
                 <div class="profile-block__profile-avatar">
                     <img src=${pathAvatar} alt="avatar" class="user-avatar">
                 </div>
                 `.trim()
-        );
+            );
+        } else {
+            userBlock.insertAdjacentHTML(
+                'beforeend', `
+                <div class="profile-block__profile-avatar">
+                    <img src=${avatatDefault} alt="avatar" class="user-avatar">
+                </div>
+                `.trim()
+            );
+        }
 
         const btnBlock = this._el.querySelector('.profile-block__profile-avatar');
 
         const editProfileButton = new ButtonComponent({
             el: btnBlock,
-            href: '/profile/settings',
+            href: '/editprofile',
             text: '',
             className: 'basic-btn profile-block__settings-btn',
         });

@@ -18,6 +18,7 @@ module.exports = {
     output: {
         path: dist,
         filename: 'bundle.[name]-[hash].js',
+        publicPath: '/dist/',
     },
 
     devtool: 'inline-source-map',
@@ -78,15 +79,6 @@ module.exports = {
                     pretty: true,
                 },
             },
-            // {
-            //     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-            //     use: {
-            //         loader: 'file-loader',
-            //         query: {
-            //             name: 'static/images/[name].[ext]',
-            //         },
-            //     },
-            // },
             {
                 test: /\.scss$/,
                 use: [
@@ -107,6 +99,17 @@ module.exports = {
                         options: {
                             plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
                             sourceMap: true,
+                        },
+                    },
+                ],
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: './img/[name]-[hash].[ext]',
                         },
                     },
                 ],

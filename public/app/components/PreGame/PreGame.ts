@@ -1,5 +1,6 @@
 import ButtonComponent from 'components/Button/Button';
-// import kek from "./img/kek.jpeg";
+import * as singleplayer from './img/singleplayer.png';
+import * as multiplayer from './img/multiplayer.png';
 
 
 export default class PreGameComponent{
@@ -22,12 +23,13 @@ export default class PreGameComponent{
                     <div class="pregame-block__description">
                         ${this.text}
                     </div>
-                    <img class="pregame-block__img" src="../../../img/pregame-${this._type.toLowerCase()}.png">
+                    <img class="pregame-block__img">
                     <div class="pregame-block__button"></div>
                 </div>
             </div>
         `.trim());
 
+        this.choiceImg();
 
         const blockButton = this._el.querySelector('.pregame-block__button');
         this.renderButton(blockButton);
@@ -39,6 +41,17 @@ export default class PreGameComponent{
         } else {
             return 'Try and catch more items than your angry enemy';
         }
+    }
+
+    choiceImg() {
+        const img = this._el.querySelector('.pregame-block__img');
+        if (this._type === 'Singleplayer') {
+            img.setAttribute('src', singleplayer);
+        } else {
+            img.setAttribute('src', multiplayer);
+        }
+
+        // '../../../img/pregame-singleplayer.png'
     }
 
     renderButton(parent) {

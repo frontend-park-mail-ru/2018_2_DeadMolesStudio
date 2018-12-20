@@ -14,5 +14,9 @@
   },
   "exclude": [
     "node_modules"
+  ],
+  "files": [
+    "png.d.ts",
+    "jpg.d.ts"
   ]
 }

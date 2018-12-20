@@ -72,6 +72,9 @@ export default class FormComponent {
             });
         }
 
+        this._innerElem.addEventListener('change', (e) => {
+            console.log('onchage form');
+        });
 
         // const link = this._innerElem.querySelector('.find-link');
         // const signUpLink = new LinkComponent({
@@ -82,10 +85,10 @@ export default class FormComponent {
         // });
         // signUpLink.render();
 
-        this._errorsList = document.createElement('ul');
-        // const submitButton = this._innerElem.elements.submit;
-        // this._innerElem.insertBefore(this._errorsList);
-        this._innerElem.appendChild(this._errorsList);
+        // this._errorsList = document.createElement('ul');
+        // // const submitButton = this._innerElem.elements.submit;
+        // // this._innerElem.insertBefore(this._errorsList);
+        // this._innerElem.appendChild(this._errorsList);
     }
 
     on({ event = 'click', callback = noop, capture = false }) {
@@ -105,12 +108,17 @@ export default class FormComponent {
     }
 
     showErrors(errors = []) {
+        const block = document.querySelector('.input-block__inputs-error');
         errors.forEach( (item) => {
-            this._errorsList.innerHTML += `<li>${item.text}</li>`;
+            block.innerHTML += item.text;
         });
     }
 
     hideErrors() {
-        this._errorsList.innerHTML = '';
+        // this._errorsList.innerHTML = '';
+        const errors = document.querySelectorAll('.input-block__inputs-error');
+        errors.forEach( (err) => {
+            err.innerHTML = '';
+        });
     }
 }

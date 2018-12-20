@@ -107,10 +107,17 @@
 
   &__buttons {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 0 0.2rem;
+  }
+
+  &__buttons_row {
+    flex-direction: row;
+  }
+
+  &__buttons_colunm{
+    flex-direction: column;
   }
 
   &__buttons_one {
@@ -133,6 +140,17 @@
 
   &__btn-extra:hover {
     opacity: 24;
+  }
+
+  &__btn-extra-link {
+    opacity: 0.8;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: var(--fashion-brown);
+  }
+
+  &__btn-extra-link:hover {
+    text-decoration: underline;
   }
 }
 

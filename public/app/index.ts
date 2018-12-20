@@ -21,6 +21,7 @@ import preLoad from 'modules/PreLoad';
 import '../css/style.scss';
 import MultiPlayerView from 'views/MultiplayerView';
 import userState from 'modules/User';
+import music from 'modules/Music';
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -50,7 +51,7 @@ const startApp = () => {
         .register('/logout', LogoutView)
         .register('/about', AboutView)
         .register('/profile', ProfileView)
-        .register('/profile/settings', EditProfileView)
+        .register('/editprofile', EditProfileView)
         .register('/signup', SignUpView)
         .register('/scoreboard', ScoreboardView)
         .register('/play', GameView)
@@ -72,32 +73,10 @@ const startApp = () => {
     ];
     preLoad(gameResources);
 
-    // const music = document.getElementById('music');
-    // music.addEventListener('loadeddata', () => {
-    //     // music.play();
-    //     console.log('load', music);
-    // },);
-    //
-    // music.addEventListener('play', () => {
-    //    console.log('music plays');
-    // });
-
-    // const play = () => {
-    //     const audio = new Audio();
-    //     audio.src = '../music/ketnipz-main.mp3';
-    //     audio.load();
-    //     audio.play();
-    //     console.log('plaay');
-    // };
-    //
-    // const playMusic = () => {
-    //     play();
-    //     document.removeEventListener('mousemove', playMusic);
-    // };
-    //
-    // document.addEventListener('mousemove', playMusic);
-
-
+    if (music.isOn()) {
+        console.log('is on');
+        music.play();
+    }
 
     bus.on('loggedout', () => {
         router.go('/login');
@@ -120,7 +99,7 @@ const startApp = () => {
     });
 
     bus.on('editprofile', () => {
-        router.go('/profile/settings');
+        router.go('/editprofile');
     });
 
     bus.on('showprofile', () => {

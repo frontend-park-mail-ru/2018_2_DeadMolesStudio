@@ -1,6 +1,7 @@
 import ButtonComponent from 'components/Button/Button';
 import GridComponent from "components/Grid/Grid";
 import backDomain from '../../projectSettings';
+import music from 'modules/Music';
 
 
 export default class MenuComponent {
@@ -84,14 +85,40 @@ export default class MenuComponent {
     }
 
     renderSettingsButton(parent) {
+        let className = null;
+
+        if (music.isOn()) {
+            className = 'basic-btn basic-btn_theme_music app-router-ignore';
+            music.play();
+        } else {
+            className = 'basic-btn basic-btn_theme_nomusic app-router-ignore';
+        }
+
         const settingsButton = new ButtonComponent({
             el: parent,
             href: '/about',
             text: '',
-            className: 'basic-btn basic-btn_theme_settings',
+            className: className,
         });
 
         settingsButton.render();
+
+        settingsButton.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+
+                if (music.isOn()) {
+                    event.target.classList.remove('basic-btn_theme_music');
+                    event.target.classList.add('basic-btn_theme_nomusic');
+                    music.stop();
+                } else {
+                    event.target.classList.remove('basic-btn_theme_nomusic');
+                    event.target.classList.add('basic-btn_theme_music');
+                    music.play();
+                }
+            }
+        });
     }
 
     renderInfoButton(parent) {

@@ -60,7 +60,6 @@ export default class ChatMiniComponent {
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                console.log('u чат');
                 const mes = {
                     type: 'show-list',
                     userId: stateUser.getUser().id,

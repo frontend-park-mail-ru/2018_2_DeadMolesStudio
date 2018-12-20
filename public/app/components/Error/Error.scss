@@ -1,0 +1,27 @@
+.main-block {
+  &__header_theme_error {
+    margin-top: -40%;
+    width: 100%;
+  }
+
+  &_theme_error {
+    padding: 3rem 1rem 0;
+  }
+}
+
+.error-block {
+  margin-top: 0.7rem;
+  color: var(--input-font);
+  max-width: 11rem;
+
+  &__text {
+    background-color: var(--fashion-ketnipz);
+    margin-bottom: 0.8rem;
+  }
+
+  &__button {
+    background-color: var(--fashion-ketnipz);
+    display: flex;
+    justify-content: center;
+  }
+}

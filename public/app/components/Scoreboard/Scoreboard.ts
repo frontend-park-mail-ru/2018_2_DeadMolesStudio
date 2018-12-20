@@ -96,10 +96,6 @@ export default class ScoreboardComponent {
         const pageIndicator = this._el.querySelector('.scoreboard-block__page');
         pageIndicator.textContent = '1';
 
-        // if (this._page !== 0 ) {
-        //     prevButton.render();
-        // }
-
         prevButton.render();
         nextButton.render();
         this.updateButtonState();
@@ -110,9 +106,8 @@ export default class ScoreboardComponent {
             callback: (event) => {
                 event.preventDefault();
 
-                this.updateButtonState();
-
                 if (this._page === 0) {
+                    this.updateButtonState();
                     return;
                 }
 
@@ -120,6 +115,7 @@ export default class ScoreboardComponent {
                 this._page -= 1;
                 this._first = this._page * this._limit + 1;
                 pageIndicator.textContent = this._page + 1;
+                this.updateButtonState();
                 this.fetchPage(this._limit, this._page);
             },
         });
@@ -129,9 +125,10 @@ export default class ScoreboardComponent {
             callback: (event) => {
                 event.preventDefault();
 
-                this.updateButtonState();
+
 
                 if (this._total < (this._page + 1) * this._limit + 1) {
+                    this.updateButtonState();
                     return;
                 }
 
@@ -139,6 +136,7 @@ export default class ScoreboardComponent {
                 this._page += 1;
                 this._first = this._page * this._limit + 1;
                 pageIndicator.textContent = this._page + 1;
+                this.updateButtonState();
                 this.fetchPage(this._limit, this._page);
             },
         });
