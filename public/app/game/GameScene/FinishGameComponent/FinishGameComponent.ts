@@ -66,7 +66,7 @@ export default class FinishGameComponent {
                 }
             },
         });
-        playAgain.render();
+        // playAgain.render();
 
         const backButton = new ButtonComponent({
             el: this.block,
