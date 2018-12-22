@@ -2,6 +2,7 @@ import ButtonComponent from '../../../components/Button/Button'
 import bus from '../../../modules/EventBus';
 import EVENTS from '../../Core/Events';
 import { exitFullscreen } from 'modules/fullscreenAPI/fullscreen.js';
+import * as coinsImg from './img/coins.png';
 
 export default class FinishGameComponent {
 
@@ -9,20 +10,23 @@ export default class FinishGameComponent {
     text;
     score;
     block;
+    coins;
 
     constructor({ el = document.createElement('div') } = {}) {
         this.el = el;
 
         this.text = null;
         this.score = null;
+        this.coins = null;
         this.block = null;
         this.setInfo = this.setInfo.bind(this);
         bus.on('show-game-result', this.setInfo );
     }
 
-    setInfo({ text, score }) {
+    setInfo({ text, score, coins }) {
         this.text = text;
         this.score = score;
+        this.coins = coins;
         this.render();
     }
 
@@ -33,11 +37,11 @@ export default class FinishGameComponent {
     }
 
     render() {
-        console.log('render finish');
         this.block = document.createElement('div');
         this.block.className = 'game-scene__game-finish-component app-router-ignore';
 
-        this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p> <p>You scored ${this.score} points</p></div>`;
+        const coinsBlock = this.coins === null ? '' : `<p>You earned: ${this.coins} <img src=${coinsImg} alt="" class="menu-user__score-img_shop"></p>`;
+        this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p><p>You scored ${this.score} points</p>${coinsBlock}</div>`;
 
         const playAgain = new ButtonComponent({
             el: this.block,

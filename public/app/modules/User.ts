@@ -15,6 +15,7 @@ class User {
 
     setUserAfterGame(data) {
         this.user.record = Math.max(data.record, this.user.record);
+        this.user.coins += data.coins;
         switch(data.result) {
             case 'win':
                 this.user.win += 1;

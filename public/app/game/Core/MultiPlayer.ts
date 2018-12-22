@@ -104,10 +104,11 @@ export default class MultiPlayerGame extends GameCore {
         }, 1000);
     };
 
-    updateUser() {
+    updateUser(coins) {
         const data = {
             result: this.result,
             record: this.state[this.playerName].score,
+            coins,
         };
         bus.emit('setUserAfterGame', data);
     }
@@ -158,8 +159,10 @@ export default class MultiPlayerGame extends GameCore {
 
     handleDisconnect(json) {
         this.result = 'win';
-        this.updateUser();
-        bus.emit('show-game-result', { text: 'You won! The opponent left the game. ', score: this.state[this.playerName].score });
+        const { score } = this.state[this.playerName];
+        const coins = Math.round(0.5 * score);
+        this.updateUser(coins);
+        bus.emit('show-game-result', { text: 'You won! The opponent left the game. ', score, coins });
         bus.off('ws:closed', this.handleClosedWS );
         bus.emit('multiplayer:end');
     }
@@ -167,29 +170,35 @@ export default class MultiPlayerGame extends GameCore {
     handleTimeOver(json) {
         const myScore = this.state[this.playerName].score;
         const opponentScore = this.state[this.opponentName].score;
+        let coins = 0;
         let text = '';
         if (myScore >= 0) {
             if (myScore > opponentScore) {
                 this.result = 'win';
                 text = 'You won!';
+                coins = Math.round(0.5 * myScore);
             } else if (myScore === opponentScore) {
                 this.result = 'draw';
                 text = 'Draw ;)';
+                coins = Math.round(0.3 * myScore);
             } else {
                 this.result = 'lose';
                 text = 'You lose :(';
+                coins = 3;
             }
         } else {
             if (opponentScore >= 0) {
                 this.result = 'lose';
                 text = 'You lose :(';
+                coins = 3;
             } else {
                 this.result = 'draw';
                 text = 'Draw ;)';
+                coins = 0;
             }
         }
-        this.updateUser();
-        bus.emit('show-game-result', { text: `Time is over. ${text}`, score: this.state[this.playerName].score });
+        this.updateUser(coins);
+        bus.emit('show-game-result', { text: `Time is over. ${text}`, score: myScore, coins });
         bus.off('ws:closed', this.handleClosedWS );
         bus.emit('multiplayer:end');
     }
@@ -197,32 +206,44 @@ export default class MultiPlayerGame extends GameCore {
     handleGameOver(json) {
         const myScore = this.state[this.playerName].score;
         const opponentScore = this.state[this.opponentName].score;
+        let coins = 0;
         let text = '';
         if (myScore >= 0) {
             if (myScore > opponentScore) {
                 this.result = 'win';
                 text = 'You won!';
+                coins = Math.round(0.5 * myScore);
             } else if (myScore === opponentScore) {
                 this.result = 'draw';
                 text = 'Draw ;)';
+                coins = Math.round(0.3 * myScore);
             } else {
                 this.result = 'lose';
                 text = 'You lose :(';
+                coins = 3;
             }
         } else {
-            this.result = 'draw';
-            text = 'Draw ;)';
+            if (opponentScore >= 0) {
+                this.result = 'lose';
+                text = 'You lose :(';
+                coins = 3;
+            } else {
+                this.result = 'draw';
+                text = 'Draw ;)';
+                coins = 0;
+            }
         }
 
-        this.updateUser();
+        this.updateUser(coins);
 
-        bus.emit('show-game-result', { text: `Game over. ${text}`, score: this.state[this.playerName].score });
+        bus.emit('show-game-result', { text: `Game over. ${text}`, score: myScore, coins });
         bus.off('ws:closed', this.handleClosedWS );
         bus.emit('multiplayer:end');
     }
 
     handleClosedWS() {
-        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score });
+        const coins = 0;
+        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score, coins });
         bus.emit('multiplayer:end');
     }
 
