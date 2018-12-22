@@ -40,8 +40,9 @@ export default class FinishGameComponent {
         this.block = document.createElement('div');
         this.block.className = 'game-scene__game-finish-component app-router-ignore';
 
-        const coinsBlock = this.coins === null || this.coins === undefined ? '' : `<p>You earned: ${this.coins} <img src=${coinsImg} alt="" class="menu-user__score-img_shop"></p>`;
-        this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p><p>You scored ${this.score} points</p>${coinsBlock}</div>`;
+        const coinsBlock = this.coins === null ? '' : `<p>You earned: ${this.coins} <img src=${coinsImg} alt="" class="menu-user__score-img_shop"></p>`;
+        const scoreBlock = this.score === null || this.score === undefined ? '' : `<p>You scored ${this.score} points</p>`;
+        this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p>${scoreBlock}${coinsBlock}</div>`;
 
         const playAgain = new ButtonComponent({
             el: this.block,
@@ -54,11 +55,12 @@ export default class FinishGameComponent {
                 event.preventDefault();
                 const url = ('' + window.location)
                     .replace('https://dmstudio.now.sh', '')
-                    .replace('https://playketnipz.ru/', '');
+                    .replace('https://playketnipz.ru', '');
 
                 bus.emit(EVENTS.FINISH_GAME, this.score);
                 exitFullscreen();
                 this.destroy();
+                console.log(url);
                 if (url === '/multiplayer') {
                     bus.emit('play-again:multi');
                 } else {
