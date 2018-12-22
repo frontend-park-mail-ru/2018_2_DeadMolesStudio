@@ -103,7 +103,7 @@
 
   &_menu {
     @extend %grid-base;
-    background: url(/img/main-menu.png) center no-repeat;
+    background: url(../../../img/main-menu.png) center no-repeat;
     background-size: 100vw 100vh;
     grid-template-columns: 4rem 4rem 5rem auto;
     grid-template-rows: min-content min-content auto;

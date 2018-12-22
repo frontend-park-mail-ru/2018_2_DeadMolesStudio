@@ -1,4 +1,9 @@
-import * as classic from './img/classic.png';
+import * as k1 from './img/ketnipz1.png';
+import * as k2 from './img/ketnipz2.png';
+import * as k3 from './img/ketnipz3.png';
+import * as k4 from './img/ketnipz4.png';
+import * as k5 from './img/ketnipz5.png';
+import * as k6 from './img/ketnipz6.png';
 import * as coins from './img/coins.png';
 import * as avatar from './img/ketnipz-default.jpg';
 import ButtonComponent from 'components/Button/Button';
@@ -92,12 +97,15 @@ export default class ShopComponent {
             <div class="wrap-card">
                 <div class="shop-card">
                     <div class="shop-card__name">${item.name}</div>
-                    <img src=${classic} alt="" class="shop-card__img">
+                    <img  alt="" class="shop-card__img">
                     <div class="shop-card__button"></div>
                 </div>
             </div>
             `.trim()
         );
+
+        const img = parent.querySelector('img');
+        this.getImg(img, item.id);
 
         const btnBlock = parent.querySelector('.shop-card__button');
         const btn = new ButtonComponent({
@@ -132,12 +140,15 @@ export default class ShopComponent {
             <div class="wrap-card">
                 <div class="shop-card">
                     <div class="shop-card__name">${item.name}</div>
-                    <img src=${classic} alt="" class="shop-card__img">
+                    <img alt="" class="shop-card__img">
                     <div class="shop-card__button"></div>
                 </div>
             </div>
             `.trim()
         );
+
+        const img = parent.querySelector('img');
+        this.getImg(img, item.id);
 
         const money = `<div class="shop-card__coins">
                         <img src=${coins} alt="" class="shop-card__img-coins">
@@ -168,12 +179,15 @@ export default class ShopComponent {
             <div class="wrap-card">
                 <div class="shop-card shop-card_active">
                     <div class="shop-card__name">${item.name}</div>
-                    <img src=${classic} alt="" class="shop-card__img">
+                    <img alt="" class="shop-card__img">
                     <div class="shop-card__button"></div>
                 </div>
             </div>
             `.trim()
         );
+
+        const img = parent.querySelector('img');
+        this.getImg(img, item.id);
     }
 
     renderProfile() {
@@ -191,6 +205,29 @@ export default class ShopComponent {
                 </div>            
             </div>
         `.trim());
+    }
+
+    getImg(parent, id) {
+        switch (id) {
+            case 1:
+                parent.setAttribute('src', k1);
+                break;
+            case 2:
+                parent.setAttribute('src', k2);
+                break;
+            case 3:
+                parent.setAttribute('src', k3);
+                break;
+            case 4:
+                parent.setAttribute('src', k4);
+                break;
+            case 5:
+                parent.setAttribute('src', k5);
+                break;
+            case 6:
+                parent.setAttribute('src', k6);
+                break;
+        }
     }
 
 }

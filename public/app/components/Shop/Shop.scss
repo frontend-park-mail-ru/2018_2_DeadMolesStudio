@@ -1,13 +1,13 @@
 .main-block__header_theme_shop {
-  margin-top: -16%;
+  margin-top: -15%;
   width: 100%;
 
   @media (max-width: 830px) and (orientation: landscape) {
-    margin-top: -25%;
+    margin-top: -23%;
   }
 
   @media (orientation: portrait) {
-    margin-top: -53%;
+    margin-top: -50%;
   }
 }
 
@@ -93,8 +93,7 @@
   }
 
   &__img {
-    width: 5rem;
-    height: 5rem;
+    height: 5.5rem;
     object-fit: cover;
     margin: 0.6rem 1rem 0.4rem 1rem;
   }

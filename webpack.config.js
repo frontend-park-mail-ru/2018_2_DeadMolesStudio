@@ -106,11 +106,14 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|svg)$/,
                 use: [
+                    // {
+                    //     loader: 'file-loader',
+                    //     options: {
+                    //         name: './img/[name]-[hash].[ext]',
+                    //     },
+                    // },
                     {
-                        loader: 'file-loader',
-                        options: {
-                            name: './img/[name]-[hash].[ext]',
-                        },
+                        loader: 'url-loader?limit=100000',
                     },
                 ],
             },

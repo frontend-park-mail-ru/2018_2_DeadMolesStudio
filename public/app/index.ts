@@ -178,14 +178,12 @@ const startApp = () => {
 
     bus.on('fetch-choose-skin', async (id) => {
         const data = await ShopService.updateUserSkin(id) ;
-        console.log(data);
         if (data.ok) {
             userState.deleteUser();
             const dataUser = await UserService.getUserState();
             bus.emit('get-user-state', dataUser);
             bus.emit('shop:change');
         } else {
-            console.log(data);
             bus.emit('shop:update-err', data.err );
         }
     });

@@ -37,7 +37,7 @@ export default class ShopView extends BaseView2 {
         });
         grid.render();
 
-        this.renderTitleGame(grid.getItem('mainHeader') );
+        // this.renderTitleGame(grid.getItem('mainHeader') );
 
         const menuButton = new BackButtonComponent({
             el: grid.getItem('backButton'),
@@ -83,8 +83,6 @@ export default class ShopView extends BaseView2 {
     }
 
     setError(err) {
-        console.log('set error');
-        console.log(err);
         this.data = null;
         this.error = err;
         this.render();
