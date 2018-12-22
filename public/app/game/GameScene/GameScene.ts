@@ -240,12 +240,16 @@ export default class GameScene {
                 if (collected.playerNum === this.state.playerNum) {
                     if (collected.points > 0) {
                         this.collectedFiguresPool[idx].fillStyle = 'green';
-                        window.navigator.vibrate(0);
-                        window.navigator.vibrate(150);
+                        if (window.navigator && window.navigator.vibrate) {
+                            window.navigator.vibrate(0);
+                            window.navigator.vibrate(150);
+                        }
                     } else {
                         this.collectedFiguresPool[idx].fillStyle = 'red';
-                        window.navigator.vibrate(0);
-                        window.navigator.vibrate(40);
+                        if (window.navigator && window.navigator.vibrate) {
+                            window.navigator.vibrate(0);
+                            window.navigator.vibrate(40);
+                        }
                     }
                 } else {
                     this.collectedFiguresPool[idx].fillStyle = 'gray';
