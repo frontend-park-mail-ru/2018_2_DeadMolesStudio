@@ -111,7 +111,6 @@ export default class GameScene {
         this.me.x = state[this.playerName].percentsX / 100 * ctx.canvas.width;
         this.me.direction = state[this.playerName].direction;
         if (this.isMultiplayer) {
-
             this.opponent = new GamePlayerFigure(ctx, pixWidth, pixHeight, true);
             this.opponent.y = (100 - state[this.opponentName].percentsY) / 100 * ctx.canvas.height;
             this.opponent.x = state[this.opponentName].percentsX / 100 * ctx.canvas.width;
@@ -320,7 +319,16 @@ export default class GameScene {
                     avatar: backDomain + user.avatar,
                 });
                 this.opponentInfo.render();
+
+                const mySkin = User.getUser().current_skin;
+                const opponentSkin = user.current_skin;
+
+                this.me.setSkinType(mySkin);
+                this.opponent.setSkinType(opponentSkin);
             });
+        } else {
+            const mySkin = User.getUser() ? User.getUser().current_skin : 0;
+            this.me.setSkinType(mySkin);
         }
 
         this.lastFrameTime = performance.now();

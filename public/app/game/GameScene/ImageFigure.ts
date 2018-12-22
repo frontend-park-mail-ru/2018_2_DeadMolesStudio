@@ -21,6 +21,15 @@ export default class ImageFigure extends Figure {
         this.direction = 'RIGHT';
     }
 
+
+    changeImage(newPath: string) {
+        const newImage = new Image();
+        newImage.onload = () => {
+            this.image = newImage;
+            this.imagePath = newPath;
+        };
+        newImage.src = newPath;
+    }
     /**
      * @private
      */

@@ -32,13 +32,9 @@ export default class GamePlayerFigure extends Figure {
             this.nameText = '';
         }
 
-        if (isOpponent) {
-            this.body = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz_enemy${this.skinType}.png`);
-            this.bodyJump = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz_enemy_jump${this.skinType}.png`);
-        } else {
-            this.body = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz${this.skinType}.png`);
-            this.bodyJump = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz_jump${this.skinType}.png`);
-        }
+        this.body = new ImageFigure(this.ctx, this.getSkinPath(false) );
+        this.bodyJump = new ImageFigure(this.ctx, this.getSkinPath(true) );
+
         this.isOpponent = isOpponent;
 
         this.body.width = meWidth;
@@ -66,9 +62,19 @@ export default class GamePlayerFigure extends Figure {
 
     }
 
+    getSkinPath(isJump: boolean, isEnemy: boolean = this.isOpponent, skinType: number = this.skinType) {
+        return `app/game/GameScene/img/ketnipz${isEnemy ? '_enemy' : ''}${isJump ? '_jump' : ''}${this.skinType}.png`
+    }
+
     set name(nickname) {
         this.nameFigure.text = nickname;
         this.nameText = nickname;
+    }
+
+    setSkinType(skinType: number) {
+        this.skinType = skinType;
+        this.body.changeImage(this.getSkinPath(false) );
+        this.bodyJump.changeImage(this.getSkinPath(true) );
     }
 
     /**
