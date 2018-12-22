@@ -79,10 +79,6 @@ const startApp = () => {
     ];
     preLoad(gameResources);
 
-    if (music.isOn()) {
-        music.play();
-    }
-
     bus.on('play-again:multi', () => {
         router.go('/multiplayer');
     });

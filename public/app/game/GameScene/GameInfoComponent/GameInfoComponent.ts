@@ -1,4 +1,4 @@
-import * as avatar from './img/ketnipz-default.jpg';
+import * as avatar2 from './img/ketnipz-default.jpg';
 
 export default class GameInfoComponent {
 
@@ -44,7 +44,7 @@ export default class GameInfoComponent {
         // TODO: AVATAR!!!!!
         const res = this.nickname ? `
             <div class="menu-user menu-user_theme_game_info">
-                <img src=${this.avatar ? this.avatar : avatar} alt="ava" class="menu-user__avatar">
+                <img src=${this.avatar ? this.avatar : avatar2} alt="ava" class="menu-user__avatar">
                 <div class="menu-user__inf">
                     <span class="menu-user__name_theme_game_info">${this.nickname}</span>
                 </div>          
