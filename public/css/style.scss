@@ -9,6 +9,7 @@
 @import "../app/components/PreGame/PreGame.scss";
 @import "../app/components/Link/Link.scss";
 @import "../app/components/About/About.scss";
+@import "../app/components/Shop/Shop.scss";
 @import "../app/components/Scoreboard/Scoreboard.scss";
 @import "../app/components/ChatMini/ChatMini.scss";
 @import "../app/components/Loader/Loader.scss";
@@ -89,7 +90,7 @@ body {
         margin-top: 0;
 
         @media (orientation: portrait) {
-            margin-top: 3rem;
+            margin-top: 1rem;
         }
 
     }

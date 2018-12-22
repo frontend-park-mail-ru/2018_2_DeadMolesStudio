@@ -85,6 +85,14 @@
         padding: 0;
     }
 
+    &_theme_shop {
+        background-color: var(--fashion-red);
+        color: var(--fashion-ketnipz);
+        font-size: 1.5rem;
+        height: 2.9rem;
+        border-bottom: 4px solid #e83f51;
+    }
+
     &_theme_settings {
         font-size: 2.2rem;
         width: 3.3rem;
@@ -160,6 +168,20 @@
         width: 8rem;
         height: 3rem;
         border-bottom: 0;
+    }
+
+    &_theme_shop_choise {
+        font-size: 1rem;
+        background-color: var(--fashion-pink);
+        color: var(--fashion-ketnipz);
+        height: 2.1rem;
+    }
+
+    &_theme_shop_buy {
+        font-size: 1rem;
+        background-color: #00c46c;
+        height: 2.1rem;
+        border-bottom: 4px solid #079857;
     }
 
     &_theme_error {

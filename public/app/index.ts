@@ -17,11 +17,13 @@ import SignUpView from 'views/SignUp';
 import GameView from 'views/GameView';
 import PreGameView from 'views/PreGame';
 import ChatView from 'views/ChatView';
+import ShopView from 'views/Shop';
 import preLoad from 'modules/PreLoad';
 import '../css/style.scss';
 import MultiPlayerView from 'views/MultiplayerView';
 import userState from 'modules/User';
 import music from 'modules/Music';
+import ShopService from "./services/ShopService";
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -57,6 +59,7 @@ const startApp = () => {
         .register('/play', GameView)
         .register('/screenchat', ChatView)
         .register('/pregame', PreGameView)
+        .register('/shop', ShopView)
         .register('/multiplayer', MultiPlayerView);
 
     renderChat(rootElement);
@@ -77,6 +80,8 @@ const startApp = () => {
         console.log('is on');
         music.play();
     }
+
+    // userState.setUser({'nickname' : 'user4'});
 
     bus.on('loggedout', () => {
         router.go('/login');
@@ -136,6 +141,15 @@ const startApp = () => {
             bus.emit('user:get-profile', data.user);
         } else {
             bus.emit('user:get-profile-err', data.err);
+        }
+    });
+
+    bus.on('fetch-skins', async () => {
+        const data = await ShopService.getSkins();
+        if (data.ok) {
+            bus.emit('shop:get-skins', data.skins);
+        } else {
+            bus.emit('shop:get-skins-err', data.err);
         }
     });
 
