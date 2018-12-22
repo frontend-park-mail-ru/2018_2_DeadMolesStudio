@@ -125,7 +125,6 @@ export default class GameScene {
         this.state.products.forEach( (product) => {
             const idx = this.productPoolNext;
             if (idx >= this.productFiguresPool.length) {
-                console.error('Pool of productFigures out of range');
                 return;
             }
             this.productPoolNext += 1;
@@ -304,7 +303,6 @@ export default class GameScene {
             this.opponentInfo.render();
 
             bus.on('ws:opponent_received', (user) => {
-                console.log('opponent', user);
                 this.playerInfo.setInfo({
                     score: this.state[this.playerName].score,
                     productList: productList,

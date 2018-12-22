@@ -75,20 +75,6 @@ export default class FormComponent {
         this._innerElem.addEventListener('change', (e) => {
             console.log('onchage form');
         });
-
-        // const link = this._innerElem.querySelector('.find-link');
-        // const signUpLink = new LinkComponent({
-        //     el: link,
-        //     text: 'SignUp',
-        //     href: '/signup',
-        //     className: 'basic-btn input-block__btn-extra',
-        // });
-        // signUpLink.render();
-
-        // this._errorsList = document.createElement('ul');
-        // // const submitButton = this._innerElem.elements.submit;
-        // // this._innerElem.insertBefore(this._errorsList);
-        // this._innerElem.appendChild(this._errorsList);
     }
 
     on({ event = 'click', callback = noop, capture = false }) {
@@ -108,7 +94,7 @@ export default class FormComponent {
     }
 
     showErrors(errors = []) {
-        const block = document.querySelectorAll('.input-block__inputs-error');
+        const block = this._innerElem.querySelectorAll('.input-block__inputs-error');
         errors.forEach( (item, idx) => {
             block[idx].innerHTML += item.text;
         });
@@ -116,7 +102,7 @@ export default class FormComponent {
 
     hideErrors() {
         // this._errorsList.innerHTML = '';
-        const errors = document.querySelectorAll('.input-block__inputs-error');
+        const errors = this._innerElem.querySelectorAll('.input-block__inputs-error');
         errors.forEach( (err) => {
             err.innerHTML = '';
         });

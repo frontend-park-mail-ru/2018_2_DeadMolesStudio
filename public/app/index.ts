@@ -41,7 +41,10 @@ const renderChat = (parent) => {
             chat.toggle();
         },
     });
-    chatButton.render();
+    if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        chatButton.render();
+    }
+
 };
 
 const startApp = () => {
@@ -65,7 +68,7 @@ const startApp = () => {
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
 
-    bus.on('preload:loaded', () => { console.log('all gameImages loaded'); });
+    bus.on('preload:loaded', () => { });
 
     const gameResources = [
         'app/game/GameScene/img/ketnipz1.png',
@@ -77,7 +80,6 @@ const startApp = () => {
     preLoad(gameResources);
 
     if (music.isOn()) {
-        console.log('is on');
         music.play();
     }
 
@@ -124,14 +126,12 @@ const startApp = () => {
 
     const getUser = async () => {
         const data = await UserService.getUserState();
-        console.log('ПРИНЕС ЮЗЕРА', data);
         bus.emit('get-user-state', data);
     };
 
     getUser();
 
     bus.on('multiplayer:end', () => {
-        console.log('ПОШЕЛ ЗА ЮЗЕРОМ');
         setTimeout( () => {
             // userState.deleteUser();
             getUser();

@@ -22,7 +22,7 @@ export default class Game {
             GameConstructor = OfflineGame;
             break;
         default:
-            console.log(mode, ' NOT FOUND');
+            // console.log(mode, ' NOT FOUND');
         }
 
 

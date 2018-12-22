@@ -23,7 +23,7 @@ export default class FinishGameComponent {
         bus.on('show-game-result', this.setInfo );
     }
 
-    setInfo({ text, score, coins }) {
+    setInfo({ text, score, coins = null }) {
         this.text = text;
         this.score = score;
         this.coins = coins;
@@ -40,7 +40,7 @@ export default class FinishGameComponent {
         this.block = document.createElement('div');
         this.block.className = 'game-scene__game-finish-component app-router-ignore';
 
-        const coinsBlock = this.coins === null ? '' : `<p>You earned: ${this.coins} <img src=${coinsImg} alt="" class="menu-user__score-img_shop"></p>`;
+        const coinsBlock = this.coins === null || this.coins === undefined ? '' : `<p>You earned: ${this.coins} <img src=${coinsImg} alt="" class="menu-user__score-img_shop"></p>`;
         this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p><p>You scored ${this.score} points</p>${coinsBlock}</div>`;
 
         const playAgain = new ButtonComponent({
@@ -52,7 +52,6 @@ export default class FinishGameComponent {
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                console.log(window.location);
                 const url = ('' + window.location)
                     .replace('https://dmstudio.now.sh', '')
                     .replace('https://playketnipz.ru/', '');

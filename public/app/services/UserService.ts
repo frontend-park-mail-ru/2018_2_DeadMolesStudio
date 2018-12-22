@@ -99,31 +99,49 @@ export default class UserService {
         const password = formData.password.value;
         const passwordRepeat = formData.password_repeat.value;
 
-        if (!(email && password && passwordRepeat && nickname) ) {
-            data.err.errors.push({
-                text: 'Заполните все поля!',
-            });
-            return data;
-        }
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
 
-        if (!this.validateEmail(email) ) {
-            data.err.errors.push({
-                text: 'Емэил не верный',
-            });
+
+        if (!(email && password && passwordRepeat && nickname) ) {
+            data.err.errors[3] = {text: 'Fill in all the fields!',};
             return data;
         }
 
         if (!this.validateNickname(nickname) ) {
-            data.err.errors.push({
-                text: 'Nickname не верный',
-            });
+            data.err.errors[0] = {text: 'Nickname is wrong',};
+            return data;
+        }
+
+        if (nickname.length < 4) {
+            data.err.errors[0] = {text: 'Nickname is too small',};
+            return data;
+        }
+
+        if (nickname.length > 20) {
+            data.err.errors[0] = {text: 'Nickname is too big',};
+            return data;
+        }
+
+        if (!this.validateEmail(email) ) {
+            data.err.errors[1] = {text: 'Email is wrong',};
+            return data;
+        }
+
+        if (password.length < 4) {
+            data.err.errors[2] = {text: 'Passwords is too small',};
+            return data;
+        }
+
+        if (password.length > 30) {
+            data.err.errors[2] = {text: 'Passwords is too big',};
             return data;
         }
 
         if (password !== passwordRepeat) {
-            data.err.errors.push({
-                text: 'Пароли не совпадают',
-            });
+            data.err.errors[3] = {text: 'Passwords do not match!',};
             return data;
         }
 
@@ -137,15 +155,13 @@ export default class UserService {
 
         if (response.status === 403) {
             const body = await response.json();
-            data.err.errors = body.error;
+            data.err.errors[3] = body.error[0];
             return data;
         }
 
         if (response.status !== 200) {
             data.err.status = response.status;
-            data.err.errors.push({
-                text: 'Что-то пошло не так!',
-            });
+            data.err.errors[3] = {text: 'Something went wrong',};
             return data;
         }
 
@@ -174,6 +190,12 @@ export default class UserService {
         const passwordRepeat = formData.password_repeat.value;
         const userAvatar = formData.avatar;
 
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
+        data.err.errors.push({text: '',});
+
         const req = {
             email: '',
             nickname: '',
@@ -183,20 +205,46 @@ export default class UserService {
         let count = 0;
 
         if (email !== user.email && email) {
+            if (!this.validateEmail(email) ) {
+                data.err.errors[1] = {text: 'Email is wrong',};
+                return data;
+            }
             req.email = email;
             count += 1;
         }
 
         if (nickname !== user.nickname && nickname) {
+            if (!this.validateNickname(nickname) ) {
+                data.err.errors[0] = {text: 'Nickname is wrong',};
+                return data;
+            }
+
+            if (nickname.length < 4) {
+                data.err.errors[0] = {text: 'Nickname is too small',};
+                return data;
+            }
+
+            if (nickname.length > 20) {
+                data.err.errors[0] = {text: 'Nickname is too big',};
+                return data;
+            }
             req.nickname = nickname;
             count += 1;
         }
 
         if (password) {
+            if (password.length < 4) {
+                data.err.errors[2] = {text: 'Passwords is too small',};
+                return data;
+            }
+
+            if (password.length > 30) {
+                data.err.errors[2] = {text: 'Passwords is too big',};
+                return data;
+            }
+
             if (password !== passwordRepeat) {
-                data.err.errors.push({
-                    text: 'Пароли не совпадают',
-                });
+                data.err.errors[3] = {text: 'Passwords do not match!',};
                 return data;
             }
             req.password = password;
@@ -208,17 +256,17 @@ export default class UserService {
 
             if (response.status === 403) {
                 const body = await response.json();
-                data.err.errors = body.error;
+                data.err.errors[4] = body.error[1];
                 return data;
             }
 
             if (response.status === 401) {
-                data.err.mainErr = 'Надо авторизоваться!';
+                data.err.mainErr = 'You must log in!';
                 return data;
             }
 
             if (response.status !== 200) {
-                data.err.mainErr = 'Что-то пошло не так!';
+                data.err.mainErr = 'Something went wrong';
                 return data;
             }
         }
@@ -231,10 +279,7 @@ export default class UserService {
             const responseAvatar = await this.fetchUpdateAvatar(avatarData);
 
             if (responseAvatar.status !== 200) {
-                data.err.errors.push({
-                    text: 'Не удается загрузить аватарку!',
-                });
-
+                data.err.errors[4] = {text: 'Unable to load avatar',};
                 return data;
             }
         }

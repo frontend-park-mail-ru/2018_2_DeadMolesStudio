@@ -83,12 +83,10 @@ export default class MultiPlayerView extends BaseView2 {
 
         if (window.innerHeight > window.innerWidth) {
             // Портретная ориентация
-            console.log('port');
             this.canvas.width = window.innerHeight;
             this.canvas.height = window.innerWidth;
         } else {
             // Горизонтальная ориентация
-            console.log('goriz');
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
         }

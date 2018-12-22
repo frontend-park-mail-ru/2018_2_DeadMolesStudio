@@ -49,23 +49,13 @@ export default class GameView extends BaseView2 {
         // const mql = window.matchMedia('orientation: portrait');
         if (window.innerHeight > window.innerWidth) {
             // Портретная ориентация
-            console.log('port');
             this.canvas.width = window.innerHeight;
             this.canvas.height = window.innerWidth;
         } else {
             // Горизонтальная ориентация
-            console.log('goriz');
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
         }
-
-        const onContextMenu = (e) => {
-            e.preventDefault();
-            console.log('onContextMenu', e);
-            return false;
-        };
-
-        window.addEventListener('contextmenu', onContextMenu);
 
         this.createGame();
 
@@ -78,12 +68,10 @@ export default class GameView extends BaseView2 {
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                console.log('destroyCALLBACK');
                 this.destroy();
                 exitFullscreen();
                 bus.emit('showmenu');
                 container.classList.remove('container_no-scroll');
-                window.removeEventListener('contextmenu', onContextMenu);
             },
         });
         scene.appendChild(wrapBackButton);

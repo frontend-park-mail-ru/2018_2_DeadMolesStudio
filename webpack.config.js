@@ -21,7 +21,7 @@ module.exports = {
         publicPath: '/dist/',
     },
 
-    devtool: 'inline-source-map',
+    devtool: 'none',
 
     resolve: {
         extensions: ['.ts', ' ', '.js', '.scss'],
@@ -98,7 +98,6 @@ module.exports = {
                         loader: 'postcss-loader',
                         options: {
                             plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
-                            sourceMap: true,
                         },
                     },
                 ],
@@ -106,12 +105,6 @@ module.exports = {
             {
                 test: /\.(png|jpg|gif|svg)$/,
                 use: [
-                    // {
-                    //     loader: 'file-loader',
-                    //     options: {
-                    //         name: './img/[name]-[hash].[ext]',
-                    //     },
-                    // },
                     {
                         loader: 'url-loader?limit=100000',
                     },

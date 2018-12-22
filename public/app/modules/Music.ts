@@ -5,11 +5,7 @@ class Music {
     constructor() {
         this.player = <HTMLAudioElement>document.getElementById('music');
 
-        if (localStorage) {
-            this.musicOn = localStorage.getItem('musicOn');
-        } else {
-            this.musicOn = true;
-        }
+        this.musicOn = false;
     }
 
     isOn() {
@@ -19,20 +15,11 @@ class Music {
     play() {
         this.musicOn = true;
 
-        if (localStorage) {
-            localStorage.setItem('musicOn', this.musicOn);
-        }
-
         this.player.play();
     }
 
     stop() {
         this.musicOn = false;
-
-        if (localStorage) {
-            localStorage.setItem('musicOn', this.musicOn);
-        }
-
         this.player.pause();
     }
 
