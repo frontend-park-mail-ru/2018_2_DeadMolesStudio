@@ -42,13 +42,13 @@
     font-size: 1.1rem;
     margin: 0.5rem 1rem;
 
-    @media (max-width: 825px) and (orientation: landscape) {
+    @media (max-width: 850px) and (orientation: landscape) {
       width: 30vw;
       font-size: 0.8rem;
       margin: 0.5rem 0.5rem;
     }
 
-    @media (max-height: 825px) and (orientation: portrait) {
+    @media (max-height: 850px) and (orientation: portrait) {
       width: 30vh;
       font-size: 0.8rem;
       margin: 0.5rem 0.5rem;

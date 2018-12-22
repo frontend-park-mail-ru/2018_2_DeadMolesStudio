@@ -1,5 +1,5 @@
-import View from './View';
-import LinkComponent from '../components/Link/Link';
+import View from 'views/View';
+import LinkComponent from 'components/Link/Link';
 
 /*
 * @class BaseView - для создания вьюх, предпологающих наличие "рыбы" с позиционированием и тд

@@ -1,13 +1,11 @@
-import BaseView2 from './Base2';
-import ButtonComponent from '../components/Button/Button';
-import SectionComponent from '../components/Section/Section';
-import GAME_MODES from '../game/GameModes';
-import Game from '../game/Game';
-import bus from '../modules/EventBus';
-import launchFullscreen, { exitFullscreen } from '../modules/fullscreenAPI/fullscreen.js';
-import FinishGameComponent from '../game/GameScene/FinishGameComponent/FinishGameComponent';
-import EVENTS from '../game/Core/Events';
-import BackButtonComponent from "../components/BackButton/BackButton";
+import BaseView2 from 'views/Base2';
+import GAME_MODES from 'game/GameModes';
+import Game from 'game/Game';
+import bus from 'modules/EventBus';
+import launchFullscreen, { exitFullscreen } from 'modules/fullscreenAPI/fullscreen.js';
+import FinishGameComponent from 'game/GameScene/FinishGameComponent/FinishGameComponent';
+import EVENTS from 'game/Core/Events';
+import BackButtonComponent from "components/BackButton/BackButton";
 
 export default class GameView extends BaseView2 {
 
@@ -47,54 +45,35 @@ export default class GameView extends BaseView2 {
 
         const scene = this._el.querySelector('.game-scene');
         this.canvas = this._el.querySelector('.js-canvas');
-        // console.log(`Scene: (${window.innerWidth}, ${window.innerHeight}) Canvas: (${this.canvas.width}, ${this.canvas.height}) `);
 
-        const mql = window.matchMedia('orientation: portrait');
+        // const mql = window.matchMedia('orientation: portrait');
         if (window.innerHeight > window.innerWidth) {
             // Портретная ориентация
-            console.log('port');
             this.canvas.width = window.innerHeight;
             this.canvas.height = window.innerWidth;
         } else {
             // Горизонтальная ориентация
-            console.log('goriz');
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
         }
-
-        const documentEl = document.documentElement;
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-            // Take the user to a different screen here.
-
-            // launchFullscreen(documentEl);
-        }
-
-        const onContextMenu = (e) => {
-            e.preventDefault();
-            console.log('onContextMenu', e);
-            return false;
-        };
-
-        window.addEventListener('contextmenu', onContextMenu);
 
         this.createGame();
 
         const wrapBackButton = document.createElement('div');
         wrapBackButton.classList.add('game-scene__back-button-wrap');
-        const backButton = new BackButtonComponent({ el: wrapBackButton, });
+        const backButton = new BackButtonComponent({ el: wrapBackButton,});
+        backButton.render();
+
         backButton.on({
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
-                console.log('destroyCALLBACK');
                 this.destroy();
                 exitFullscreen();
                 bus.emit('showmenu');
                 container.classList.remove('container_no-scroll');
-                window.removeEventListener('contextmenu', onContextMenu);
             },
         });
-        backButton.render();
         scene.appendChild(wrapBackButton);
     }
 
@@ -106,6 +85,5 @@ export default class GameView extends BaseView2 {
 
     destroy() {
         this.game.destroy();
-        bus.emit('multiplayer:end');
     }
 }

@@ -1,5 +1,5 @@
-import ButtonComponent from '../Button/Button';
-import {noop} from '../../modules/Utils';
+import ButtonComponent from 'components/Button/Button';
+import {noop} from 'modules/Utils';
 
 export default class ErrorComponent {
 
@@ -16,19 +16,35 @@ export default class ErrorComponent {
     }
 
     render() {
-        this._el.innerHTML = '';
-        const block = document.createElement('div');
-        block.className = 'errorBlock';
-        block.innerHTML += this._error;
+        this._el.insertAdjacentHTML(
+            'afterbegin', `
+            <div class="wrap-block wrap-block_theme_profile">
+                <div class="main-block_theme_error main-block">
+                    <div class="main-block__header_theme_error">
+                        <h1 class="header header_theme_pink">Ouch!</h1>
+                    </div>
+                    <div class="error-block">
+                        <div class="error-block__text"></div>
+                        <div class="error-block__button"></div>
+                    </div>
+                </div>
+            </div>
+            `.trim()
+        );
 
-        this._el.appendChild(block);
+        const textBlock = this._el.querySelector('.error-block__text');
+        const btnBlock = this._el.querySelector('.error-block__button');
+
+        textBlock.innerHTML += this._error;
 
         const okButton = new ButtonComponent({
-            el: this._el,
+            el: btnBlock,
             href: this._path,
             text: 'OK',
+            className: 'basic-btn basic-btn_theme_error',
         });
         okButton.render();
+
         okButton.on({
             event: 'click',
             callback: this._onAccept,

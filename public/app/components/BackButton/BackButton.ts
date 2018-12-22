@@ -1,4 +1,4 @@
-import {noop} from "../../modules/Utils";
+import {noop} from 'modules/Utils';
 
 export default class BackButtonComponent {
     _el;

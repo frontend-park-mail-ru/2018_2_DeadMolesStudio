@@ -1,6 +1,6 @@
-import ButtonComponent from '../components/Button/Button';
-import BaseView from './Base';
-import SectionComponent from '../components/Section/Section';
+import ButtonComponent from 'components/Button/Button';
+import BaseView from 'views/Base';
+import SectionComponent from 'components/Section/Section';
 
 export default class ChatView extends BaseView {
 

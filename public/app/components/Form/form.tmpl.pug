@@ -17,13 +17,21 @@ div.wrap-block.wrap-block_theme_form
                     div.input-block__inputs-error
 
             if btn
-                div.input-block__buttons
-                    div.button-wrap
-                        input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn input-block__btn-submit', value = submit.value, accept = submit.accept)
-                    div.button-wrap.find-link
-                        a(class = 'basic-btn input-block__btn-extra' href = btn.href) #{btn.text}
+                case header
+                    when 'Login'
+                        div.input-block__buttons.input-block__buttons_row
+                            div.button-wrap
+                                input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn input-block__btn-submit', value = submit.value, accept = submit.accept)
+                            div.button-wrap
+                                a(class = 'basic-btn input-block__btn-extra' href = btn.href) #{btn.text}
+                    when 'SignUp'
+                        div.input-block__buttons.input-block__buttons_colunm
+                            div.button-wrap
+                                input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn input-block__btn-submit', value = submit.value, accept = submit.accept)
+                            div.button-wrap
+                                a(class = 'input-block__btn-extra-link' href = btn.href) #{btn.text}
             else
-                div.input-block__buttons.input-block__buttons_one
+                div.input-block__buttons.input-block__buttons_one.input-block__buttons_row
                     div.button-wrap
                         input(name = submit.name, type = submit.type, placeholder = submit.placeholder, class = 'basic-btn basic-btn_w8rem input-block__btn-submit', value = submit.value, accept = submit.accept)
 

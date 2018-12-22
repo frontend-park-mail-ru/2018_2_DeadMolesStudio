@@ -85,12 +85,38 @@
         padding: 0;
     }
 
+    &_theme_shop {
+        background-color: var(--fashion-red);
+        color: var(--fashion-ketnipz);
+        font-size: 1.5rem;
+        height: 2.9rem;
+        border-bottom: 4px solid #e83f51;
+    }
+
     &_theme_settings {
         font-size: 2.2rem;
         width: 3.3rem;
         height: 3rem;
         padding: 0;
-        background: var(--fashion-ketnipz) url(/img/settings-btn.png) center no-repeat;
+        background: var(--fashion-ketnipz) url(../../../img/pencil-btn.png) center no-repeat;
+        background-size: 2rem;
+    }
+
+    &_theme_music {
+        font-size: 2.2rem;
+        width: 3.3rem;
+        height: 3rem;
+        padding: 0;
+        background: var(--fashion-ketnipz) url(../../../img/volume.png) center no-repeat;
+        background-size: 2rem;
+    }
+
+    &_theme_nomusic {
+        font-size: 2.2rem;
+        width: 3.3rem;
+        height: 3rem;
+        padding: 0;
+        background: var(--fashion-ketnipz) url(../../../img/no-volume.png) center no-repeat;
         background-size: 2rem;
     }
 
@@ -98,7 +124,7 @@
         width: 10rem;
         height: 10rem;
         border-radius: 50%;
-        background: #ff6676 url(/img/play-btn.png) 57% 50% no-repeat;
+        background: #ff6676 url(../../../img/play-btn.png) 57% 50% no-repeat;
         background-size: 5rem;
 
         @media (max-width: 820px) and (orientation: landscape) {
@@ -108,7 +134,7 @@
     }
 
     &_theme_logout {
-        background: var(--fashion-blue) url(/img/logout-btn.png) center no-repeat;
+        background: var(--fashion-blue) url(../../../img/logout-btn.png) center no-repeat;
         width: 2rem;
         height: 2rem;
         border-bottom: 0;
@@ -142,6 +168,32 @@
         width: 8rem;
         height: 3rem;
         border-bottom: 0;
+    }
+
+    &_theme_shop_choise {
+        font-size: 1rem;
+        background-color: var(--fashion-pink);
+        color: var(--fashion-ketnipz);
+        height: 2.1rem;
+    }
+
+    &_theme_shop_buy {
+        font-size: 1rem;
+        background-color: #00c46c;
+        height: 2.1rem;
+        border-bottom: 4px solid #079857;
+    }
+
+    &_theme_error {
+        color: var(--fashion-ketnipz);
+        background-color: var(--fashion-pink);
+    }
+
+    &_theme_play_again {
+        background-color: var(--fashion-red);
+        color: var(--fashion-ketnipz);
+        height: 2.5rem;
+        border-bottom: 4px solid #e83f51;
     }
 
     &_none {
@@ -195,9 +247,7 @@
     font-weight: bold;
     font-size: 30px;
     border-radius: 5px;
-    /*border-bottom: 2px solid var(--button-shadow);*/
 
-    /*position: absolute;*/
 
     padding-top: 0.4rem;
     width: 1.5rem;

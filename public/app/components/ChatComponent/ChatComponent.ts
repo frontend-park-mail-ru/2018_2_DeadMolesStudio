@@ -1,4 +1,4 @@
-import bus from '../../modules/EventBus';
+import bus from 'modules/EventBus';
 
 export default class ChatComponent {
 
@@ -19,7 +19,7 @@ export default class ChatComponent {
             </div>
             <div class="chat-component__control-block">
                 <div class="control-block__send-btn"></div>
-                <input type="text" class="control-block__chat-input" placeholder="Введите сообщение">
+                <input type="text" class="control-block__chat-input" placeholder="Write message">
             </div>
         `;
 
@@ -39,7 +39,7 @@ export default class ChatComponent {
     }
 
     appendMessage(message) {
-        const newMessage = `<div class="chat-field__chat-message"><span class="chat-message__message-author ${message.my ? 'chat-message--my-message' : ''}">[${message.nickname}]: </span>${message.text}</div>`;
+        const newMessage = `<div class="chat-field__chat-message"><span class="chat-message__message-author ${message.my ? 'chat-message--my-message' : ''}">${message.nickname}: </span>${message.text}</div>`;
         this.chatField.insertAdjacentHTML('afterbegin', newMessage);
     }
 }

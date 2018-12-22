@@ -1,5 +1,7 @@
-import ButtonComponent from '../Button/Button';
+import ButtonComponent from 'components/Button/Button';
 import backDomain from '../../projectSettings';
+import * as coins from './img/coins.png';
+import * as avatarDefault from './img/ketnipz-default.jpg';
 
 
 export default class ProfileComponent {
@@ -48,6 +50,7 @@ export default class ProfileComponent {
             draws,
             loss,
             avatar,
+            coins: money,
         } = this._data;
 
         const userBlock = this._el.querySelector('.profile-block__user-inf');
@@ -57,19 +60,10 @@ export default class ProfileComponent {
             'email': email,
         };
 
-        let pathAvatar = null;
-
-        if (avatar) {
-            pathAvatar = backDomain + avatar;
-        } else {
-            pathAvatar = '../../../img/ketnipz-default.jpg';
-        }
-
-
         userBlock.insertAdjacentHTML(
             'beforeend', `
                 <div class="profile-block__profile-avatar">
-                    <img src=${pathAvatar} alt="avatar" class="user-avatar">
+                    <img src=${avatar ? backDomain + avatar : avatarDefault} alt="avatar" class="user-avatar">
                 </div>
                 `.trim()
         );
@@ -78,7 +72,7 @@ export default class ProfileComponent {
 
         const editProfileButton = new ButtonComponent({
             el: btnBlock,
-            href: '/profile/settings',
+            href: '/editprofile',
             text: '',
             className: 'basic-btn profile-block__settings-btn',
         });
@@ -111,22 +105,33 @@ export default class ProfileComponent {
             'Wins: ': win,
             'Draws: ': draws,
             'Loss: ': loss,
-            'WinRate: ': `${loss + win === 0 ? 100 : ( (win / (loss + win) ) * 100).toFixed(2)}%`,
+            'WinRate: ': `${loss + win === 0 ? 100 : ( (win / (loss + win) ) * 100).toFixed(0)}%`,
+            'Coins' : money,
         };
 
         for (const [field, value] of Object.entries(userGame) ) {
-            userGameBlock.insertAdjacentHTML(
-                'beforeend', `
+            if (field === 'Coins') {
+                console.log('coins');
+                userGameBlock.insertAdjacentHTML(
+                    'beforeend', `
+                <div class="profile-block__profile-item">
+                    <img src=${coins} alt="" class="menu-user__score-img_shop">
+                    ${value}
+                </div>
+                `.trim()
+                );
+            } else {
+                userGameBlock.insertAdjacentHTML(
+                    'beforeend', `
                 <div class="profile-block__profile-item">
                     <b>${field}</b>
                     ${value}
                 </div>
                 `.trim()
-            );
+                );
+            }
+
         }
-
-
-
     }
 }
 

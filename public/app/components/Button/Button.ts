@@ -1,7 +1,5 @@
-import {
-    createElementFromHTML,
-    noop,
-} from '../../modules/Utils';
+import {noop, createElementFromHTML} from 'modules/Utils';
+// import * as pencil from './img/pencil-btn.png';
 
 // declare function TypeCallback(...args: any[]): void;
 
@@ -23,6 +21,7 @@ export default class ButtonComponent {
         this._innerElem = null;
         this._listenersToAdd = [];
         this._className = className;
+        // let _ = pencil;
     }
 
     get href() {

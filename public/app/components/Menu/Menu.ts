@@ -1,6 +1,9 @@
-import ButtonComponent from '../Button/Button';
-import GridComponent from "../Grid/Grid";
+import ButtonComponent from 'components/Button/Button';
+import GridComponent from "components/Grid/Grid";
 import backDomain from '../../projectSettings';
+import music from 'modules/Music';
+import * as coins from './img/coins.png';
+import * as avatar from './img/ketnipz-default.jpg';
 
 
 export default class MenuComponent {
@@ -38,15 +41,17 @@ export default class MenuComponent {
         }
 
         this.renderPlay(grid.getItem('content') );
+        this.renderShop(grid.getItem('shopButton') );
     }
 
     get structureView() {
         return [
-            'mainHeader',
+            'mainHeaderMenu',
             'infoButton',
             'settingsButton',
             'userBlock',
             'content',
+            'shopButton',
         ];
     }
 
@@ -79,17 +84,58 @@ export default class MenuComponent {
 
             leadersButton.render();
         }
+
+
+    }
+
+    renderShop(parent) {
+        if (navigator.onLine) {
+            const shopButton = new ButtonComponent({
+                el: parent,
+                href: '/shop',
+                text: 'Shop',
+                className: 'basic-btn basic-btn_theme_shop',
+            });
+
+            shopButton.render();
+        }
     }
 
     renderSettingsButton(parent) {
+        let className = null;
+
+        if (music.isOn()) {
+            className = 'basic-btn basic-btn_theme_music app-router-ignore';
+            music.play();
+        } else {
+            className = 'basic-btn basic-btn_theme_nomusic app-router-ignore';
+        }
+
         const settingsButton = new ButtonComponent({
             el: parent,
             href: '/about',
             text: '',
-            className: 'basic-btn basic-btn_theme_settings',
+            className: className,
         });
 
         settingsButton.render();
+
+        settingsButton.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+
+                if (music.isOn()) {
+                    event.target.classList.remove('basic-btn_theme_music');
+                    event.target.classList.add('basic-btn_theme_nomusic');
+                    music.stop();
+                } else {
+                    event.target.classList.remove('basic-btn_theme_nomusic');
+                    event.target.classList.add('basic-btn_theme_music');
+                    music.play();
+                }
+            }
+        });
     }
 
     renderInfoButton(parent) {
@@ -123,20 +169,15 @@ export default class MenuComponent {
     }
 
     renderUserBlock(parent) {
-        let pathAvatar = null;
-
-        if (this._user.avatar) {
-            pathAvatar = backDomain + this._user.avatar;
-        } else {
-            pathAvatar = '../../../img/ketnipz-default.jpg';
-        }
-
         parent.insertAdjacentHTML('afterbegin', `
             <div class="menu-user menu-user_media">
-                <img src=${pathAvatar} alt="ava" class="menu-user__avatar">
+                <img src=${this._user.avatar ? backDomain + this._user.avatar : avatar} alt="ava" class="menu-user__avatar">
                 <div class="menu-user__inf">
                     <a href="/profile" class="menu-user__name">${this._user.nickname}</a>
-                    <div class="menu-user__score">Score: ${this._user.record}</div>     
+                    <div class="menu-user__score">
+                         <img src=${coins} alt="" class="menu-user__score-img">
+                            ${this._user.coins}
+                    </div>     
                 </div>          
                 <div class="menu-user__logout"></div>   
             </div>
@@ -159,16 +200,20 @@ export default class MenuComponent {
     setPlayBtn(parent) {
         const playBtn = parent.querySelector('.basic-btn_theme_play');
 
-        playBtn.animate([
-            { transform: 'scale(1)', filter: 'none' },
-            { transform: 'scale(1.04)', filter: 'saturate(1.3)' },
-        ], {
-            duration: 700,
-            easing: 'ease-in-out',
-            delay: 30,
-            iterations: Infinity,
-            direction: 'alternate',
-            fill: 'forwards',
-        });
+        if (playBtn.animate) {
+            playBtn.animate([
+                { transform: 'scale(1)', filter: 'none' },
+                { transform: 'scale(1.04)', filter: 'saturate(1.3)' },
+            ], {
+                duration: 700,
+                easing: 'ease-in-out',
+                delay: 30,
+                iterations: Infinity,
+                direction: 'alternate',
+                fill: 'forwards',
+            });
+        }
+
+
     }
 }

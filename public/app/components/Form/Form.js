@@ -1,6 +1,5 @@
-import LinkComponent from '../Link/Link.ts';
+import { noop } from 'modules/Utils.ts';
 import formTmpl from './form.tmpl.pug';
-import { noop } from '../../modules/Utils.ts';
 
 export default class FormComponent {
     // _el;
@@ -10,6 +9,7 @@ export default class FormComponent {
     // _innerElem;
     // _errorsList;
     // _multipart;
+    // _btn;
 
     constructor({
         el = document.body, name = '', header = '', inputs = [], multipart = false, btn,
@@ -72,20 +72,9 @@ export default class FormComponent {
             });
         }
 
-
-        // const link = this._innerElem.querySelector('.find-link');
-        // const signUpLink = new LinkComponent({
-        //     el: link,
-        //     text: 'SignUp',
-        //     href: '/signup',
-        //     className: 'basic-btn input-block__btn-extra',
-        // });
-        // signUpLink.render();
-
-        this._errorsList = document.createElement('ul');
-        // const submitButton = this._innerElem.elements.submit;
-        // this._innerElem.insertBefore(this._errorsList);
-        this._innerElem.appendChild(this._errorsList);
+        this._innerElem.addEventListener('change', (e) => {
+            console.log('onchage form');
+        });
     }
 
     on({ event = 'click', callback = noop, capture = false }) {
@@ -105,12 +94,17 @@ export default class FormComponent {
     }
 
     showErrors(errors = []) {
-        errors.forEach( (item) => {
-            this._errorsList.innerHTML += `<li>${item.text}</li>`;
+        const block = this._innerElem.querySelectorAll('.input-block__inputs-error');
+        errors.forEach( (item, idx) => {
+            block[idx].innerHTML += item.text;
         });
     }
 
     hideErrors() {
-        this._errorsList.innerHTML = '';
+        // this._errorsList.innerHTML = '';
+        const errors = this._innerElem.querySelectorAll('.input-block__inputs-error');
+        errors.forEach( (err) => {
+            err.innerHTML = '';
+        });
     }
 }

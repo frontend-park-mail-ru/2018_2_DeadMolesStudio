@@ -1,26 +1,29 @@
-import ButtonComponent from './components/Button/Button';
-import ChatMiniComponent from './components/ChatMini/ChatMini';
+import ButtonComponent from 'components/Button/Button';
+import ChatMiniComponent from 'components/ChatMini/ChatMini';
 import swInstall from '../sw-installer.js';
-import Router from './modules/Router';
-import bus from './modules/EventBus';
-import ScoreboardService from './services/ScoreboardService';
-import SessionService from './services/SessionService';
-import UserService from './services/UserService';
-import ScoreboardView from './views/Scoreboard';
-import MenuView from './views/Menu';
-import LoginView from './views/Login';
-import LogoutView from './views/Logout';
-import AboutView from './views/About';
-import ProfileView from './views/Profile';
-import EditProfileView from './views/EditProfile';
-import SignUpView from './views/SignUp';
-import GameView from './views/GameView';
-import PreGameView from './views/PreGame';
-import ChatView from './views/ChatView';
-import preLoad from './modules/PreLoad';
+import Router from 'modules/Router';
+import bus from 'modules/EventBus';
+import ScoreboardService from 'services/ScoreboardService';
+import SessionService from 'services/SessionService';
+import UserService from 'services/UserService';
+import ScoreboardView from 'views/Scoreboard';
+import MenuView from 'views/Menu';
+import LoginView from 'views/Login';
+import LogoutView from 'views/Logout';
+import AboutView from 'views/About';
+import ProfileView from 'views/Profile';
+import EditProfileView from 'views/EditProfile';
+import SignUpView from 'views/SignUp';
+import GameView from 'views/GameView';
+import PreGameView from 'views/PreGame';
+import ChatView from 'views/ChatView';
+import ShopView from 'views/Shop';
+import preLoad from 'modules/PreLoad';
 import '../css/style.scss';
-import MultiPlayerView from './views/MultiplayerView';
-import User from "./modules/User";
+import MultiPlayerView from 'views/MultiplayerView';
+import userState from 'modules/User';
+import music from 'modules/Music';
+import ShopService from "./services/ShopService";
 
 const renderChat = (parent) => {
     const chat = new ChatMiniComponent({ el: parent });
@@ -38,7 +41,10 @@ const renderChat = (parent) => {
             chat.toggle();
         },
     });
-    chatButton.render();
+    if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+        chatButton.render();
+    }
+
 };
 
 const startApp = () => {
@@ -50,54 +56,40 @@ const startApp = () => {
         .register('/logout', LogoutView)
         .register('/about', AboutView)
         .register('/profile', ProfileView)
-        .register('/profile/settings', EditProfileView)
+        .register('/editprofile', EditProfileView)
         .register('/signup', SignUpView)
         .register('/scoreboard', ScoreboardView)
         .register('/play', GameView)
         .register('/screenchat', ChatView)
         .register('/pregame', PreGameView)
+        .register('/shop', ShopView)
         .register('/multiplayer', MultiPlayerView);
 
     renderChat(rootElement);
     const iframe = document.querySelector('iframe');
 
-    bus.on('preload:loaded', () => { console.log('all gameImages loaded'); });
+    bus.on('preload:loaded', () => { });
 
     const gameResources = [
-        'app/game/GameScene/img/ketnipz.png',
-        'app/game/GameScene/img/ketnipz_jump.png',
-        'app/game/GameScene/img/ketnipz_enemy.png',
-        'app/game/GameScene/img/ketnipz_enemy_jump.png',
+        'app/game/GameScene/img/ketnipz1.png',
+        'app/game/GameScene/img/ketnipz_jump1.png',
+        'app/game/GameScene/img/ketnipz_enemy1.png',
+        'app/game/GameScene/img/ketnipz_enemy_jump1.png',
         'app/game/GameScene/img/magaz_blur_gray.png',
     ];
     preLoad(gameResources);
 
-    // const music = document.getElementById('music');
-    // music.addEventListener('loadeddata', () => {
-    //     // music.play();
-    //     console.log('load', music);
-    // },);
-    //
-    // music.addEventListener('play', () => {
-    //    console.log('music plays');
-    // });
+    if (music.isOn()) {
+        music.play();
+    }
 
-    // const play = () => {
-    //     const audio = new Audio();
-    //     audio.src = '../music/ketnipz-main.mp3';
-    //     audio.load();
-    //     audio.play();
-    //     console.log('plaay');
-    // };
-    //
-    // const playMusic = () => {
-    //     play();
-    //     document.removeEventListener('mousemove', playMusic);
-    // };
-    //
-    // document.addEventListener('mousemove', playMusic);
+    bus.on('play-again:multi', () => {
+        router.go('/multiplayer');
+    });
 
-
+    bus.on('play-again:single', () => {
+        router.go('/play')
+    });
 
     bus.on('loggedout', () => {
         router.go('/login');
@@ -120,7 +112,7 @@ const startApp = () => {
     });
 
     bus.on('editprofile', () => {
-        router.go('/profile/settings');
+        router.go('/editprofile');
     });
 
     bus.on('showprofile', () => {
@@ -140,8 +132,10 @@ const startApp = () => {
     getUser();
 
     bus.on('multiplayer:end', () => {
-        User.deleteUser();
-        getUser();
+        setTimeout( () => {
+            // userState.deleteUser();
+            getUser();
+        }, 1000 * 5);
     });
 
 
@@ -157,6 +151,40 @@ const startApp = () => {
             bus.emit('user:get-profile', data.user);
         } else {
             bus.emit('user:get-profile-err', data.err);
+        }
+    });
+
+    bus.on('fetch-skins', async () => {
+        const data = await ShopService.getSkins();
+        if (data.ok) {
+            bus.emit('shop:get-skins', data.skins);
+        } else {
+            bus.emit('shop:get-skins-err', data.err);
+        }
+    });
+
+    bus.on('fetch-buy-skin', async (id) => {
+        const data = await ShopService.buyUserSkin(id) ;
+        if (data.ok) {
+            userState.deleteUser();
+
+            const dataUser = await UserService.getUserState();
+            bus.emit('get-user-state', dataUser);
+            bus.emit('shop:buy');
+        } else {
+            bus.emit('shop:update-err', data.err );
+        }
+    });
+
+    bus.on('fetch-choose-skin', async (id) => {
+        const data = await ShopService.updateUserSkin(id) ;
+        if (data.ok) {
+            userState.deleteUser();
+            const dataUser = await UserService.getUserState();
+            bus.emit('get-user-state', dataUser);
+            bus.emit('shop:change');
+        } else {
+            bus.emit('shop:update-err', data.err );
         }
     });
 

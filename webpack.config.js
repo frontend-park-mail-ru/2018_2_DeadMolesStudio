@@ -1,8 +1,9 @@
 const path = require('path');
-const webpack = require('webpack');
+const cssnano = require('cssnano');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const dist = path.resolve(__dirname, 'public/dist');
 const src = path.resolve(__dirname, 'public');
@@ -17,12 +18,24 @@ module.exports = {
     output: {
         path: dist,
         filename: 'bundle.[name]-[hash].js',
+        publicPath: '/dist/',
     },
 
-    devtool: 'inline-source-map',
+    devtool: 'none',
 
     resolve: {
-        extensions: ['.ts', ' ', '.scss'],
+        extensions: ['.ts', ' ', '.js', '.scss'],
+        alias: {
+            components: path.resolve(src, 'app', 'components/'),
+            game: path.resolve(src, 'app', 'game/'),
+            modules: path.resolve(src, 'app', 'modules/'),
+            services: path.resolve(src, 'app', 'services/'),
+            views: path.resolve(src, 'app', 'views/'),
+        },
+    },
+
+    optimization: {
+        minimize: true,
     },
 
     plugins: [
@@ -41,6 +54,14 @@ module.exports = {
         new MiniCssExtractPlugin({
             path: dist,
             filename: 'bundle.style.[name]-[hash].css',
+        }),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /.css$/g,
+            cssProcessor: cssnano,
+            cssProcessorPluginOptions: {
+                preset: ['default', { discardComments: { removeAll: true } }],
+            },
+            canPrint: true,
         }),
     ],
 
@@ -77,10 +98,24 @@ module.exports = {
                         loader: 'postcss-loader',
                         options: {
                             plugins: () => [autoprefixer({ browsers: ['Safari >= 8', 'last 2 versions'] })],
-                            sourceMap: true,
                         },
                     },
                 ],
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'url-loader?limit=100000',
+                    },
+                ],
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
             },
         ],
     },

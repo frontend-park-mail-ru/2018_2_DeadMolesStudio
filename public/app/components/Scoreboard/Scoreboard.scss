@@ -17,7 +17,6 @@
 
 .scoreboard-block {
     margin-top: 0.3rem;
-    color: red;
     width: 18rem;
     display: flex;
     flex-direction: column;
@@ -29,6 +28,7 @@
 
     &__head {
         display: inline-block;
+        color: var(--fashion-red);
         font-size: 1.2rem;
         border-bottom: 2px solid var(--fashion-pink);
         margin-bottom: 0.4rem;
@@ -63,6 +63,7 @@
 
     &__list {
         color: var(--fashion-brown);
+        height: 7.5rem;
     }
 
     &__pagination {

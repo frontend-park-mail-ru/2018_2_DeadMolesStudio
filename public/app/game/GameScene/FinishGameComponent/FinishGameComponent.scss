@@ -6,14 +6,16 @@
         width: 50vw;
         height: 50vh;
         z-index: 50;
-        background: #c3c3e0;
+        background: var(--fashion-ketnipz);
+        border: 2px solid var(--fashion-pink);
+        color: var(--fashion-pink);
         border-radius: 15px;
         display: flex;
         align-items: center;
         flex-direction: column;
         justify-content: center;
 
-        box-shadow: 0px 0px 54px 4px rgba(0, 0, 0, 0.75);
+        //box-shadow: 0px 0px 54px 4px rgba(0, 0, 0, 0.75);
     }
 }
 
@@ -27,14 +29,16 @@
         width: 50vh;
         height: 50vw;
         z-index: 50;
-        background: #c3c3e0;
+        background: var(--fashion-ketnipz);
+        border: 2px solid var(--fashion-pink);
+        color: var(--fashion-pink);
         border-radius: 15px;
         display: flex;
         align-items: center;
         flex-direction: column;
         justify-content: center;
 
-        box-shadow: 0px 0px 54px 4px rgba(0, 0, 0, 0.75);
+        //box-shadow: 0px 0px 54px 4px rgba(0, 0, 0, 0.75);
     }
 }
 

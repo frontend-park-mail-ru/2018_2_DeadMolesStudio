@@ -1,0 +1,13 @@
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties",
+    ["@babel/plugin-syntax-decorators", {
+      "legacy": true
+    }],
+    "@babel/plugin-transform-async-to-generator"
+  ]
+}

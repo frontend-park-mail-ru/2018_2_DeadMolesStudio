@@ -1,10 +1,10 @@
-import BaseView from './Base';
-import WS from '../modules/WebSocket';
-import bus from '../modules/EventBus';
-import UserService from '../services/UserService';
+import BaseView from 'views/Base';
+import WS from 'modules/WebSocket';
+import bus from 'modules/EventBus';
+import UserService from 'services/UserService';
 
-import ChatComponent from '../components/ChatComponent/ChatComponent';
-import ListComponent from '../components/ListComponent/ListComponent';
+import ChatComponent from 'components/ChatComponent/ChatComponent';
+import ListComponent from 'components/ListComponent/ListComponent';
 
 
 export default class MiniChatView extends BaseView {
@@ -73,7 +73,7 @@ export default class MiniChatView extends BaseView {
             const message = json.payload;
             const {author, message: text} = message;
             // console.log(`тип сделал запрос за автором с id=${author}`);
-            let nickname = 'Аноним';
+            let nickname = 'Unknown';
             if (author) {
                 if (this.users[author]) {
                     this.chatComponent.appendMessage({nickname: this.users[author], text});
@@ -92,7 +92,7 @@ export default class MiniChatView extends BaseView {
                         }
                         return;
                     }
-                    nickname = 'Аноним (не найдено)';
+                    nickname = 'Unknown (not found)';
                     this.chatComponent.appendMessage({nickname, text});
                 };
                 f();
@@ -108,7 +108,7 @@ export default class MiniChatView extends BaseView {
             messages.forEach( message => {
                 const { author, message: text } = message;
                 // console.log('iter');
-                let nickname = 'Аноним';
+                let nickname = 'Unknown';
                 if (author) {
                     if (this.users[author]) {
                         this.chatComponent.appendMessage({ nickname: this.users[author], text });
@@ -127,7 +127,7 @@ export default class MiniChatView extends BaseView {
                             }
                             return;
                         }
-                        nickname = 'Аноним (не найдено)';
+                        nickname = 'Unknown (not found)';
                         this.chatComponent.appendMessage({ nickname, text });
                     };
                     f();

@@ -1,10 +1,10 @@
-import BackButtonComponent from '../components/BackButton/BackButton';
-import GridComponent from '../components/Grid/Grid';
-import BaseView2 from './Base2';
-import bus from '../modules/EventBus';
-import ProfileComponent from '../components/Profile/Profile';
-import ErrorComponent from '../components/Error/Error';
-import LoaderComponent from '../components/Loader/Loader';
+import BackButtonComponent from 'components/BackButton/BackButton';
+import GridComponent from 'components/Grid/Grid';
+import BaseView2 from 'views/Base2';
+import bus from 'modules/EventBus';
+import ProfileComponent from 'components/Profile/Profile';
+import ErrorComponent from 'components/Error/Error';
+import LoaderComponent from 'components/Loader/Loader';
 
 export default class ProfileView extends BaseView2 {
 

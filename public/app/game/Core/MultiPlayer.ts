@@ -20,17 +20,18 @@ export default class MultiPlayerGame extends GameCore {
     playerName;
     opponentName;
     gameTime;
+    result;
 
     constructor(controller, scene) {
         super(controller, scene);
-        console.log('MultiPlayerGame()');
         this.state = {};
         this.lastFrame = 0;
         this.gameloopRequestId = null;
         this.gameService = new GameService();
+        this.result = null;
+
         this.gameloop = this.gameloop.bind(this);
         this.handleState = this.handleState.bind(this);
-
         this.handleDisconnect = this.handleDisconnect.bind(this);
         this.handleTimeOver = this.handleTimeOver.bind(this);
         this.handleGameOver = this.handleGameOver.bind(this);
@@ -103,6 +104,15 @@ export default class MultiPlayerGame extends GameCore {
         }, 1000);
     };
 
+    updateUser(coins) {
+        const data = {
+            result: this.result,
+            record: this.state[this.playerName].score,
+            coins,
+        };
+        bus.emit('setUserAfterGame', data);
+    }
+
     handleState(json) {
         const { playerName, opponentName } = this;
         const me = json.payload[this.playerName];
@@ -110,48 +120,131 @@ export default class MultiPlayerGame extends GameCore {
         const { collected, products } = json.payload;
 
 
-        this.state[playerName].percentsX = me.percentsX;
-        this.state[playerName].percentsY = me.percentsY;
+        this.state[playerName].percentsX = me.X;
+        this.state[playerName].percentsY = me.Y;
         this.state[playerName].targetList = me.targetList;
         this.state[playerName].score = me.score;
 
         const prevOpponentPercentsX = this.state[opponentName].percentsX;
-        const curOpponentPercentsX = opponent.percentsX;
+        const curOpponentPercentsX = opponent.X;
         if (prevOpponentPercentsX !== curOpponentPercentsX) {
             this.state[opponentName].direction = prevOpponentPercentsX < curOpponentPercentsX ? 'RIGHT' : 'LEFT';
         }
         this.state[opponentName].percentsX = curOpponentPercentsX;
-        this.state[opponentName].percentsY = opponent.percentsY;
+        this.state[opponentName].percentsY = opponent.Y;
         this.state[opponentName].targetList = opponent.targetList;
         this.state[opponentName].score = opponent.score;
 
-        this.state.collected = collected;
-        this.state.products = products;
+
+        if (collected) {
+            this.state.collected = collected.map(({ X, Y, points, playerNum }) => ({
+                percentsX: X,
+                percentsY: Y,
+                points,
+                playerNum,
+            }));
+        } else {
+            this.state.collected = [];
+        }
+        if (products) {
+            this.state.products = products.map(({ X, Y, type }) => ({
+                percentsX: X,
+                percentsY: Y,
+                type,
+            }));
+        } else {
+            this.state.products = [];
+        }
     }
 
     handleDisconnect(json) {
-        bus.emit('show-game-result', { text: 'You won! The opponent left the game. ', score: this.state[this.playerName].score });
+        this.result = 'win';
+        const { score } = this.state[this.playerName];
+        const coins = Math.round(0.5 * score);
+        this.updateUser(coins);
+        bus.emit('show-game-result', { text: 'You won! The opponent left the game. ', score, coins });
         bus.off('ws:closed', this.handleClosedWS );
+        bus.emit('multiplayer:end');
     }
 
     handleTimeOver(json) {
         const myScore = this.state[this.playerName].score;
         const opponentScore = this.state[this.opponentName].score;
-        const text = myScore > 0 && myScore > opponentScore ? 'You won!' : 'You lose :(';
-        bus.emit('show-game-result', { text: `Time is over. ${text}`, score: this.state[this.playerName].score });
+        let coins = 0;
+        let text = '';
+        if (myScore >= 0) {
+            if (myScore > opponentScore) {
+                this.result = 'win';
+                text = 'You won!';
+                coins = Math.round(0.5 * myScore);
+            } else if (myScore === opponentScore) {
+                this.result = 'draw';
+                text = 'Draw ;)';
+                coins = Math.round(0.3 * myScore);
+            } else {
+                this.result = 'lose';
+                text = 'You lose :(';
+                coins = 3;
+            }
+        } else {
+            if (opponentScore >= 0) {
+                this.result = 'lose';
+                text = 'You lose :(';
+                coins = 3;
+            } else {
+                this.result = 'draw';
+                text = 'Draw ;)';
+                coins = 0;
+            }
+        }
+        this.updateUser(coins);
+        bus.emit('show-game-result', { text: `Time is over. ${text}`, score: myScore, coins });
         bus.off('ws:closed', this.handleClosedWS );
+        bus.emit('multiplayer:end');
     }
 
     handleGameOver(json) {
         const myScore = this.state[this.playerName].score;
         const opponentScore = this.state[this.opponentName].score;
-        const text = myScore > 0 && myScore > opponentScore ? 'You won!' : 'You lose :(';
-        bus.emit('show-game-result', { text: `Game over. ${text}`, score: this.state[this.playerName].score });
+        let coins = 0;
+        let text = '';
+        if (myScore >= 0) {
+            if (myScore > opponentScore) {
+                this.result = 'win';
+                text = 'You won!';
+                coins = Math.round(0.5 * myScore);
+            } else if (myScore === opponentScore) {
+                this.result = 'draw';
+                text = 'Draw ;)';
+                coins = Math.round(0.3 * myScore);
+            } else {
+                this.result = 'lose';
+                text = 'You lose :(';
+                coins = 3;
+            }
+        } else {
+            if (opponentScore >= 0) {
+                this.result = 'lose';
+                text = 'You lose :(';
+                coins = 3;
+            } else {
+                this.result = 'draw';
+                text = 'Draw ;)';
+                coins = 0;
+            }
+        }
+
+        this.updateUser(coins);
+
+        bus.emit('show-game-result', { text: `Game over. ${text}`, score: myScore, coins });
         bus.off('ws:closed', this.handleClosedWS );
+        bus.emit('multiplayer:end');
     }
 
     handleClosedWS() {
-        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score });
+        const coins = 0;
+        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score, coins });
+        bus.emit('multiplayer:end');
     }
 
     handlePlaying() {

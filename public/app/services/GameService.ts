@@ -1,6 +1,7 @@
-import WS from '../modules/WebSocket';
-import bus from '../modules/EventBus';
-import UserService from "./UserService";
+import WS from 'modules/WebSocket';
+import bus from 'modules/EventBus';
+import UserService from 'services/UserService';
+import User from '../modules/User';
 
 export default class GameService {
 
@@ -32,18 +33,20 @@ export default class GameService {
     }
 
     onStart(json) {
-        console.log(json);
-        let nickname = '';
+        let user = {};
         const f = async () => {
             const data = await UserService.getUserByID(json.payload.opponentId);
             if (data.ok) {
-                nickname = data.user.nickname;
+                user = data.user;
             } else {
-                nickname = 'Opponent';
+                user = {
+                    nickname: 'opponent',
+                    avatar: null,
+                    current_skin: 1,
+                };
             }
             console.log('gameService, data:', data);
-            console.log('json:', json);
-            bus.emit('ws:opponent_received', nickname);
+            bus.emit('ws:opponent_received', user);
         };
         f().catch( err => console.error(err));
     }
