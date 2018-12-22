@@ -90,6 +90,17 @@
     }
   }
 
+  &_user-shop {
+    @extend %grid-base;
+    grid-template-columns: 4rem auto;
+    grid-template-rows: min-content min-content auto;
+    grid-template-areas: "bc u " "hd hd" "c c";
+
+    @media (max-width: 850px) and (orientation: landscape) {
+      grid-template-areas: "bc u" "hd hd" "c c";
+    }
+  }
+
   &_menu {
     @extend %grid-base;
     background: url(/img/main-menu.png) center no-repeat;

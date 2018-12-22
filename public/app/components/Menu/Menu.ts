@@ -176,7 +176,7 @@ export default class MenuComponent {
                     <a href="/profile" class="menu-user__name">${this._user.nickname}</a>
                     <div class="menu-user__score">
                          <img src=${coins} alt="" class="menu-user__score-img">
-                            100
+                            ${this._user.coins}
                     </div>     
                 </div>          
                 <div class="menu-user__logout"></div>   

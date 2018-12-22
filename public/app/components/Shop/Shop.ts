@@ -4,6 +4,7 @@ import * as avatar from './img/ketnipz-default.jpg';
 import ButtonComponent from 'components/Button/Button';
 import GridComponent from "components/Grid/Grid";
 import backDomain from "../../projectSettings";
+import bus from 'modules/EventBus';
 
 
 export default class ShopComponent {
@@ -22,6 +23,7 @@ export default class ShopComponent {
 
         this._el.insertAdjacentHTML('afterbegin', `
             <div class="wrap">
+            <div class="wrap-shop"></div>
             <div class="wrap-block wrap-block_theme_profile">
                 <div class="main-block_theme_about main-block">
                     <div class="main-block__header_theme_shop">
@@ -46,17 +48,14 @@ export default class ShopComponent {
         const gridElem = this._el.querySelector('.grid_shop');
 
         if (!this._user) {
-            const blockWrap = this._el.querySelector('.wrap');
-
-            const elem = document.createElement('div');
-            elem.classList.add('wrap-shop');
-            blockWrap.append(elem);
+            const wrap = this._el.querySelector('.wrap-shop');
+            wrap.classList.add('wrap-shop_disabled');
 
             const block = this._el.querySelector('.wrap-block');
             block.classList.add('wrap-block_disabled');
 
             const signUp = new ButtonComponent({
-                el: elem,
+                el: wrap,
                 text: 'Login',
                 className: 'basic-btn basic-btn_theme_signup basic-btn_absolute',
                 href: '/login',
@@ -74,8 +73,7 @@ export default class ShopComponent {
             this._data.forEach( (item) => {
                 const div = document.createElement('div');
                 if (item.id === this._user.current_skin) {
-                    this.renderActiveSkin(div, item);
-
+                    this.renderActiveSkin(div, item)
                 } else if ( this._user.skins.indexOf(item.id) !== -1 ) {
                     this.renderEnableSkin(div, item);
                 } else {
@@ -110,10 +108,22 @@ export default class ShopComponent {
 
         btn.render();
 
+        btn.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+                this.fetchChoose(item.id);
+            }
+        });
+
     }
 
     fetchBuy(id) {
+        bus.emit('fetch-buy-skin', id);
+    }
 
+    fetchChoose(id) {
+        bus.emit('fetch-choose-skin', id);
     }
 
     renderDisabledSkin(parent, item) {
@@ -147,9 +157,7 @@ export default class ShopComponent {
            event: 'click',
            callback: (event) => {
                event.preventDefault();
-
-
-
+                this.fetchBuy(item.id);
            }
         });
     }
@@ -169,7 +177,8 @@ export default class ShopComponent {
     }
 
     renderProfile() {
-        const block = document.querySelector('.userBlock');
+        const mainBlock = document.querySelector('.grid_user-shop');
+        const block = mainBlock.querySelector('.userBlock');
         block.insertAdjacentHTML('afterbegin', `
             <div class="menu-user menu-user_media">
                 <img src=${this._user.avatar ? backDomain + this._user.avatar : avatar} alt="ava" class="menu-user__avatar">
@@ -177,7 +186,7 @@ export default class ShopComponent {
                     <a href="/profile" class="menu-user__name_shop">${this._user.nickname}</a>
                     <div class="menu-user__score_shop">
                          <img src=${coins} alt="" class="menu-user__score-img_shop">
-                            100
+                            ${this._user.coins}
                     </div>    
                 </div>            
             </div>

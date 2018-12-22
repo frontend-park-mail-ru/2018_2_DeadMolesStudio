@@ -20,6 +20,9 @@ export default class ShopView extends BaseView2 {
 
         bus.on('shop:get-skins', this.setData.bind(this) );
         bus.on('shop:get-skins-err', this.setError.bind(this) );
+        bus.on('shop:buy', this.setFetchBuy.bind(this) );
+        bus.on('shop:change', this.setFetchChange.bind(this) );
+        bus.on('shop:update-err', this.setError.bind(this) );
     }
 
     render() {
@@ -29,7 +32,7 @@ export default class ShopView extends BaseView2 {
 
         const grid = new GridComponent({
             el: mainBlock,
-            name: 'casual',
+            name: 'user-shop',
             structure: this.structureView,
         });
         grid.render();
@@ -66,26 +69,12 @@ export default class ShopView extends BaseView2 {
     }
 
     renderError(parent) {
-        if (this.error === 'Not enough money to buy') {
-            const errorBlock = new ErrorComponent({
-                el: parent,
-                error: this.error,
-                path: '/shop',
-            });
+        const errorBlock = new ErrorComponent({
+            el: parent,
+            error: this.error,
+        });
 
-            errorBlock.render();
-        } else {
-            const errorBlock = new ErrorComponent({
-                el: parent,
-                error: this.error,
-            });
-
-            errorBlock.render();
-        }
-    }
-
-    fetchBuy(id) {
-
+        errorBlock.render();
     }
 
     setData(data) {
@@ -94,8 +83,18 @@ export default class ShopView extends BaseView2 {
     }
 
     setError(err) {
+        console.log('set error');
+        console.log(err);
         this.data = null;
         this.error = err;
+        this.render();
+    }
+
+    setFetchBuy() {
+        this.render();
+    }
+
+    setFetchChange() {
         this.render();
     }
 
