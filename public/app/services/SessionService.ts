@@ -34,9 +34,13 @@ export default class SessionService {
         const email = formData.email.value;
         const password = formData.password.value;
 
+        data.err.errors.push({
+            text: '',
+        });
+
         if (!(email && password) ) {
             data.err.errors.push({
-                text: 'Заполните оба поля!',
+                text: 'Fill in both fields!',
             });
             return data;
         }
@@ -51,7 +55,7 @@ export default class SessionService {
         if (response.status === 422) {
             data.err.status = response.status;
             data.err.errors.push({
-                text: 'Неверная пара почта/пароль',
+                text: 'Invalid mail / password pair',
             });
             return data;
         }
@@ -59,7 +63,7 @@ export default class SessionService {
         if (response.status !== 200) {
             data.err.status = response.status;
             data.err.errors.push({
-                text: 'Что-то пошло не так!',
+                text: 'Something went wrong',
             });
             return data;
         }

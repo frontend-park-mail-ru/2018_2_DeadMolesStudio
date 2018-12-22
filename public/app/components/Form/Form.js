@@ -108,9 +108,9 @@ export default class FormComponent {
     }
 
     showErrors(errors = []) {
-        const block = document.querySelector('.input-block__inputs-error');
-        errors.forEach( (item) => {
-            block.innerHTML += item.text;
+        const block = document.querySelectorAll('.input-block__inputs-error');
+        errors.forEach( (item, idx) => {
+            block[idx].innerHTML += item.text;
         });
     }
 

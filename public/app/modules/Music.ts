@@ -24,7 +24,6 @@ class Music {
         }
 
         this.player.play();
-        window.musicCtx.resume();
     }
 
     stop() {
@@ -35,7 +34,6 @@ class Music {
         }
 
         this.player.pause();
-        window.musicCtx.suspend();
     }
 
 }
