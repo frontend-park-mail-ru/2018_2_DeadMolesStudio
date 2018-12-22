@@ -189,6 +189,13 @@
         background-color: var(--fashion-pink);
     }
 
+    &_theme_play_again {
+        background-color: var(--fashion-red);
+        color: var(--fashion-ketnipz);
+        height: 2.5rem;
+        border-bottom: 4px solid #e83f51;
+    }
+
     &_none {
         display: none;
     }

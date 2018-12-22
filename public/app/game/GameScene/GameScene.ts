@@ -275,8 +275,8 @@ export default class GameScene {
 
     start() {
         const gameSceneElement = document.querySelector('.game-scene');
-        const playerTextSize = `${35 / 1000 * this.ctx.canvas.height}px`;
-        const opponentTextSize = `${35 / 1000 * this.ctx.canvas.height}px`;
+        const playerTextSize = `${30 / 1000 * this.ctx.canvas.height}px`;
+        const opponentTextSize = `${30 / 1000 * this.ctx.canvas.height}px`;
 
         this.gameTimer = new GameTimerComponent({ parentElem: gameSceneElement, textSize: playerTextSize, time: this.state.leftTime });
 

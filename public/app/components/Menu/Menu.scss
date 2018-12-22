@@ -74,6 +74,11 @@
             word-wrap: break-word;
         }
 
+        &__theme_game_info {
+            color: var(--fashion-red);
+            word-wrap: break-word;
+            max-width: 6rem;
+        }
     }
 
     &__login {
@@ -118,5 +123,13 @@
         @media (max-width: 380px) and (orientation: portrait) {
             display: none;
         }
+    }
+
+    &_theme_game_info {
+        border: none;
+        background: none;
+        margin-top: 0rem;
+        margin-right: 0rem;
+        margin-bottom: 0rem;
     }
 }

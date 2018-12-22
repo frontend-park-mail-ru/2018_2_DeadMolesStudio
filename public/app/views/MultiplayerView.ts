@@ -33,9 +33,10 @@ export default class MultiPlayerView extends BaseView2 {
     }
 
     onPlaying() {
-        const container = this._el.querySelector('.container');
+        const gameLoader = this._el.querySelector('.game-loader');
+        gameLoader.innerHTML = '';
         const err = new ErrorComponent({
-            el: container,
+            el: gameLoader,
             path: '/',
             error: 'You are already in the game with this account.\nYou can play in single player mode.',
             callback: () => {

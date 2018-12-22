@@ -39,26 +39,10 @@ export default class FinishGameComponent {
 
         this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p> <p>You scored ${this.score} points</p></div>`;
 
-        const backButton = new ButtonComponent({
-            el: this.block,
-            text: 'Menu',
-        });
-        backButton.on({
-            event: 'click',
-            callback: (event) => {
-                event.preventDefault();
-                bus.emit(EVENTS.FINISH_GAME, this.score);
-                exitFullscreen();
-                this.destroy();
-            },
-        });
-        backButton.render();
-
-
         const playAgain = new ButtonComponent({
             el: this.block,
             text: 'Play again',
-            className: 'cute-btn cute-btn--w10rem app-router-ignore'
+            className: 'basic-btn basic-btn_w8rem basic-btn_theme_play_again app-router-ignore ',
         });
         playAgain.on({
             event: 'click',
@@ -80,6 +64,22 @@ export default class FinishGameComponent {
             },
         });
         playAgain.render();
+
+        const backButton = new ButtonComponent({
+            el: this.block,
+            text: 'Menu',
+            className: 'basic-btn basic-btn_w8rem input-block__btn-extra',
+        });
+        backButton.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+                bus.emit(EVENTS.FINISH_GAME, this.score);
+                exitFullscreen();
+                this.destroy();
+            },
+        });
+        backButton.render();
 
         const scene = this.el.querySelector('.game-scene');
         scene.classList.add('game-scene--blurred');

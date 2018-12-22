@@ -1,3 +1,5 @@
+import * as avatar from './img/ketnipz-default.jpg';
+
 export default class GameInfoComponent {
 
     parentElem;
@@ -40,12 +42,11 @@ export default class GameInfoComponent {
 
     userBlock() {
         // TODO: AVATAR!!!!!
-        let avatar = '';
         const res = this.nickname ? `
-            <div class="menu-user menu-user_media ">
+            <div class="menu-user menu-user_theme_game_info">
                 <img src=${this.avatar ? this.avatar : avatar} alt="ava" class="menu-user__avatar">
                 <div class="menu-user__inf">
-                    <a href="/profile" class="menu-user__name">${this.nickname}</a>
+                    <span class="menu-user__name_theme_game_info">${this.nickname}</span>
                 </div>          
             </div>
         ` : '';

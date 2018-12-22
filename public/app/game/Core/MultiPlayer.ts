@@ -180,8 +180,13 @@ export default class MultiPlayerGame extends GameCore {
                 text = 'You lose :(';
             }
         } else {
-            this.result = 'draw';
-            text = 'Draw ;)';
+            if (opponentScore >= 0) {
+                this.result = 'lose';
+                text = 'You lose :(';
+            } else {
+                this.result = 'draw';
+                text = 'Draw ;)';
+            }
         }
         this.updateUser();
         bus.emit('show-game-result', { text: `Time is over. ${text}`, score: this.state[this.playerName].score });
