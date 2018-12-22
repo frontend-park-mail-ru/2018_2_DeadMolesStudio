@@ -45,9 +45,8 @@ export default class GameView extends BaseView2 {
 
         const scene = this._el.querySelector('.game-scene');
         this.canvas = this._el.querySelector('.js-canvas');
-        // console.log(`Scene: (${window.innerWidth}, ${window.innerHeight}) Canvas: (${this.canvas.width}, ${this.canvas.height}) `);
 
-        const mql = window.matchMedia('orientation: portrait');
+        // const mql = window.matchMedia('orientation: portrait');
         if (window.innerHeight > window.innerWidth) {
             // Портретная ориентация
             console.log('port');
@@ -58,13 +57,6 @@ export default class GameView extends BaseView2 {
             console.log('goriz');
             this.canvas.width = window.innerWidth;
             this.canvas.height = window.innerHeight;
-        }
-
-        const documentEl = document.documentElement;
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-            // Take the user to a different screen here.
-
-            // launchFullscreen(documentEl);
         }
 
         const onContextMenu = (e) => {

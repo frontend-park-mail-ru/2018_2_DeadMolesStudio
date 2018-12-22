@@ -4,7 +4,7 @@ export default class GameTimerComponent {
     timerElem;
     time;
 
-    constructor({ parentElem, textSize = '30px', top = '1%', left = '50%', time = 30 }) {
+    constructor({ parentElem, textSize = '30px', top = '3%', left = '50%', time = 30 }) {
         this.parentElem = parentElem;
         this.timerElem = document.createElement('div');
         this.time = time;
@@ -17,7 +17,7 @@ export default class GameTimerComponent {
     }
 
     render() {
-        this.timerElem.innerHTML = `<br>Time: ${this.time}s`
+        this.timerElem.innerHTML = `${this.time}`
     }
 
     destroy() {

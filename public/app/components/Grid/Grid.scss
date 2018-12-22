@@ -116,6 +116,7 @@
     grid-template-columns: min-content auto auto;
     grid-template-rows: min-content auto;
     grid-template-areas: "bc . ." "pg1 pg1 pg2";
+    background: var(--fashion-blue);
 
     @media (max-width: 830px) and (orientation: landscape) {
       grid-template-areas: "bc pg1 pg2" ". pg1 pg2";

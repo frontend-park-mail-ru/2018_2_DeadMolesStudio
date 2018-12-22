@@ -68,10 +68,10 @@ const startApp = () => {
     bus.on('preload:loaded', () => { console.log('all gameImages loaded'); });
 
     const gameResources = [
-        'app/game/GameScene/img/ketnipz.png',
-        'app/game/GameScene/img/ketnipz_jump.png',
-        'app/game/GameScene/img/ketnipz_enemy.png',
-        'app/game/GameScene/img/ketnipz_enemy_jump.png',
+        'app/game/GameScene/img/ketnipz1.png',
+        'app/game/GameScene/img/ketnipz_jump1.png',
+        'app/game/GameScene/img/ketnipz_enemy1.png',
+        'app/game/GameScene/img/ketnipz_enemy_jump1.png',
         'app/game/GameScene/img/magaz_blur_gray.png',
     ];
     preLoad(gameResources);
@@ -81,7 +81,13 @@ const startApp = () => {
         music.play();
     }
 
-    // userState.setUser({'nickname' : 'user4'});
+    bus.on('play-again:multi', () => {
+        router.go('/multiplayer');
+    });
+
+    bus.on('play-again:single', () => {
+        router.go('/play')
+    });
 
     bus.on('loggedout', () => {
         router.go('/login');
@@ -118,14 +124,18 @@ const startApp = () => {
 
     const getUser = async () => {
         const data = await UserService.getUserState();
+        console.log('ПРИНЕС ЮЗЕРА', data);
         bus.emit('get-user-state', data);
     };
 
     getUser();
 
     bus.on('multiplayer:end', () => {
-        userState.deleteUser();
-        getUser();
+        console.log('ПОШЕЛ ЗА ЮЗЕРОМ');
+        setTimeout( () => {
+            // userState.deleteUser();
+            getUser();
+        }, 1000 * 5);
     });
 
 

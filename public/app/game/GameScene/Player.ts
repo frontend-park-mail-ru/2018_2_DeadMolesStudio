@@ -9,28 +9,35 @@ export default class GamePlayerFigure extends Figure {
     jumping;
     direction;
     isOpponent;
+    skinType;
 
     nameFigure;
     nameText;
     nameDeltaY;
-    nameDeltaX
+    nameDeltaX;
 
-    constructor(ctx, meWidth, meHeight, isOpponent = false, name?) {
+    constructor(ctx, meWidth, meHeight, isOpponent = false, skinType = 1,  name?) {
         super(ctx);
 
-        if (!name) {
-            this.nameText = isOpponent ? 'Enemy' : 'Me';
+        this.skinType = skinType;
+        // if (!name) {
+        //     this.nameText = isOpponent ? 'Enemy' : 'Me';
+        // } else {
+        //     this.nameText = name;
+        // }
+
+        if (!isOpponent) {
+            this.nameText = 'Me';
         } else {
-            this.nameText = name;
+            this.nameText = '';
         }
 
         if (isOpponent) {
-
-            this.body = new ImageFigure(this.ctx, 'app/game/GameScene/img/ketnipz_enemy.png');
-            this.bodyJump = new ImageFigure(this.ctx, 'app/game/GameScene/img/ketnipz_enemy_jump.png');
+            this.body = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz_enemy${this.skinType}.png`);
+            this.bodyJump = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz_enemy_jump${this.skinType}.png`);
         } else {
-            this.body = new ImageFigure(this.ctx, 'app/game/GameScene/img/ketnipz.png');
-            this.bodyJump = new ImageFigure(this.ctx, 'app/game/GameScene/img/ketnipz_jump.png');
+            this.body = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz${this.skinType}.png`);
+            this.bodyJump = new ImageFigure(this.ctx, `app/game/GameScene/img/ketnipz_jump${this.skinType}.png`);
         }
         this.isOpponent = isOpponent;
 
@@ -50,7 +57,11 @@ export default class GamePlayerFigure extends Figure {
         this.nameFigure.text = this.nameText;
         this.nameFigure.x = this.x - this.nameDeltaX;
         this.nameFigure.y = this.y - this.nameDeltaY;
-        this.nameFigure.fillStyle = 'black';
+        if (!isOpponent) {
+            this.nameFigure.fillStyle = 'green';
+        } else {
+            this.nameFigure.fillStyle = 'black';
+        }
         this.nameFigure.font = '14pt FashionFont'
 
     }

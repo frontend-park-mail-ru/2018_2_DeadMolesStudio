@@ -1,6 +1,7 @@
 import ButtonComponent from '../../../components/Button/Button'
 import bus from '../../../modules/EventBus';
 import EVENTS from '../../Core/Events';
+import { exitFullscreen } from 'modules/fullscreenAPI/fullscreen.js';
 
 export default class FinishGameComponent {
 
@@ -40,17 +41,45 @@ export default class FinishGameComponent {
 
         const backButton = new ButtonComponent({
             el: this.block,
-            text: 'Меню',
+            text: 'Menu',
         });
         backButton.on({
             event: 'click',
             callback: (event) => {
                 event.preventDefault();
                 bus.emit(EVENTS.FINISH_GAME, this.score);
+                exitFullscreen();
                 this.destroy();
             },
         });
         backButton.render();
+
+
+        const playAgain = new ButtonComponent({
+            el: this.block,
+            text: 'Play again',
+            className: 'cute-btn cute-btn--w10rem app-router-ignore'
+        });
+        playAgain.on({
+            event: 'click',
+            callback: (event) => {
+                event.preventDefault();
+                console.log(window.location);
+                const url = ('' + window.location)
+                    .replace('https://dmstudio.now.sh', '')
+                    .replace('https://playketnipz.ru/', '');
+
+                bus.emit(EVENTS.FINISH_GAME, this.score);
+                exitFullscreen();
+                this.destroy();
+                if (url === '/multiplayer') {
+                    bus.emit('play-again:multi');
+                } else {
+                    bus.emit('play-again:single');
+                }
+            },
+        });
+        playAgain.render();
 
         const scene = this.el.querySelector('.game-scene');
         scene.classList.add('game-scene--blurred');

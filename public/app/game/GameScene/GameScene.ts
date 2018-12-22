@@ -7,6 +7,7 @@ import ImageFigure from './ImageFigure';
 import bus from '../../modules/EventBus';
 import User from '../../modules/User';
 import GameTimerComponent from './GameTimerComponent/GameTimerComponent';
+import backDomain from "../../projectSettings";
 
 
 export default class GameScene {
@@ -109,14 +110,9 @@ export default class GameScene {
         this.me.y = (100 - state[this.playerName].percentsY) / 100 * ctx.canvas.height;
         this.me.x = state[this.playerName].percentsX / 100 * ctx.canvas.width;
         this.me.direction = state[this.playerName].direction;
-        this.me.id = this.scene.push(this.me);
-
         if (this.isMultiplayer) {
+
             this.opponent = new GamePlayerFigure(ctx, pixWidth, pixHeight, true);
-            bus.on('ws:opponent_received', (nickname) => {
-                this.opponent.name = nickname;
-                this.me.name = User.getNickname();
-            });
             this.opponent.y = (100 - state[this.opponentName].percentsY) / 100 * ctx.canvas.height;
             this.opponent.x = state[this.opponentName].percentsX / 100 * ctx.canvas.width;
             this.opponent.direction = state[this.opponentName].direction;
@@ -124,6 +120,8 @@ export default class GameScene {
         } else {
             this.me.name = '';
         }
+
+        this.me.id = this.scene.push(this.me);
 
         this.state.products.forEach( (product) => {
             const idx = this.productPoolNext;
@@ -295,7 +293,7 @@ export default class GameScene {
         this.playerInfo.render();
 
         if (this.isMultiplayer) {
-            this.opponentInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: opponentTextSize, right: '2%' });
+            this.opponentInfo = new GameInfoComponent({ parentElem: gameSceneElement, textSize: opponentTextSize, isOpponent: true, right: '2%' });
             let productList = '';
             this.state[this.opponentName].targetList.forEach( (targetProduct) => {
                 productList += `${PRODUCTS[targetProduct]}`;
@@ -305,6 +303,24 @@ export default class GameScene {
                 productList: productList,
             });
             this.opponentInfo.render();
+
+            bus.on('ws:opponent_received', (user) => {
+                console.log('opponent', user);
+                this.playerInfo.setInfo({
+                    score: this.state[this.playerName].score,
+                    productList: productList,
+                    nickname: User.getNickname(),
+                    avatar: backDomain + User.getUser().avatar,
+                });
+                this.playerInfo.render();
+                this.opponentInfo.setInfo({
+                    score: this.state[this.opponentName].score,
+                    productList: productList,
+                    nickname: user.nickname,
+                    avatar: backDomain + user.avatar,
+                });
+                this.opponentInfo.render();
+            });
         }
 
         this.lastFrameTime = performance.now();

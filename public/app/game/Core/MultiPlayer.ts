@@ -20,6 +20,7 @@ export default class MultiPlayerGame extends GameCore {
     playerName;
     opponentName;
     gameTime;
+    result;
 
     constructor(controller, scene) {
         super(controller, scene);
@@ -27,9 +28,10 @@ export default class MultiPlayerGame extends GameCore {
         this.lastFrame = 0;
         this.gameloopRequestId = null;
         this.gameService = new GameService();
+        this.result = null;
+
         this.gameloop = this.gameloop.bind(this);
         this.handleState = this.handleState.bind(this);
-
         this.handleDisconnect = this.handleDisconnect.bind(this);
         this.handleTimeOver = this.handleTimeOver.bind(this);
         this.handleGameOver = this.handleGameOver.bind(this);
@@ -102,6 +104,14 @@ export default class MultiPlayerGame extends GameCore {
         }, 1000);
     };
 
+    updateUser() {
+        const data = {
+            result: this.result,
+            record: this.state[this.playerName].score,
+        };
+        bus.emit('setUserAfterGame', data);
+    }
+
     handleState(json) {
         const { playerName, opponentName } = this;
         const me = json.payload[this.playerName];
@@ -147,6 +157,8 @@ export default class MultiPlayerGame extends GameCore {
     }
 
     handleDisconnect(json) {
+        this.result = 'win';
+        this.updateUser();
         bus.emit('show-game-result', { text: 'You won! The opponent left the game. ', score: this.state[this.playerName].score });
         bus.off('ws:closed', this.handleClosedWS );
         bus.emit('multiplayer:end');
@@ -155,7 +167,23 @@ export default class MultiPlayerGame extends GameCore {
     handleTimeOver(json) {
         const myScore = this.state[this.playerName].score;
         const opponentScore = this.state[this.opponentName].score;
-        const text = myScore > 0 && myScore > opponentScore ? 'You won!' : 'You lose :(';
+        let text = '';
+        if (myScore >= 0) {
+            if (myScore > opponentScore) {
+                this.result = 'win';
+                text = 'You won!';
+            } else if (myScore === opponentScore) {
+                this.result = 'draw';
+                text = 'Draw ;)';
+            } else {
+                this.result = 'lose';
+                text = 'You lose :(';
+            }
+        } else {
+            this.result = 'draw';
+            text = 'Draw ;)';
+        }
+        this.updateUser();
         bus.emit('show-game-result', { text: `Time is over. ${text}`, score: this.state[this.playerName].score });
         bus.off('ws:closed', this.handleClosedWS );
         bus.emit('multiplayer:end');
@@ -164,7 +192,25 @@ export default class MultiPlayerGame extends GameCore {
     handleGameOver(json) {
         const myScore = this.state[this.playerName].score;
         const opponentScore = this.state[this.opponentName].score;
-        const text = myScore > 0 && myScore > opponentScore ? 'You won!' : 'You lose :(';
+        let text = '';
+        if (myScore >= 0) {
+            if (myScore > opponentScore) {
+                this.result = 'win';
+                text = 'You won!';
+            } else if (myScore === opponentScore) {
+                this.result = 'draw';
+                text = 'Draw ;)';
+            } else {
+                this.result = 'lose';
+                text = 'You lose :(';
+            }
+        } else {
+            this.result = 'draw';
+            text = 'Draw ;)';
+        }
+
+        this.updateUser();
+
         bus.emit('show-game-result', { text: `Game over. ${text}`, score: this.state[this.playerName].score });
         bus.off('ws:closed', this.handleClosedWS );
         bus.emit('multiplayer:end');

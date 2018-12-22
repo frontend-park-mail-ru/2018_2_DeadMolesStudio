@@ -8,10 +8,10 @@
     "clear": "del-cli public/dist && del-cli public/index.html && del-cli public/app/chat/chat.html",
     "local": "MOCKS=1 npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "now --public && now alias",
+    "deploy": "now --public && now alias && node beep.js",
     "rmd": "now rm AbstractKetnipz",
     "find_files": "node fileFinder.js",
-    "cbr": "npm run clear && npm run build && npm start"
+    "cbr": "npm run clear && npm run build && node beep.js && npm start"
   },
   "keywords": [],
   "author": "Kirill Gadzhiev",
