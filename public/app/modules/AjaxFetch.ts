@@ -1,10 +1,10 @@
 export default class AjaxFetchModule {
     static _ajax({
-        method = 'GET', path = '/', domain = '', contentType = null, body,
+        method = 'GET', path = '/', domain = '', contentType = null, body = JSON.stringify({}),
     } = {}) {
         const url = domain + path;
 
-        const options = {
+        const options: RequestInit = {
             mode: 'cors',
             credentials: 'include',
             method: method,
@@ -25,18 +25,18 @@ export default class AjaxFetchModule {
     }
 
     static doGet(params = {}) {
-        return this._ajax({ ...params, method: 'GET' });
+        return this._ajax({ body: '', ...params, method: 'GET' });
     }
 
     static doPost(params = {}) {
-        return this._ajax({ ...params, method: 'POST' });
+        return this._ajax({ body: '', ...params, method: 'POST' });
     }
 
     static doDelete(params = {}) {
-        return this._ajax({ ...params, method: 'DELETE' });
+        return this._ajax({ body: '', ...params, method: 'DELETE' });
     }
 
     static doPut(params = {}) {
-        return this._ajax({ ...params, method: 'PUT' });
+        return this._ajax({ body: '', ...params, method: 'PUT' });
     }
 }

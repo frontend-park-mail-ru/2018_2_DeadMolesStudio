@@ -1,5 +1,5 @@
 import backDomain from '../projectSettings';
-import AjaxFetchModule from 'modules/AjaxFetch.js';
+import AjaxFetchModule from '../modules/AjaxFetch';
 import userState from 'modules/User';
 
 export default class ShopService {

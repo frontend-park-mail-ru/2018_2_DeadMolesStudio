@@ -1,4 +1,4 @@
-import AjaxFetchModule from 'modules/AjaxFetch.js';
+import AjaxFetchModule from 'modules/AjaxFetch65.js';
 import userState from 'modules/User';
 import backDomain from '../projectSettings';
 
