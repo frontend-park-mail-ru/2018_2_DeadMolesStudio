@@ -42,7 +42,9 @@ export default class MenuView extends BaseView2 {
     }
 
     renderLoading(parent) {
-        this.loader = new LoaderComponent(parent);
+this.loader = new LoaderComponent(parent);
         this.loader.render();
+        const title = parent.querySelector('.bouncing-loader');
+        title.classList.add('menu-loader');
     }
 }

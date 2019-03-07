@@ -84,7 +84,6 @@ export default class GameController {
     * */
     keyHandler(type, event) {
         this.keys[event.key.toLowerCase()] = type === 'press';
-        console.log(`keyHandler:`, type, event, this.keys[event.key.toLowerCase()]);
     }
 
     diff() {

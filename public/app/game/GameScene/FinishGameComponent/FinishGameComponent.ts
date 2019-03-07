@@ -41,7 +41,7 @@ export default class FinishGameComponent {
         this.block.className = 'game-scene__game-finish-component app-router-ignore';
 
         const coinsBlock = this.coins === null ? '' : `<p>You earned: ${this.coins} <img src=${coinsImg} alt="" class="menu-user__score-img_shop"></p>`;
-        const scoreBlock = this.score === null || this.score === undefined ? '' : `<p>You scored ${this.score} points</p>`;
+        const scoreBlock = this.score === null || this.score === undefined ? '' : `<p>You scored <u>${this.score} points</u></p>`;
         this.block.innerHTML += `<div class="game-finish-component__text-block"><p>${this.text}</p>${scoreBlock}${coinsBlock}</div>`;
 
         const playAgain = new ButtonComponent({
