@@ -121,7 +121,7 @@ export default class UserService {
         }
 
         if (nickname.length > 20) {
-            data.err.errors[0] = {text: 'Nickname is too big',};
+            data.err.errors[0] = {text: 'Nickname is too long',};
             return data;
         }
 
@@ -136,7 +136,7 @@ export default class UserService {
         }
 
         if (password.length > 30) {
-            data.err.errors[2] = {text: 'Passwords is too big',};
+            data.err.errors[2] = {text: 'Passwords is too long',};
             return data;
         }
 
