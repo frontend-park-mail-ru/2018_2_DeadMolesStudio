@@ -242,8 +242,7 @@ export default class MultiPlayerGame extends GameCore {
     }
 
     handleClosedWS() {
-        const coins = 0;
-        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: this.state[this.playerName].score, coins });
+        bus.emit('show-game-result', { text: 'Сonnection aborted :( Try again.', score: null, coins: null, });
         bus.emit('multiplayer:end');
     }
 

@@ -2,6 +2,7 @@ export default class GameController {
 
     canvas;
     sensitivity;
+    isMobile;
 
     keys;
     previous;
@@ -15,6 +16,12 @@ export default class GameController {
 
         this.keys = {};
         this.previous = {};
+
+        this.isMobile = false;
+
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+            this.isMobile = true;
+        }
 
         this.onPress = this.keyHandler.bind(this, 'press');
         this.onUp = this.keyHandler.bind(this, 'up');
@@ -49,16 +56,18 @@ export default class GameController {
     }
 
     onDeviceMotion(e) {
-        const angleY = e.accelerationIncludingGravity.y;
-        const angleX = e.accelerationIncludingGravity.x;
-        // e.acceleration
+        if (this.isMobile) {
+            const angleY = e.accelerationIncludingGravity.y;
+            const angleX = e.accelerationIncludingGravity.x;
+            // e.acceleration
 
-        if (angleX > 0) {
-            this.keys['__right_incline'] = angleY > this.sensitivity;
-            this.keys['__left_incline'] = angleY < -this.sensitivity;
-        } else {
-            this.keys['__right_incline'] = angleY < this.sensitivity;
-            this.keys['__left_incline'] = angleY > -this.sensitivity;
+            if (angleX > 0) {
+                this.keys['__right_incline'] = angleY > this.sensitivity;
+                this.keys['__left_incline'] = angleY < -this.sensitivity;
+            } else {
+                this.keys['__right_incline'] = angleY < this.sensitivity;
+                this.keys['__left_incline'] = angleY > -this.sensitivity;
+            }
         }
     }
 

@@ -49,7 +49,7 @@ body {
 
 
 
-  .game-scene {
+  .game-scene, .game-loader, .game-scene__back-button-wrap {
 
     transform: rotate(90deg);
     transform-origin: right top;
@@ -59,20 +59,20 @@ body {
 
   }
 
-    .game-scene, .game-canvas, .game-canvas__background {
-        height: 100vw;
-        width: 100vh;
-    }
+  .game-scene, .game-canvas, .game-canvas__background, .game-loader {
+      height: 100vw;
+      width: 100vh;
+  }
 
-    .game-canvas__background {
-        /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
-        background-image: url('/app/game/GameScene/img/magaz_blur_gray.png');
-        background-size: cover;
-        //filter: blur(3px) grayscale(0.1);
+  .game-canvas__background {
+      /*background-image: url('../app/game/GameScene/test_pic.jpg');*/
+      background-image: url('/app/game/GameScene/img/magaz_blur_gray.png');
+      background-size: cover;
+      //filter: blur(3px) grayscale(0.1);
 
-        position: absolute;
-        z-index: -1;
-    }
+      position: absolute;
+      z-index: -1;
+  }
 }
 
 .game-scene--blurred {

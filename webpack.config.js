@@ -21,7 +21,7 @@ module.exports = {
         publicPath: '/dist/',
     },
 
-    devtool: 'none',
+    devtool: 'inline-source-map',
 
     resolve: {
         extensions: ['.ts', ' ', '.js', '.scss'],
